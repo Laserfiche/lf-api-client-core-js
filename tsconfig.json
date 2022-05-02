@@ -101,6 +101,5 @@
   "references": [
     { "path": "./lib" },
     { "path": "./test" },
-    { "path": "./example" }
   ]
 }
