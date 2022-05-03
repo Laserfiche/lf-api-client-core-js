@@ -1,8 +1,18 @@
+import 'dotenv/config';
 import { ClientCredentialsGrantHandler } from "../lib/ClientCredentialsGrantHandler"
-import { testConfig } from './TestConfiguration';
+import { AccessKey } from '../lib/AccessKey';
+import { ClientCredentialsOptions } from '../lib/ClientCredentialsOptions';
 
 describe("getAccessToken", () => {
-    let inst: any
+    let inst: any;
+    // Import our access and service principal keys 
+    let testKey: AccessKey = JSON.parse(process.env.ACCESS_KEY ?? ""); // Remember to JSON.parse your stringified access key
+    let testServicePrincipalKey: string = process.env.SERVICE_PRINCIPAL_KEY ?? "";
+
+    let testConfig: ClientCredentialsOptions = {
+        servicePrincipalKey: testServicePrincipalKey,
+        accessKey: testKey
+    }
 
     beforeEach(() => {
         inst = new ClientCredentialsGrantHandler(testConfig);
