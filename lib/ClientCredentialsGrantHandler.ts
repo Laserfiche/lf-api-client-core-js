@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import { KEYUTIL, KJUR } from 'jsrsasign';
-import { ClientCredentialsOptions } from './ClientCredentialsOptions';
-import { AccessToken } from './AccessToken';
+import { ClientCredentialsOptions } from './ClientCredentialsOptions.js';
+import { AccessToken } from './AccessToken.js';
 import { DomainUtil } from './DomainUtil.js';
 
 export class ClientCredentialsGrantHandler {

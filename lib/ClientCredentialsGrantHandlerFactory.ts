@@ -1,5 +1,5 @@
-import { ClientCredentialsGrantHandler } from "./ClientCredentialsGrantHandler";
-import { ClientCredentialsOptions } from "./ClientCredentialsOptions";
+import { ClientCredentialsGrantHandler } from "./ClientCredentialsGrantHandler.js";
+import { ClientCredentialsOptions } from "./ClientCredentialsOptions.js";
 
 export function createClientCredentialsHandler(accessKey: string, servicePrincipalKey: string) : ClientCredentialsGrantHandler {
     let options: ClientCredentialsOptions = {
