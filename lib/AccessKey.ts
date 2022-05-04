@@ -1,4 +1,4 @@
-import { JWK } from "./JWK";
+import { JWK } from "./JWK.js";
 
 export interface AccessKey {
     // The account ID associated to the application

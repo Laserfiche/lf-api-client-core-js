@@ -1,4 +1,4 @@
-import { AccessKey } from "./AccessKey";
+import { AccessKey } from "./AccessKey.js";
 
 export interface ClientCredentialsOptions {
     // The service principal key for the associated service principal user
