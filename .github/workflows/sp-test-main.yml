@@ -97,7 +97,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2 # Use your bucket region here
       - name: Deploy files to S3 bucket
-        run: aws s3 sync ./docs_temp/${{ env.NPM_VERSION }}/ s3://apiserver-publish-client-library-docs/${{github.repository}}/docs/${{ env.NPM_VERSION }}/${{github.ref_name}} --delete
+        run: aws s3 sync ./docs_temp/${{ env.NPM_VERSION }}/ s3://apiserver-publish-client-library-docs/${{github.repository}}/docs/${{ env.NPM_VERSION }}/${{github.ref##*/}} --delete
         # --delete flag will remove any file in the s3 that are not on the "thefoldertodeploy" folder
         
       - name: delete temporary directories
