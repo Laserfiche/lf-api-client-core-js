@@ -84,8 +84,14 @@ jobs:
       - name: Install typedoc
         run: npm install typedoc
 
-      - name: ls
+      - name: Create temp directory
+        run: mkdir -p ./sp_temp/lf-oauth-api-client-js
+      
+      - name: LS
         run: ls
+        
+      - name: Generate typedoc docs
+        run: npx typedoc ./index.ts --out ./sp_temp/lf-oauth-api-client-js --excludePrivate
 
       - name: Echo NPM package version
         run: echo ${{ env.NPM_VERSION }}
