@@ -1,4 +1,4 @@
-name: Test, build, and publish lf-oauth-api-client
+name: sp-test
 
 on:
   push:
@@ -84,8 +84,8 @@ jobs:
       - name: Install typedoc
         run: npm install typedoc
 
-      - name: Generate html docs
-        run: npx typedoc src/index.ts
+      - name: ls
+        run: ls
 
       - name: Echo NPM package version
         run: echo ${{ env.NPM_VERSION }}
