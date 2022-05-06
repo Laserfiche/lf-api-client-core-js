@@ -85,10 +85,10 @@ jobs:
         run: npm install typedoc
 
       - name: Create temp directory
-        run: mkdir -p ./lf-oauth-api-client-js/docs
+        run: mkdir -p ./docs_temp/${{ env.NPM_VERSION }}
       
       - name: Generate typedoc docs
-        run: npx typedoc ./index.ts --out ./lf-oauth-api-client-js/docs --excludePrivate
+        run: npx typedoc ./index.ts --out ./docs_temp/${{ env.NPM_VERSION }} --excludePrivate
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -97,11 +97,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2 # Use your bucket region here
       - name: Deploy files to S3 bucket
-        run: aws s3 sync ./lf-oauth-api-client-js/docs/ s3://apiserver-publish-client-library-docs/lf-oauth-api-client-js --delete
+        run: aws s3 sync ./docs_temp/${{ env.NPM_VERSION }}/ s3://apiserver-publish-client-library-docs/lf-oauth-api-client-js/docs/${{ env.NPM_VERSION }}/ --delete
         # --delete flag will remove any file in the s3 that are not on the "thefoldertodeploy" folder
         
       - name: delete temporary directories
-        run: rm -r ./lf-oauth-api-client-js
+        run: rm -r ./docs_temp
 
       - name: Echo NPM package version
         run: echo ${{ env.NPM_VERSION }}
