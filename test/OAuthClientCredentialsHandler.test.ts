@@ -1,25 +1,25 @@
 import 'dotenv/config';
-import * as OAuthClientCredentialsFactory from "../lib/OAuthClientCredentialsFactory"
+import { OAuthClientCredentialsHandler } from '../lib/OAuthClientCredentialsHandler';
 describe("OAuthClientCredentialsFactory.createClientCredentialsHandler", () => {
     test("Empty service principal key throws exception", () => {
         let client = () => {
-            OAuthClientCredentialsFactory.createClientCredentialsHandler("", "")
+            new OAuthClientCredentialsHandler("", "")
         }
-        expect(client).toThrow();    
+        expect(client).toThrow();
     })
 
     test("Malformed access key throws exception", () => {
         let client = () => {
-            OAuthClientCredentialsFactory.createClientCredentialsHandler("blah", "blah")
+            new OAuthClientCredentialsHandler("blah", "blah")
         }
-        expect(client).toThrow();  
+        expect(client).toThrow();
     })
 
     test("Correct config returns handler", () => {
         let client =
-            OAuthClientCredentialsFactory.createClientCredentialsHandler(process.env.ACCESS_KEY ?? "", 
+          new OAuthClientCredentialsHandler(process.env.ACCESS_KEY ?? "",
                                                                         process.env.SERVICE_PRINCIPAL_KEY ?? "")
-        
-        expect(client).toBeTruthy(); 
+
+        expect(client).toBeTruthy();
     })
 })
