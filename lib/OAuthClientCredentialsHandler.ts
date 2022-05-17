@@ -8,7 +8,7 @@ export class OAuthClientCredentialsHandler implements HttpRequestHandler {
   // config page for your application.
   private _accessKey: AccessKey;
   private _tokenApiClient: TokenApiClient;
-  private _accessToken: string;
+  private _accessToken: string | undefined;
 
   // The service principal key for the associated service principal user
   // for the application. You can configure service principals in
