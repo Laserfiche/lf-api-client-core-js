@@ -1,11 +1,11 @@
 import fetch from 'isomorphic-fetch';
 import { KEYUTIL, KJUR } from 'jsrsasign';
 import { AccessKey } from './AccessKey';
-import { AccessToken } from './AccessToken';
-import { DomainUtil } from './DomainUtil';
+import { GetAccessTokenResponse } from './GetAccessTokenResponse';
+import { DomainUtil } from './util/DomainUtil';
 
 export interface TokenApi {
-  getAccessToken(servicePrincipalKey: string, accessKey: AccessKey): Promise<AccessToken>;
+  getAccessToken(servicePrincipalKey: string, accessKey: AccessKey): Promise<GetAccessTokenResponse | null>;
 }
 
 export class TokenApiClient implements TokenApi {
@@ -15,7 +15,7 @@ export class TokenApiClient implements TokenApi {
     this._baseUrl = DomainUtil.getOauthTokenUrl(regionalDomain);
   }
 
-  async getAccessToken(servicePrincipalKey: string, accessKey: AccessKey): Promise<AccessToken> {
+  async getAccessToken(servicePrincipalKey: string, accessKey: AccessKey): Promise<GetAccessTokenResponse | null>  {
     let currentTime: any = new Date(); // the current time in milliseconds
     let now: number = currentTime / 1000;
     let expire: number = currentTime / 1000 + 3600;
@@ -54,18 +54,19 @@ export class TokenApiClient implements TokenApi {
       body: 'grant_type=client_credentials',
     };
 
-    let accessToken: AccessToken = null;
+    let getAccessTokenResponse: GetAccessTokenResponse;
 
     let url = this._baseUrl;
     try {
       const res: any = await fetch(url, req);
       if (res.ok) {
-        accessToken = await res.json();
+        getAccessTokenResponse = await res.json();
+        return getAccessTokenResponse;
       }
     } catch (error) {
       console.error(error);
     }
 
-    return accessToken;
+    return null;
   }
 }

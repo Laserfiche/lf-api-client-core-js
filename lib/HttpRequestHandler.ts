@@ -1,3 +1,5 @@
+import { BeforeFetchResult } from "./BeforeFetchResult";
+
 export interface HttpRequestHandler {
     /**
      * Called to prepare the request to the API service
@@ -6,7 +8,7 @@ export interface HttpRequestHandler {
     beforeFetchRequestAsync: (
         url: string,
         request: RequestInit
-    ) => Promise<string>;
+    ) => Promise<BeforeFetchResult>;
 
     /**
      * Called to handle the response from the API service
