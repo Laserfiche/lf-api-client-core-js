@@ -1,6 +1,6 @@
 import { HttpRequestHandler } from './HttpRequestHandler.js';
-import { TokenApiClient } from './TokenApiClient.js';
-import { AccessKey } from './AccessKey.js';
+import { TokenApiClient } from '../OAuth/TokenApiClient.js';
+import { AccessKey } from '../OAuth/AccessKey.js';
 import { BeforeFetchResult } from './BeforeFetchResult.js';
 
 export class OAuthClientCredentialsHandler implements HttpRequestHandler {
@@ -16,7 +16,7 @@ export class OAuthClientCredentialsHandler implements HttpRequestHandler {
   // "Service Principals"
   private _servicePrincipalKey: string;
 
-  public constructor(accessKey: string, servicePrincipalKey: string) {
+  public constructor(servicePrincipalKey: string, accessKey: string) {
     if (!servicePrincipalKey) throw new Error('Service principal key cannot be blank.');
 
     this._accessKey = JSON.parse(accessKey);

@@ -1,4 +1,4 @@
-import { DomainUtil } from '../lib/util/DomainUtil';
+import { getEnvironmentSubDomain, getRepositoryEndpoint, getOauthTokenUrl } from './DomainUtil';
 describe("DomainUtil" , () =>
 {
     const baseUrlUSProd = "https://api.laserfiche.com/repository";
@@ -14,22 +14,22 @@ describe("DomainUtil" , () =>
     test("getEnvironmentSubDomain returns correct subdomain", () =>
     {
         let url = new URL(baseUrlUSProd);
-        let result = DomainUtil.getEnvironmentSubDomain(url.hostname);
+        let result = getEnvironmentSubDomain(url.hostname);
 
         expect(result).toBe('');
 
         url = new URL(baseUrlUSDev);
-        result = DomainUtil.getEnvironmentSubDomain(url.hostname);
+        result = getEnvironmentSubDomain(url.hostname);
 
         expect(result).toBe('a.clouddev.');
 
         url = new URL(baseUrlCAProd);
-        result = DomainUtil.getEnvironmentSubDomain(url.hostname);
+        result = getEnvironmentSubDomain(url.hostname);
 
         expect(result).toBe('');
 
         url = new URL(baseUrlUSTest);
-        result = DomainUtil.getEnvironmentSubDomain(url.hostname);
+        result = getEnvironmentSubDomain(url.hostname);
 
         expect(result).toBe('cloudtest.');
     });
@@ -38,22 +38,22 @@ describe("DomainUtil" , () =>
     {
         // Need to take out subdomain;
         let url = new URL(baseUrlUSProd);
-        let result = DomainUtil.getRepositoryEndpoint(baseDomainUSProd);
+        let result = getRepositoryEndpoint(baseDomainUSProd);
 
         expect(result).toBe(`https://api.laserfiche.com/repository`);
 
         url = new URL(baseUrlUSDev);
-        result = DomainUtil.getRepositoryEndpoint(baseDomainUSDev);
+        result = getRepositoryEndpoint(baseDomainUSDev);
 
         expect(result).toBe(`https://api.a.clouddev.laserfiche.com/repository`);
 
         url = new URL(baseUrlCAProd);
-        result = DomainUtil.getRepositoryEndpoint(baseDomainCAProd);
+        result = getRepositoryEndpoint(baseDomainCAProd);
 
         expect(result).toBe(`https://api.laserfiche.ca/repository`);
 
         url = new URL(baseUrlUSTest);
-        result = DomainUtil.getRepositoryEndpoint(baseDomainUSTest);
+        result = getRepositoryEndpoint(baseDomainUSTest);
 
         expect(result).toBe(`https://api.cloudtest.laserfiche.com/repository`);
     });
@@ -62,22 +62,22 @@ describe("DomainUtil" , () =>
     {
         // Need to take out subdomain
         let url = new URL(baseUrlUSProd);
-        let result = DomainUtil.getOauthTokenUrl(baseDomainUSProd)
+        let result = getOauthTokenUrl(baseDomainUSProd)
 
         expect(result).toBe(`https://signin.laserfiche.com/OAuth/Token`);
 
         url = new URL(baseUrlUSDev);
-        result = DomainUtil.getOauthTokenUrl(baseDomainUSDev);
+        result = getOauthTokenUrl(baseDomainUSDev);
 
         expect(result).toBe(`https://signin.a.clouddev.laserfiche.com/OAuth/Token`);
 
         url = new URL(baseUrlCAProd);
-        result = DomainUtil.getOauthTokenUrl(baseDomainCAProd);
+        result = getOauthTokenUrl(baseDomainCAProd);
 
         expect(result).toBe(`https://signin.laserfiche.ca/OAuth/Token`);
 
         url = new URL(baseUrlUSTest);
-        result = DomainUtil.getOauthTokenUrl(baseDomainUSTest);
+        result = getOauthTokenUrl(baseDomainUSTest);
 
         expect(result).toBe(`https://signin.cloudtest.laserfiche.com/OAuth/Token`);
     });

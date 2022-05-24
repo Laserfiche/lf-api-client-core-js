@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch';
 import { KEYUTIL, KJUR } from 'jsrsasign';
 import { AccessKey } from './AccessKey';
 import { GetAccessTokenResponse } from './GetAccessTokenResponse';
-import { DomainUtil } from './util/DomainUtil';
+import { getOauthTokenUrl } from '../util/DomainUtil';
 
 export interface TokenApi {
   getAccessToken(servicePrincipalKey: string, accessKey: AccessKey): Promise<GetAccessTokenResponse | null>;
@@ -12,7 +12,7 @@ export class TokenApiClient implements TokenApi {
   private _baseUrl: string;
 
   public constructor(regionalDomain: string) {
-    this._baseUrl = DomainUtil.getOauthTokenUrl(regionalDomain);
+    this._baseUrl = getOauthTokenUrl(regionalDomain);
   }
 
   async getAccessToken(servicePrincipalKey: string, accessKey: AccessKey): Promise<GetAccessTokenResponse | null>  {

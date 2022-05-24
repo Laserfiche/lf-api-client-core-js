@@ -1,5 +1,6 @@
 import 'dotenv/config';
-import { OAuthClientCredentialsHandler } from '../lib/OAuthClientCredentialsHandler';
+import { OAuthClientCredentialsHandler } from './OAuthClientCredentialsHandler';
+
 describe("OAuthClientCredentialsFactory.createClientCredentialsHandler", () => {
     test("Empty service principal key throws exception", () => {
         let client = () => {
@@ -17,8 +18,7 @@ describe("OAuthClientCredentialsFactory.createClientCredentialsHandler", () => {
 
     test("Correct config returns handler", () => {
         let client =
-          new OAuthClientCredentialsHandler(process.env.ACCESS_KEY ?? "",
-                                                                        process.env.SERVICE_PRINCIPAL_KEY ?? "")
+          new OAuthClientCredentialsHandler(process.env.SERVICE_PRINCIPAL_KEY ?? "", process.env.ACCESS_KEY ?? "")
 
         expect(client).toBeTruthy();
     })
