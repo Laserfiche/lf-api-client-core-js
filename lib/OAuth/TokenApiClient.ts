@@ -1,11 +1,11 @@
 import fetch from 'isomorphic-fetch';
 import { KEYUTIL, KJUR } from 'jsrsasign';
-import { AccessKey } from './AccessKey';
-import { GetAccessTokenResponse } from './GetAccessTokenResponse';
-import { getOauthTokenUrl } from '../util/DomainUtil';
+import { AccessKey } from './AccessKey.js';
+import { GetAccessTokenResponse } from './GetAccessTokenResponse.js';
+import { getOauthTokenUrl } from '../util/DomainUtil.js';
 
 export interface TokenApi {
-  getAccessToken(servicePrincipalKey: string, accessKey: AccessKey): Promise<GetAccessTokenResponse | null>;
+  getAccessToken(servicePrincipalKey: string, accessKey: AccessKey): Promise<GetAccessTokenResponse>;
 }
 
 export class TokenApiClient implements TokenApi {
@@ -15,7 +15,7 @@ export class TokenApiClient implements TokenApi {
     this._baseUrl = getOauthTokenUrl(regionalDomain);
   }
 
-  async getAccessToken(servicePrincipalKey: string, accessKey: AccessKey): Promise<GetAccessTokenResponse | null>  {
+  async getAccessToken(servicePrincipalKey: string, accessKey: AccessKey): Promise<GetAccessTokenResponse>  {
     let currentTime: any = new Date(); // the current time in milliseconds
     let now: number = currentTime / 1000;
     let expire: number = currentTime / 1000 + 3600;
@@ -54,19 +54,16 @@ export class TokenApiClient implements TokenApi {
       body: 'grant_type=client_credentials',
     };
 
-    let getAccessTokenResponse: GetAccessTokenResponse;
-
     let url = this._baseUrl;
-    try {
-      const res: any = await fetch(url, req);
-      if (res.ok) {
-        getAccessTokenResponse = await res.json();
-        return getAccessTokenResponse;
-      }
-    } catch (error) {
-      console.error(error);
+    const res: Response = await fetch(url, req);
+    if (res.status === 200) {
+      const getAccessTokenResponse = await res.json();
+      return getAccessTokenResponse;
+    } else if (res.headers.get('Content-Type')?.includes('json') === true) {
+      const errorResponse = await res.json();
+      throw errorResponse;
+    } else {
+      throw new Error(`HTTP ${res.status}`);
     }
-
-    return null;
   }
 }

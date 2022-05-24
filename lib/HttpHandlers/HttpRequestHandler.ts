@@ -1,4 +1,4 @@
-import { BeforeFetchResult } from "./BeforeFetchResult";
+import { BeforeFetchResult } from "./BeforeFetchResult.js";
 
 export interface HttpRequestHandler {
     /**

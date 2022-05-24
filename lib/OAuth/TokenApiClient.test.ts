@@ -1,52 +1,47 @@
 import 'dotenv/config';
-import { AccessKey } from './AccessKey';
-import { TokenApiClient } from './TokenApiClient';
+import { AccessKey } from './AccessKey.js';
+import { GetAccessTokenResponse } from './GetAccessTokenResponse.js';
+import { TokenApiClient } from './TokenApiClient.js';
 
-describe("getAccessToken", () => {
-    let inst: TokenApiClient;
-    // Import our access and service principal keys 
-    let testKey: AccessKey = JSON.parse(process.env.ACCESS_KEY ?? "");
-    let testServicePrincipalKey: string = process.env.SERVICE_PRINCIPAL_KEY ?? "";
+describe('getAccessToken', () => {
+  let inst: TokenApiClient;
+  // Import our access and service principal keys
+  let testKey: AccessKey = JSON.parse(process.env.ACCESS_KEY ?? '');
+  let testServicePrincipalKey: string = process.env.SERVICE_PRINCIPAL_KEY ?? '';
 
-    test("Wrong domain returns null", async () => {
-        let domain = "fake.laserfiche.com";
-        inst = new TokenApiClient(domain);
+  test('Wrong domain returns null', async () => {
+    let domain = 'fake.laserfiche.com';
+    inst = new TokenApiClient(domain);
 
-        let result: any = await inst.getAccessToken(testServicePrincipalKey, testKey);
-        expect(result).toBe(null)
-    })
+    expect(async () => await inst.getAccessToken(testServicePrincipalKey, testKey)).rejects.toThrow();
+  })
 
-    test("Malformed domain returns null", async () => {
-        let domain = "blah";
-        inst = new TokenApiClient(domain);
+  test('Malformed domain returns null', async () => {
+    let domain = 'blah';
+    inst = new TokenApiClient(domain);
 
-        let result: any = await inst.getAccessToken(testServicePrincipalKey, testKey);
-        expect(result).toBe(null)
-    })
+    expect(async () => await inst.getAccessToken(testServicePrincipalKey, testKey)).rejects.toThrow();
+  })
 
-    test("Correct config returns access token", async () => {
-        let domain = testKey.domain;
-        inst = new TokenApiClient(domain);
+  test('Correct config returns access token', async () => {
+    let domain = testKey.domain;
+    inst = new TokenApiClient(domain);
 
-        let result: any = await inst.getAccessToken(testServicePrincipalKey, testKey);
-        expect(result?.access_token).toBeTruthy();
-    })
+    let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, testKey);
+    expect(result?.access_token).toBeTruthy();
+  })
 
 
-    test("Correct domain is case insensitive", async () => {
-        let domain = "a.clouDdeV.lasERfiche.com";
-        inst = new TokenApiClient(domain);
+  test('Correct domain is case insensitive', async () => {
+    let domain = testKey.domain.toUpperCase();
+    inst = new TokenApiClient(domain);
 
-        let result: any = await inst.getAccessToken(testServicePrincipalKey, testKey);
-        expect(result?.access_token).toBeTruthy();
-    })
+    let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, testKey);
+    expect(result?.access_token).toBeTruthy();
+  })
 
-    test("Empty domain returns null", async () => {
-        let domain = "";
-        inst = new TokenApiClient(domain);
-
-        let result: any = await inst.getAccessToken(testServicePrincipalKey, testKey);
-        expect(result).toBe(null)
-    })
-
+  test('Empty domain throws exception', async () => {
+    let domain = '';
+    expect(() => new TokenApiClient(domain)).toThrow();
+  })
 })

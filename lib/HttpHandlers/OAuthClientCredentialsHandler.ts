@@ -27,10 +27,14 @@ export class OAuthClientCredentialsHandler implements HttpRequestHandler {
   async beforeFetchRequestAsync(url: string, request: RequestInit): Promise<BeforeFetchResult> {
     if (!this._accessToken) {
       let resp = await this._tokenApiClient.getAccessToken(this._servicePrincipalKey, this._accessKey);
-      if (resp?.access_token) this._accessToken = resp.access_token;
+      if (resp?.access_token)
+        this._accessToken = resp.access_token;
+      else
+        console.warn(`getAccessToken did not return a token. ${resp}`);
     }
 
-    (<any>request.headers)['Authorization'] = 'Bearer ' + this._accessToken;
+    if (this._accessToken)
+      (<any>request.headers)['Authorization'] = 'Bearer ' + this._accessToken;
 
     return {
       regionalDomain: this._accessKey.domain
@@ -38,7 +42,7 @@ export class OAuthClientCredentialsHandler implements HttpRequestHandler {
   }
   async afterFetchResponseAsync(url: string, response: Response, request: RequestInit): Promise<boolean> {
     if (response.status === 401) {
-      this._accessToken = '';
+      this._accessToken = undefined;
       return true;
     }
     return false;
