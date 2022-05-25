@@ -5,4 +5,6 @@ export const testServicePrincipalKey: string =
 if (!testServicePrincipalKey) {
   throw new Error(`Unable to load DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY from .env`);
 }
-export const testKey: AccessKey = JSON.parse(process.env.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY ?? '');
+let accessKey = process.env.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY;
+accessKey = accessKey?.replace(/\\\"/g,'"');
+export const testKey: AccessKey = JSON.parse(accessKey ?? '');
