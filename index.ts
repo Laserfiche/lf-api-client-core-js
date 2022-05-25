@@ -1,7 +1,7 @@
-import { AccessToken } from "./lib/AccessToken.js";
-import { AccessKey } from "./lib/AccessKey.js";
-import { ClientCredentialsGrantHandler } from "./lib/ClientCredentialsGrantHandler.js";
-import { ClientCredentialsOptions } from "./lib/ClientCredentialsOptions.js";
-import { createClientCredentialsHandler } from "./lib/ClientCredentialsGrantHandlerFactory.js";
+import { GetAccessTokenResponse } from "./lib/OAuth/GetAccessTokenResponse.js";
+import { AccessKey } from "./lib/OAuth/AccessKey.js";
+import { OAuthClientCredentialsHandler } from "./lib/HttpHandlers/OAuthClientCredentialsHandler.js";
+import { HttpRequestHandler } from "./lib/HttpHandlers/HttpRequestHandler.js";
 
-export { AccessToken, AccessKey, ClientCredentialsGrantHandler, ClientCredentialsOptions, createClientCredentialsHandler };
+export { GetAccessTokenResponse, AccessKey, OAuthClientCredentialsHandler, HttpRequestHandler};
+export * as JwtUtils from './lib/util/JwtUtil.js';
