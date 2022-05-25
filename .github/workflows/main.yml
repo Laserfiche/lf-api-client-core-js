@@ -40,7 +40,7 @@ jobs:
         run: npm ci
 
       - name: Npm test
-        run: npm test
+        run: npm run test:all
 
       - name: Test Report
         uses: dorny/test-reporter@v1
@@ -86,7 +86,7 @@ jobs:
 
       - name: Create temporary directory
         run: mkdir -p ./docs_temp/${GITHUB_REF##*/}
-      
+
       - name: Generate typedoc docs
         run: npx typedoc ./index.ts --out ./docs_temp/${GITHUB_REF##*/} --excludePrivate
 
@@ -96,10 +96,10 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2 # Use your bucket region here
-          
+
       - name: Upload docs to S3 bucket
         run: aws s3 sync ./docs_temp/${GITHUB_REF##*/}/ s3://apiserver-publish-client-library-docs/${GITHUB_REPOSITORY##*/}/docs/${GITHUB_REF##*/} --delete
-        
+
       - name: delete temporary directory
         run: rm -r ./docs_temp
 
@@ -165,7 +165,7 @@ jobs:
         with:
           tag: ${{ env.NpmPackageVersion }}
           commit_sha: ${{ github.sha }}
-          message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}} 
+          message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}}
 
   production:
     runs-on: ubuntu-latest
@@ -211,4 +211,4 @@ jobs:
         with:
           tag: ${{ env.NPM_VERSION }}
           commit_sha: ${{ github.sha }}
-          message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}} 
+          message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}}

@@ -11,7 +11,8 @@
     "dist/index.js"
   ],
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --rootDir=lib",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --rootDir=lib --config jest.node.config.js",
+    "test:all": "node --experimental-vm-modules node_modules/jest/bin/jest.js --rootDir=lib --config jest.node.config.js && node --experimental-vm-modules node_modules/jest/bin/jest.js --rootDir=lib --config jest.jsdom.config.js",
     "example": "cd example && npm i && npm start",
     "build": "npm run clean && tsc -b",
     "build:watch": "tsc -b --watch",
