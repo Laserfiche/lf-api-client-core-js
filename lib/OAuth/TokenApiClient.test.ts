@@ -23,20 +23,19 @@ describe('getAccessToken', () => {
 
   test('Correct config returns access token', async () => {
     let domain = accessKey.domain;
-    console.log(typeof(accessKey));
     let accessParse = `${accessKey?.replace(/\\\\/g, '\\')}`;
     console.log(accessParse);
     let accessJson:AccessKey = JSON.parse(accessParse);
     let domain2 = accessJson.domain;
-    console.log(domain2);
+    console.log(accessJson.jwk);
     inst = new TokenApiClient(domain2);
     let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, accessJson);
+    console.log(result);
     expect(result?.access_token).toBeTruthy();
   });
 
   test('Correct domain is case insensitive', async () => {
     let domain = accessKey.domain.toUpperCase();
-    console.log(accessKey);
     inst = new TokenApiClient(domain);
 
     let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, accessKey);
