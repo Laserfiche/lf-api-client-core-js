@@ -29,6 +29,7 @@ describe('getAccessToken', () => {
     let domain2 = accessJson.domain;
     console.log(accessJson.jwk);
     inst = new TokenApiClient(domain2);
+    console.log("test");
     let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, accessJson);
     console.log(result);
     expect(result?.access_token).toBeTruthy();
