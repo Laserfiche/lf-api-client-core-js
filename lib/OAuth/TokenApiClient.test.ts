@@ -1,11 +1,13 @@
-import {testKey,testServicePrincipalKey} from '../../testHelper';
+import { access } from 'fs';
+import {accessKey,testServicePrincipalKey} from '../../testHelper';
 import { AccessKey } from './AccessKey.js';
 import { GetAccessTokenResponse } from './GetAccessTokenResponse.js';
 import { TokenApiClient } from './TokenApiClient.js';
 
 describe('getAccessToken', () => {
   let inst: TokenApiClient;
-
+  console.log(accessKey);
+  const testKey: AccessKey = JSON.parse(accessKey ?? '');
   test('Wrong domain returns null', async () => {
     let domain = 'fake.laserfiche.com';
     inst = new TokenApiClient(domain);
