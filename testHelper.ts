@@ -8,4 +8,3 @@ if (!testServicePrincipalKey) {
 //let accessKey = process.env.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY;
 //accessKey = accessKey?.replace(/\\/g,'');
 export const testKey: string = process.env.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY ?? '';
-console.log(testKey);
