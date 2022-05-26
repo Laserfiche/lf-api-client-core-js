@@ -6,8 +6,10 @@ import { TokenApiClient } from './TokenApiClient.js';
 
 describe('getAccessToken', () => {
   let inst: TokenApiClient;
+  console.log(process.env);
   console.log(accessKey);
   const testKey: AccessKey = JSON.parse(accessKey ?? '');
+  console.log(testKey);
   test('Wrong domain returns null', async () => {
     let domain = 'fake.laserfiche.com';
     inst = new TokenApiClient(domain);
