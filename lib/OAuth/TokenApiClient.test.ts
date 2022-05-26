@@ -23,8 +23,8 @@ describe('getAccessToken', () => {
 
   test('Correct config returns access token', async () => {
     let domain = accessKey.domain;
-    inst = new TokenApiClient(domain);
     console.log(testing);
+    inst = new TokenApiClient(domain);
     let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, accessKey);
     expect(result?.access_token).toBeTruthy();
   });
