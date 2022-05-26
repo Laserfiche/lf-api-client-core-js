@@ -22,6 +22,7 @@ describe('getAccessToken', () => {
 
   test('Correct config returns access token', async () => {
     let domain = testKey.domain;
+    console.log(testKey);
     inst = new TokenApiClient(domain);
 
     let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, testKey);
@@ -30,6 +31,7 @@ describe('getAccessToken', () => {
 
   test('Correct domain is case insensitive', async () => {
     let domain = testKey.domain.toUpperCase();
+    console.log(testKey);
     inst = new TokenApiClient(domain);
 
     let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, testKey);
