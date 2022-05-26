@@ -23,6 +23,9 @@ jobs:
       DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
       DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY:  ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
     steps:
+      - name: Echo build number 2
+        run: echo ${{env.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY}}
+
       - uses: actions/checkout@v2
 
       - name: Echo build number
