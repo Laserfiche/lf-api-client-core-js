@@ -28,8 +28,9 @@ describe('getAccessToken', () => {
     console.log(accessParse);
     let accessJson:AccessKey = JSON.parse(accessParse);
     let domain2 = accessJson.domain;
+    console.log(domain2);
     inst = new TokenApiClient(domain2);
-    let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, accessKey);
+    let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, accessJson);
     expect(result?.access_token).toBeTruthy();
   });
 
