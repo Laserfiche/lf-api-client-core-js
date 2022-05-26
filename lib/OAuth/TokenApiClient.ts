@@ -42,8 +42,7 @@ export class TokenApiClient implements TokenApi {
     let privateKey = KEYUTIL.getKey(<any>accessKey.jwk);
 
     let token = KJUR.jws.JWS.sign(options.algorithm, options.header, payload, <any>privateKey);
-    console.log(token);
-
+    console.log('token: '+ token);
     let req: RequestInit = {
       method: 'POST',
       headers: new Headers({
@@ -54,6 +53,7 @@ export class TokenApiClient implements TokenApi {
       }),
       body: 'grant_type=client_credentials',
     };
+    console.log(req);
 
     let url = this._baseUrl;
     const res: Response = await fetch(url, req);
