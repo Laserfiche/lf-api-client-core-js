@@ -5,37 +5,37 @@ import { TokenApiClient } from './TokenApiClient.js';
 
 describe('getAccessToken', () => {
   let inst: TokenApiClient;
-
+  let accessKey:AccessKey = JSON.parse(testKey);
   test('Wrong domain returns null', async () => {
     let domain = 'fake.laserfiche.com';
     inst = new TokenApiClient(domain);
 
-    expect(async () => await inst.getAccessToken(testServicePrincipalKey, testKey)).rejects.toThrow();
+    expect(async () => await inst.getAccessToken(testServicePrincipalKey, accessKey)).rejects.toThrow();
   });
 
   test('Malformed domain returns null', async () => {
     let domain = 'blah';
     inst = new TokenApiClient(domain);
 
-    expect(async () => await inst.getAccessToken(testServicePrincipalKey, testKey)).rejects.toThrow();
+    expect(async () => await inst.getAccessToken(testServicePrincipalKey, accessKey)).rejects.toThrow();
   });
 
   test('Correct config returns access token', async () => {
-    let domain = testKey.domain;
-    console.log(testKey);
-    console.log(testKey.domain);
+    let domain = accessKey.domain;
+    console.log(accessKey);
+    console.log(accessKey.domain);
     inst = new TokenApiClient(domain);
 
-    let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, testKey);
+    let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, accessKey);
     expect(result?.access_token).toBeTruthy();
   });
 
   test('Correct domain is case insensitive', async () => {
-    let domain = testKey.domain.toUpperCase();
-    console.log(testKey);
+    let domain = accessKey.domain.toUpperCase();
+    console.log(accessKey);
     inst = new TokenApiClient(domain);
 
-    let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, testKey);
+    let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, accessKey);
     expect(result?.access_token).toBeTruthy();
   });
 
