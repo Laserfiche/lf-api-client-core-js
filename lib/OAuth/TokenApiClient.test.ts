@@ -5,6 +5,8 @@ import { TokenApiClient } from './TokenApiClient.js';
 
 describe('getAccessToken', () => {
   let inst: TokenApiClient;
+  console.log(process.env.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY);
+  console.log(process.env.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY);
   test('Wrong domain returns null', async () => {
     let domain = 'fake.laserfiche.com';
     inst = new TokenApiClient(domain);
