@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import { AccessKey } from './lib/OAuth/AccessKey.js';
-export const testServicePrincipalKey: string =
-  process.env.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY ?? '';
-//export const testServicePrincipalKey: string ="mbF_XhO9j9AmLIkbSawn";
+//export const testServicePrincipalKey: string =
+  //process.env.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY ?? '';
+export const testServicePrincipalKey: string ="mbF_XhO9j9AmLIkbSawn";
 if (!testServicePrincipalKey) {
   throw new Error(`Unable to load DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY from .env`);
 }
