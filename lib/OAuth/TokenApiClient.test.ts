@@ -25,8 +25,7 @@ describe('getAccessToken', () => {
     let domain = accessKey.domain;
     console.log(typeof(accessKey));
     let changedTestKey = testKey?.replace(/\\\\/g, '\\');
-    console.log(changedTestKey);
-    console.log(JSON.parse(changedTestKey));
+    console.log(testKey?.replace(/\\\\/g, '\\'));
     console.log(Object.keys(accessKey));
     console.log(Object.values(accessKey));
     inst = new TokenApiClient(domain);
