@@ -23,13 +23,12 @@ describe('getAccessToken', () => {
 
   test('Correct config returns access token', async () => {
     let domain = accessKey.domain;
-    let accessParse = `${accessKey?.replace(/\\\\/g, '\\')}`;
+    let accessParse = `${accessKey.replace(/\\\\/g, '\\')}`;
     console.log(accessParse);
     let accessJson:AccessKey = JSON.parse(accessParse);
     let domain2 = accessJson.domain;
     console.log(accessJson.jwk);
     inst = new TokenApiClient(domain2);
-    console.log("test");
     let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, accessJson);
     console.log(result);
     expect(result?.access_token).toBeTruthy();
