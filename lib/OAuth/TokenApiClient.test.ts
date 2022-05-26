@@ -1,4 +1,3 @@
-import { access } from 'fs';
 import {testKey,testServicePrincipalKey} from '../../testHelper';
 import { AccessKey } from './AccessKey.js';
 import { GetAccessTokenResponse } from './GetAccessTokenResponse.js';
@@ -25,6 +24,7 @@ describe('getAccessToken', () => {
   test('Correct config returns access token', async () => {
     let domain = accessKey.domain;
     console.log(typeof(accessKey));
+    console.log(testKey?.replace(/\\/g,''));
     console.log(Object.keys(accessKey));
     console.log(Object.values(accessKey));
     inst = new TokenApiClient(domain);
