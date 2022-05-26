@@ -42,7 +42,6 @@ export class TokenApiClient implements TokenApi {
     let privateKey = KEYUTIL.getKey(<any>accessKey.jwk);
 
     let token = KJUR.jws.JWS.sign(options.algorithm, options.header, payload, <any>privateKey);
-    console.log(token);
 
     let req: RequestInit = {
       method: 'POST',

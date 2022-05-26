@@ -6,7 +6,6 @@ import { TokenApiClient } from './TokenApiClient.js';
 describe('getAccessToken', () => {
   let inst: TokenApiClient;
   let accessKey:any = JSON.parse(testKey);
-  let testing :any = JSON.parse('{"test":"test", "jwk":{"test":"test"}}');
   test('Wrong domain returns null', async () => {
     let domain = 'fake.laserfiche.com';
     inst = new TokenApiClient(domain);
@@ -23,6 +22,7 @@ describe('getAccessToken', () => {
 
   test('Correct config returns access token', async () => {
     let domain = accessKey.domain;
+    console.log(process.env);
     let accessParse = `${accessKey.replace(/\\\\/g, '\\')}`;
     console.log(accessParse);
     let accessJson:AccessKey = JSON.parse(accessParse);
