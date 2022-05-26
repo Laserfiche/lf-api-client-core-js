@@ -23,7 +23,8 @@ describe('getAccessToken', () => {
 
   test('Correct config returns access token', async () => {
     let domain = accessKey.domain;
-    let tester:string = `'${accessKey}'`;
+    let tester:string = JSON.stringify(accessKey);
+    console.log(tester);
     let accessKeyTester:AccessKey = JSON.parse(tester);
     console.log(accessKeyTester);
     inst = new TokenApiClient(domain);
