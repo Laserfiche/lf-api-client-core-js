@@ -15,7 +15,7 @@ export class TokenApiClient implements TokenApi {
     this._baseUrl = getOauthTokenUrl(regionalDomain);
   }
 
-  async getAccessToken(servicePrincipalKey: string, accessKey: AccessKey): Promise<GetAccessTokenResponse>  {
+  async getAccessToken(servicePrincipalKey: string, accessKey: AccessKey): Promise<GetAccessTokenResponse> {
     let currentTime: any = new Date(); // the current time in milliseconds
     let now: number = currentTime / 1000;
     let expire: number = currentTime / 1000 + 3600;

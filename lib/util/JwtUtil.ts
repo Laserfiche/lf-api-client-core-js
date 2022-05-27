@@ -1,4 +1,3 @@
-
 /**
  * Laserfiche Cloud endpoints
  */
@@ -175,14 +174,13 @@ let _isBrowser: boolean | undefined;
  * Function that determines if the environment is in a browser or not
  * @returns True if the function is run in a browser, false if it is run in another environment
  */
- export function isBrowser(): boolean {
+export function isBrowser(): boolean {
   if (_isBrowser) {
     return _isBrowser;
   }
   try {
     _isBrowser = window.location !== undefined;
-  }
-  catch {
+  } catch {
     _isBrowser = false;
   }
   return _isBrowser;
@@ -197,11 +195,10 @@ let _isBrowser: boolean | undefined;
  * base64toString('dGVzdA=='); // => 'test';
  * ```
  */
- export function base64toString(base64String: string): string {
+export function base64toString(base64String: string): string {
   if (isBrowser()) {
     return window.atob(base64String);
-  }
-  else {
+  } else {
     return Buffer.from(base64String, 'base64').toString();
   }
 }
