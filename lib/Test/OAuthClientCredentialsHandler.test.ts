@@ -1,6 +1,6 @@
-import {testKey,testServicePrincipalKey} from '../../testHelper';
-import { BeforeFetchResult } from './BeforeFetchResult.js';
-import { OAuthClientCredentialsHandler } from './OAuthClientCredentialsHandler.js';
+import { testKey, testServicePrincipalKey } from '../../testHelper.js';
+import { BeforeFetchResult } from '../HttpHandlers/BeforeFetchResult.js';
+import { OAuthClientCredentialsHandler } from '../HttpHandlers/OAuthClientCredentialsHandler.js';
 
 describe('OAuthClientCredentialsHandler', () => {
   test('Empty service principal key throws exception', () => {
@@ -12,18 +12,12 @@ describe('OAuthClientCredentialsHandler', () => {
   });
 
   test('Correct config returns handler', () => {
-    let httpRequestHandler = new OAuthClientCredentialsHandler(
-      testServicePrincipalKey,
-      JSON.stringify(testKey)
-    );
+    let httpRequestHandler = new OAuthClientCredentialsHandler(testServicePrincipalKey, JSON.stringify(testKey));
     expect(httpRequestHandler).toBeTruthy();
   });
 
   test('Correct config beforeFetchRequestAsync returns regional domain', async () => {
-    let httpRequestHandler = new OAuthClientCredentialsHandler(
-      testServicePrincipalKey,
-      JSON.stringify(testKey)
-    );
+    let httpRequestHandler = new OAuthClientCredentialsHandler(testServicePrincipalKey, JSON.stringify(testKey));
     const url = 'https://laserfiche.com/repository/';
     let request: RequestInit = {
       method: 'GET',
