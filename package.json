@@ -6,7 +6,11 @@
   "typings": "dist/index.d.ts",
   "type": "module",
   "files": [
-    "dist"
+    "dist/lib/OAuth/",
+    "dist/lib/HttpHandlers/",
+    "dist/lib/util/",
+    "dist/index.d.ts",
+    "dist/index.js"
   ],
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --rootDir=lib --config jest.node.config.js",
