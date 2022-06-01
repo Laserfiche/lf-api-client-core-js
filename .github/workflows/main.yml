@@ -113,7 +113,6 @@ jobs:
             ./dist
             ./package.json
             ./README.md
-            ./.npmrc
             ./LICENSE
   preview:
     runs-on: ubuntu-latest

@@ -6,7 +6,9 @@
   "typings": "dist/index.d.ts",
   "type": "module",
   "files": [
-    "dist/lib",
+    "dist/lib/OAuth/",
+    "dist/lib/HttpHandlers/",
+    "dist/lib/util/",
     "dist/index.d.ts",
     "dist/index.js"
   ],

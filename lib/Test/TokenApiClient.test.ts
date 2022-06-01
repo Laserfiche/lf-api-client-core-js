@@ -1,7 +1,6 @@
-import { testKey, testServicePrincipalKey } from '../../testHelper';
-import { AccessKey } from './AccessKey.js';
-import { GetAccessTokenResponse } from './GetAccessTokenResponse.js';
-import { TokenApiClient } from './TokenApiClient.js';
+import { testKey, testServicePrincipalKey } from '../../testHelper.js';
+import { GetAccessTokenResponse } from '../OAuth/GetAccessTokenResponse.js';
+import { TokenApiClient } from '../OAuth/TokenApiClient.js';
 
 describe('getAccessToken', () => {
   let inst: TokenApiClient;
