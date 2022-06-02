@@ -1,23 +1,24 @@
 import { testKey, testServicePrincipalKey } from '../../testHelper.js';
 import { BeforeFetchResult } from '../HttpHandlers/BeforeFetchResult.js';
 import { OAuthClientCredentialsHandler } from '../HttpHandlers/OAuthClientCredentialsHandler.js';
+import { AccessKey } from '../OAuth/AccessKey.js';
 
 describe('OAuthClientCredentialsHandler', () => {
   test('Empty service principal key throws exception', () => {
-    expect(() => new OAuthClientCredentialsHandler('', '')).toThrow();
+    expect(() => new OAuthClientCredentialsHandler('', {} as AccessKey)).toThrow();
   });
 
   test('Malformed access key throws exception', () => {
-    expect(() => new OAuthClientCredentialsHandler('blah', 'blah')).toThrow();
+    expect(() => new OAuthClientCredentialsHandler('blah', {} as AccessKey)).toThrow();
   });
 
   test('Correct config returns handler', () => {
-    let httpRequestHandler = new OAuthClientCredentialsHandler(testServicePrincipalKey, JSON.stringify(testKey));
+    let httpRequestHandler = new OAuthClientCredentialsHandler(testServicePrincipalKey, testKey);
     expect(httpRequestHandler).toBeTruthy();
   });
 
   test('Correct config beforeFetchRequestAsync returns regional domain', async () => {
-    let httpRequestHandler = new OAuthClientCredentialsHandler(testServicePrincipalKey, JSON.stringify(testKey));
+    let httpRequestHandler = new OAuthClientCredentialsHandler(testServicePrincipalKey, testKey);
     const url = 'https://laserfiche.com/repository/';
     let request: RequestInit = {
       method: 'GET',

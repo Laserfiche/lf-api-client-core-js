@@ -16,10 +16,10 @@ export class OAuthClientCredentialsHandler implements HttpRequestHandler {
   // "Service Principals"
   private _servicePrincipalKey: string;
 
-  public constructor(servicePrincipalKey: string, accessKey: string) {
+  public constructor(servicePrincipalKey: string, accessKey: AccessKey) {
     if (!servicePrincipalKey) throw new Error('Service principal key cannot be blank.');
 
-    this._accessKey = JSON.parse(accessKey);
+    this._accessKey = accessKey;
     this._servicePrincipalKey = servicePrincipalKey;
     this._tokenApiClient = new TokenApiClient(this._accessKey.domain);
   }
