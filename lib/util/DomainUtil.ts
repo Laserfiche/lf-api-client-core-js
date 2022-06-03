@@ -15,7 +15,7 @@ export function getRegionFromAccountId(accountId: string | undefined, env: strin
  * @returns Laserfiche repository API base address
  * @example
  * ```typescript
- * getRepositoryEndpoint('a.clouddev.laserfiche.com'); // 'https://api.a.clouddev.laserfiche.com/repository'
+ * getRepositoryEndpoint('laserfiche.com'); // 'https://api.laserfiche.com/repository'
  * ```
  */
 export function getRepositoryEndpoint(regionDomain: string): string {
