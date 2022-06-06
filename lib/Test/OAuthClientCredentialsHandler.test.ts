@@ -1,4 +1,4 @@
-import { testKey, testServicePrincipalKey } from '../../testHelper.js';
+import { OauthAccessKey, testServicePrincipalKey } from '../../testHelper.js';
 import { BeforeFetchResult } from '../HttpHandlers/BeforeFetchResult.js';
 import { OAuthClientCredentialsHandler } from '../HttpHandlers/OAuthClientCredentialsHandler.js';
 import { AccessKey } from '../OAuth/AccessKey.js';
@@ -13,12 +13,12 @@ describe('OAuthClientCredentialsHandler', () => {
   });
 
   test('Correct config returns handler', () => {
-    let httpRequestHandler = new OAuthClientCredentialsHandler(testServicePrincipalKey, testKey);
+    let httpRequestHandler = new OAuthClientCredentialsHandler(testServicePrincipalKey, OauthAccessKey);
     expect(httpRequestHandler).toBeTruthy();
   });
 
   test('Correct config beforeFetchRequestAsync returns regional domain', async () => {
-    let httpRequestHandler = new OAuthClientCredentialsHandler(testServicePrincipalKey, testKey);
+    let httpRequestHandler = new OAuthClientCredentialsHandler(testServicePrincipalKey, OauthAccessKey);
     const url = 'https://laserfiche.com/repository/';
     let request: RequestInit = {
       method: 'GET',
