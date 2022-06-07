@@ -1,4 +1,4 @@
-import { testKey, testServicePrincipalKey } from '../../testHelper.js';
+import { OAuthAccessKey, testServicePrincipalKey } from '../../testHelper.js';
 import { GetAccessTokenResponse } from '../OAuth/GetAccessTokenResponse.js';
 import { TokenApiClient } from '../OAuth/TokenApiClient.js';
 
@@ -8,29 +8,29 @@ describe('getAccessToken', () => {
     let domain = 'fake.laserfiche.com';
     inst = new TokenApiClient(domain);
 
-    expect(async () => await inst.getAccessToken(testServicePrincipalKey, testKey)).rejects.toThrow();
+    expect(async () => await inst.getAccessToken(testServicePrincipalKey, OAuthAccessKey)).rejects.toThrow();
   });
 
   test('Malformed domain returns null', async () => {
     let domain = 'blah';
     inst = new TokenApiClient(domain);
 
-    expect(async () => await inst.getAccessToken(testServicePrincipalKey, testKey)).rejects.toThrow();
+    expect(async () => await inst.getAccessToken(testServicePrincipalKey, OAuthAccessKey)).rejects.toThrow();
   });
 
   test('Correct config returns access token', async () => {
-    let domain = testKey.domain;
+    let domain = OAuthAccessKey.domain;
     inst = new TokenApiClient(domain);
 
-    let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, testKey);
+    let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, OAuthAccessKey);
     expect(result?.access_token).toBeTruthy();
   });
 
   test('Correct domain is case insensitive', async () => {
-    let domain = testKey.domain.toUpperCase();
+    let domain = OAuthAccessKey.domain.toUpperCase();
     inst = new TokenApiClient(domain);
 
-    let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, testKey);
+    let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, OAuthAccessKey);
     expect(result?.access_token).toBeTruthy();
   });
 
