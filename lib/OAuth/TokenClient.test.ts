@@ -1,6 +1,6 @@
 import { OAuthAccessKey, testServicePrincipalKey } from '../../testHelper.js';
-import { GetAccessTokenResponse } from '../OAuth/GetAccessTokenResponse.js';
-import { TokenClient } from '../OAuth/TokenClient.js';
+import { GetAccessTokenResponse } from './GetAccessTokenResponse.js';
+import { TokenClient } from './TokenClient.js';
 
 describe('getAccessToken', () => {
   let inst: TokenClient;
