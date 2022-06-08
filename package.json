@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "dotenv": "^16.0.1",
+    "@laserfiche/lf-js-utils":"^3.0.5",
     "isomorphic-fetch": "^3.0.0",
     "jsrsasign": "^10.5.13",
     "jsrsasign-util": "^1.0.5"
