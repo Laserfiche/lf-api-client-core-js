@@ -1,6 +1,6 @@
 {
   "name": "@laserfiche/lf-api-client-core",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -8,7 +8,7 @@
   "files": [
     "dist/lib/OAuth/",
     "dist/lib/HttpHandlers/",
-    "dist/lib/util/",
+    "dist/lib/utils/",
     "dist/index.d.ts",
     "dist/index.js"
   ],
