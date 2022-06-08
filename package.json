@@ -1,16 +1,12 @@
 {
   "name": "@laserfiche/lf-api-client-core",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "type": "module",
   "files": [
-    "dist/lib/OAuth/",
-    "dist/lib/HttpHandlers/",
-    "dist/lib/util/",
-    "dist/index.d.ts",
-    "dist/index.js"
+    "dist"
   ],
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --rootDir=lib --config jest.node.config.js",

@@ -1,6 +1,6 @@
 import { OAuthAccessKey, testServicePrincipalKey } from '../../testHelper.js';
-import { BeforeFetchResult } from '../HttpHandlers/BeforeFetchResult.js';
-import { OAuthClientCredentialsHandler } from '../HttpHandlers/OAuthClientCredentialsHandler.js';
+import { BeforeFetchResult } from './BeforeFetchResult.js';
+import { OAuthClientCredentialsHandler } from './OAuthClientCredentialsHandler.js';
 import { AccessKey } from '../OAuth/AccessKey.js';
 
 describe('OAuthClientCredentialsHandler', () => {
