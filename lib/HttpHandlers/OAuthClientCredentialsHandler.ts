@@ -26,7 +26,7 @@ export class OAuthClientCredentialsHandler implements HttpRequestHandler {
 
   async beforeFetchRequestAsync(url: string, request: RequestInit): Promise<BeforeFetchResult> {
     if (!this._accessToken) {
-      let resp = await this._tokenClient.getAccessToken(this._servicePrincipalKey, this._accessKey);
+      let resp = await this._tokenClient.getAccessTokenFromServicePrincipal(this._servicePrincipalKey, this._accessKey);
       if (resp?.access_token) this._accessToken = resp.access_token;
       else console.warn(`getAccessToken did not return a token. ${resp}`);
     }

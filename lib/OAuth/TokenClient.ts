@@ -17,7 +17,7 @@ export interface ITokenClient {
    * @param servicePrincipalKey Laserfiche cloud service principal key
    * @param accessKey OAuth service application access key
    */
-  getAccessToken(servicePrincipalKey: string, accessKey: AccessKey): Promise<GetAccessTokenResponse>;
+  getAccessTokenFromServicePrincipal(servicePrincipalKey: string, accessKey: AccessKey): Promise<GetAccessTokenResponse>;
 
   /**
    * Gets an OAuth access token given an OAuth code
@@ -36,14 +36,22 @@ export interface ITokenClient {
   refreshAccessToken(refresh_token: string, client_id: string): Promise<GetAccessTokenResponse>;
 }
 
+/**
+ * An object to interact with the OAuth 2.0 token endpoint.
+ */
 export class TokenClient implements ITokenClient {
   private _baseUrl: string;
 
-  public constructor(regionalDomain: string) {
+  constructor(regionalDomain: string) {
     this._baseUrl = getOauthTokenUrl(regionalDomain);
   }
 
-  public async refreshAccessToken(refresh_token: string, client_id: string): Promise<GetAccessTokenResponse> {
+  /**
+   * Gets a refreshed access token given a refresh token
+   * @param refresh_token Refresh token
+   * @param client_id OAuth application client id
+   */
+  async refreshAccessToken(refresh_token: string, client_id: string): Promise<GetAccessTokenResponse> {
     const request = this.createRefreshTokenRequest(refresh_token, client_id);
     let url = this._baseUrl;
     const res: Response = await fetch(url, request);
@@ -58,6 +66,13 @@ export class TokenClient implements ITokenClient {
     }
   }
 
+  /**
+   * Gets an OAuth access token given an OAuth code
+   * @param code Authorization code
+   * @param redirect_uri Authorization endpoint redirect uri
+   * @param client_id OAuth application client id
+   * @param code_verifier PKCE code verifier
+   */
   async getAccessTokenFromCode(code: string, redirect_uri: string, client_id: string, code_verifier?: string): Promise<GetAccessTokenResponse> {
     const request = this.createAuthorizationCodeTokenRequest(code, redirect_uri, client_id, code_verifier);
     let url = this._baseUrl;
@@ -73,7 +88,12 @@ export class TokenClient implements ITokenClient {
     }
   }
 
-  async getAccessToken(servicePrincipalKey: string, accessKey: AccessKey): Promise<GetAccessTokenResponse> {
+  /**
+   * Gets an OAuth access token given a Laserfiche cloud service principal key and an OAuth service application access key.
+   * @param servicePrincipalKey Laserfiche cloud service principal key
+   * @param accessKey OAuth service application access key
+   */
+  async getAccessTokenFromServicePrincipal(servicePrincipalKey: string, accessKey: AccessKey): Promise<GetAccessTokenResponse> {
     let currentTime: any = new Date(); // the current time in milliseconds
     let now: number = currentTime / 1000;
     let expire: number = currentTime / 1000 + 3600;
@@ -155,7 +175,7 @@ export class TokenClient implements ITokenClient {
     return request;
   }
 
-  getPostRequestHeaders() {
+  private getPostRequestHeaders() {
     const headers: Record<string, string> = {
       'Content-Type': CONTENT_TYPE_WWW_FORM_URLENCODED
     };
@@ -163,7 +183,7 @@ export class TokenClient implements ITokenClient {
     return headers;
   }
 
-  objToWWWFormUrlEncodedBody(obj: any): string {
+  private objToWWWFormUrlEncodedBody(obj: any): string {
     const urlSearchParams = new URLSearchParams();
     for (const i in obj) {
       urlSearchParams.set(i, obj[i]);

@@ -8,21 +8,21 @@ describe('getAccessToken', () => {
     let domain = 'fake.laserfiche.com';
     inst = new TokenClient(domain);
 
-    expect(async () => await inst.getAccessToken(testServicePrincipalKey, OAuthAccessKey)).rejects.toThrow();
+    expect(async () => await inst.getAccessTokenFromServicePrincipal(testServicePrincipalKey, OAuthAccessKey)).rejects.toThrow();
   });
 
   test('Malformed domain returns null', async () => {
     let domain = 'blah';
     inst = new TokenClient(domain);
 
-    expect(async () => await inst.getAccessToken(testServicePrincipalKey, OAuthAccessKey)).rejects.toThrow();
+    expect(async () => await inst.getAccessTokenFromServicePrincipal(testServicePrincipalKey, OAuthAccessKey)).rejects.toThrow();
   });
 
   test('Correct config returns access token', async () => {
     let domain = OAuthAccessKey.domain;
     inst = new TokenClient(domain);
 
-    let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, OAuthAccessKey);
+    let result: GetAccessTokenResponse = await inst.getAccessTokenFromServicePrincipal(testServicePrincipalKey, OAuthAccessKey);
     expect(result?.access_token).toBeTruthy();
   });
 
@@ -30,7 +30,7 @@ describe('getAccessToken', () => {
     let domain = OAuthAccessKey.domain.toUpperCase();
     inst = new TokenClient(domain);
 
-    let result: GetAccessTokenResponse = await inst.getAccessToken(testServicePrincipalKey, OAuthAccessKey);
+    let result: GetAccessTokenResponse = await inst.getAccessTokenFromServicePrincipal(testServicePrincipalKey, OAuthAccessKey);
     expect(result?.access_token).toBeTruthy();
   });
 

@@ -13,7 +13,7 @@ export class HTTPError extends Error {
    * @param status The HTTP status code
    */
   constructor(message: string, public status: number) {
-    super(message);
+    super(`[HTTP ${status}] ${message}`);
     this.name = HTTPError_NAME;
   }
 }
