@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch';
 import { KEYUTIL, KJUR } from 'jsrsasign';
 import { AccessKey } from './AccessKey.js';
 import { GetAccessTokenResponse } from './GetAccessTokenResponse.js';
-import { getOauthTokenUrl } from '../util/DomainUtils.js';
+import { getOauthTokenUrl } from '../utils/DomainUtils.js';
 import { HTTPError } from '../HttpError.js';
 
 const CONTENT_TYPE_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
@@ -36,7 +36,7 @@ export interface ITokenClient {
   refreshAccessToken(refresh_token: string, client_id: string): Promise<GetAccessTokenResponse>;
 }
 
-export class TokenApiClient implements ITokenClient {
+export class TokenClient implements ITokenClient {
   private _baseUrl: string;
 
   public constructor(regionalDomain: string) {

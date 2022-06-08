@@ -1,5 +1,5 @@
 import { HttpRequestHandler } from './HttpRequestHandler.js';
-import { TokenApiClient } from '../OAuth/TokenApiClient.js';
+import { TokenClient } from '../OAuth/TokenClient.js';
 import { AccessKey } from '../OAuth/AccessKey.js';
 import { BeforeFetchResult } from './BeforeFetchResult.js';
 
@@ -7,7 +7,7 @@ export class OAuthClientCredentialsHandler implements HttpRequestHandler {
   // A valid JWK access key taken from the Laserfiche Developer Console
   // config page for your application.
   private _accessKey: AccessKey;
-  private _tokenApiClient: TokenApiClient;
+  private _tokenClient: TokenClient;
   private _accessToken: string | undefined;
 
   // The service principal key for the associated service principal user
@@ -21,12 +21,12 @@ export class OAuthClientCredentialsHandler implements HttpRequestHandler {
 
     this._accessKey = accessKey;
     this._servicePrincipalKey = servicePrincipalKey;
-    this._tokenApiClient = new TokenApiClient(this._accessKey.domain);
+    this._tokenClient = new TokenClient(this._accessKey.domain);
   }
 
   async beforeFetchRequestAsync(url: string, request: RequestInit): Promise<BeforeFetchResult> {
     if (!this._accessToken) {
-      let resp = await this._tokenApiClient.getAccessToken(this._servicePrincipalKey, this._accessKey);
+      let resp = await this._tokenClient.getAccessToken(this._servicePrincipalKey, this._accessKey);
       if (resp?.access_token) this._accessToken = resp.access_token;
       else console.warn(`getAccessToken did not return a token. ${resp}`);
     }
