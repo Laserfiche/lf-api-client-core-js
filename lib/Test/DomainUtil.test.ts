@@ -1,4 +1,4 @@
-import { getEnvironmentSubDomain, getRepositoryEndpoint, getOauthTokenUrl } from '../util/DomainUtil.js';
+import { getEnvironmentSubDomain, getRepositoryEndpoint, getOauthTokenUrl } from '../util/DomainUtils.js';
 
 describe('DomainUtil', () => {
   const baseUrlUSProd = 'https://api.laserfiche.com/repository';
