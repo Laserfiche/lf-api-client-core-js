@@ -175,6 +175,7 @@ jobs:
         uses: actions/setup-node@v2.5.1
         with:
           node-version: "14"
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Npm tool install
         run: npm install -g npm@8
@@ -217,6 +218,7 @@ jobs:
         uses: actions/setup-node@v2.5.1
         with:
           node-version: "14"
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Npm tool install
         run: npm install -g npm@8
