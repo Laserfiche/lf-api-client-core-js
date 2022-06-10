@@ -1,3 +1,7 @@
+import fetch from 'isomorphic-fetch';
+if (typeof window === 'undefined') {
+  global.fetch = fetch
+}
 import { KEYUTIL, KJUR } from 'jsrsasign';
 import { AccessKey } from './AccessKey.js';
 import { GetAccessTokenResponse } from './GetAccessTokenResponse.js';
@@ -122,12 +126,12 @@ export class TokenClient implements ITokenClient {
 
     let req: RequestInit = {
       method: 'POST',
-      headers: {
+      headers: new Headers({
         'content-type': 'application/x-www-form-urlencoded',
         withCredentials: 'true',
         credentials: 'include',
         Authorization: `Bearer ${token}`,
-      },
+      }),
       body: 'grant_type=client_credentials',
     };
 
