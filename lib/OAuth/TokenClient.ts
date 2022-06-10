@@ -1,4 +1,3 @@
-import fetch from 'isomorphic-fetch';
 import { KEYUTIL, KJUR } from 'jsrsasign';
 import { AccessKey } from './AccessKey.js';
 import { GetAccessTokenResponse } from './GetAccessTokenResponse.js';
