@@ -122,12 +122,12 @@ export class TokenClient implements ITokenClient {
 
     let req: RequestInit = {
       method: 'POST',
-      headers: new Headers({
+      headers: {
         'content-type': 'application/x-www-form-urlencoded',
         withCredentials: 'true',
         credentials: 'include',
         Authorization: `Bearer ${token}`,
-      }),
+      },
       body: 'grant_type=client_credentials',
     };
 
