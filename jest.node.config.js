@@ -7,6 +7,7 @@ export default {
     },
   },
   testEnvironment: 'node',
+  modulePathIgnorePatterns: ["PKCEUtils.test.ts"],
   reporters: ["default", ["jest-junit", { outputName: "junit-node.xml" }]],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',

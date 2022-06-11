@@ -2,7 +2,7 @@ import { OAuthAccessKey, testServicePrincipalKey } from '../../testHelper.js';
 import { GetAccessTokenResponse } from './GetAccessTokenResponse.js';
 import { TokenClient } from './TokenClient.js';
 
-describe('getAccessToken', () => {
+describe('getAccessTokenFromServicePrincipal', () => {
   let inst: TokenClient;
   test('Wrong domain returns null', async () => {
     let domain = 'fake.laserfiche.com';
