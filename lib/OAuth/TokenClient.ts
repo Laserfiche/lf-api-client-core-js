@@ -1,7 +1,3 @@
-import fetch from 'isomorphic-fetch';
-if (typeof window === 'undefined') {
-  global.fetch = fetch
-}
 import { KEYUTIL, KJUR } from 'jsrsasign';
 import { AccessKey } from './AccessKey.js';
 import { GetAccessTokenResponse } from './GetAccessTokenResponse.js';
