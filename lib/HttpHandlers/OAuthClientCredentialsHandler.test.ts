@@ -2,6 +2,7 @@ import { OAuthAccessKey, testServicePrincipalKey } from '../../testHelper.js';
 import { BeforeFetchResult } from './BeforeFetchResult.js';
 import { OAuthClientCredentialsHandler } from './OAuthClientCredentialsHandler.js';
 import { AccessKey } from '../OAuth/AccessKey.js';
+import "isomorphic-fetch";
 
 describe('OAuthClientCredentialsHandler', () => {
   test('Empty service principal key throws exception', () => {
