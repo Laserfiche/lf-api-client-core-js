@@ -179,20 +179,11 @@ export class TokenClient implements ITokenClient {
   private createRefreshTokenRequest(refreshToken: string, client_id: string, client_secret?: string): RequestInit {
     const request: RequestInit = { method: 'POST' };
     const headers = this.getPostRequestHeaders(client_id, client_secret);
-    let body;
-    if (client_id) {
-      body = {
+    const body = {
         grant_type: 'refresh_token',
         refresh_token: refreshToken,
         client_id
       };
-    }
-    else {
-      body = {
-        grant_type: 'refresh_token',
-        refresh_token: refreshToken,
-      };
-    }
 
     const requestBody = this.objToWWWFormUrlEncodedBody(body);
     request.headers = headers;
