@@ -34,8 +34,9 @@ export interface ITokenClient {
    * Gets a refreshed access token given a refresh token
    * @param refresh_token Refresh token
    * @param client_id OAuth application client id
+   * @param client_secret OPTIONAL OAuth application client secret
    */
-  refreshAccessToken(refresh_token: string, client_id: string): Promise<GetAccessTokenResponse>;
+  refreshAccessToken(refresh_token: string, client_id: string,  client_secret?: string): Promise<GetAccessTokenResponse>;
 }
 
 /**
@@ -53,8 +54,8 @@ export class TokenClient implements ITokenClient {
    * @param refresh_token Refresh token
    * @param client_id OAuth application client id
    */
-  async refreshAccessToken(refresh_token: string, client_id: string): Promise<GetAccessTokenResponse> {
-    const request = this.createRefreshTokenRequest(refresh_token, client_id);
+  async refreshAccessToken(refresh_token: string, client_id: string, client_secret?: string): Promise<GetAccessTokenResponse> {
+    const request = this.createRefreshTokenRequest(refresh_token, client_id, client_secret);
     let url = this._baseUrl;
     const res: Response = await fetch(url, request);
     if (res.status === 200) {
@@ -175,9 +176,9 @@ export class TokenClient implements ITokenClient {
     return request;
   }
 
-  private createRefreshTokenRequest(refreshToken: string, client_id: string): RequestInit {
+  private createRefreshTokenRequest(refreshToken: string, client_id: string, client_secret?: string): RequestInit {
     const request: RequestInit = { method: 'POST' };
-    const headers = this.getPostRequestHeaders();
+    const headers = this.getPostRequestHeaders(client_id, client_secret);
     const body = {
       grant_type: 'refresh_token',
       refresh_token: refreshToken,
