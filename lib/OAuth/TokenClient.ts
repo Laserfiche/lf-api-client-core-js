@@ -150,13 +150,25 @@ export class TokenClient implements ITokenClient {
   private createAuthorizationCodeTokenRequest(code: string, redirect_uri: string, client_id: string, code_verifier?: string, client_secret?: string): RequestInit {
     const request: RequestInit = { method: 'POST' };
     const headers = this.getPostRequestHeaders(client_id, client_secret);
-    const body = {
-      grant_type: 'authorization_code',
-      code,
-      redirect_uri,
-      client_id,
-      code_verifier
-    };
+    let body;
+    if (code_verifier) {
+      body = {
+        grant_type: 'authorization_code',
+        code,
+        redirect_uri,
+        client_id,
+        code_verifier
+      }
+    }
+    else {
+      body = {
+        grant_type: 'authorization_code',
+        code,
+        redirect_uri,
+        client_id,
+        }
+      };
+
     const requestBody = this.objToWWWFormUrlEncodedBody(body);
     request.headers = headers;
     request.body = requestBody;
