@@ -36,7 +36,7 @@ export interface ITokenClient {
    * @param client_id OAuth application client id
    * @param client_secret OPTIONAL OAuth application client secret
    */
-  refreshAccessToken(refresh_token: string, client_id: string,  client_secret?: string): Promise<GetAccessTokenResponse>;
+  refreshAccessToken(refresh_token: string, client_id: string, client_secret?: string): Promise<GetAccessTokenResponse>;
 }
 
 /**
@@ -167,8 +167,8 @@ export class TokenClient implements ITokenClient {
         code,
         redirect_uri,
         client_id,
-        }
-      };
+      }
+    };
 
     const requestBody = this.objToWWWFormUrlEncodedBody(body);
     request.headers = headers;
@@ -179,11 +179,21 @@ export class TokenClient implements ITokenClient {
   private createRefreshTokenRequest(refreshToken: string, client_id: string, client_secret?: string): RequestInit {
     const request: RequestInit = { method: 'POST' };
     const headers = this.getPostRequestHeaders(client_id, client_secret);
-    const body = {
-      grant_type: 'refresh_token',
-      refresh_token: refreshToken,
-      client_id
-    };
+    let body;
+    if (client_id) {
+      body = {
+        grant_type: 'refresh_token',
+        refresh_token: refreshToken,
+        client_id
+      };
+    }
+    else {
+      body = {
+        grant_type: 'refresh_token',
+        refresh_token: refreshToken,
+      };
+    }
+
     const requestBody = this.objToWWWFormUrlEncodedBody(body);
     request.headers = headers;
     request.body = requestBody;
