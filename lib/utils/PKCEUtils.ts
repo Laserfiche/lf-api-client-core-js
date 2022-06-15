@@ -26,19 +26,19 @@ export function generateRandomValuesFromArray(array: Uint8Array): Uint8Array {
   return randomArray;
 }
 
-export async function hashMessage(message: string) {
-  let hashBuffer;
-  const msgUint8 = new TextEncoder().encode(message); // encode as (utf-8) Uint8Array
+export async function hashMessageToBase64(message: string) {
+  let hashEncoded;
   if (CoreUtils.isBrowser()) {
-    hashBuffer = await window.crypto.subtle.digest('SHA-256', msgUint8); // hash the message
+  const msgUint8 = new TextEncoder().encode(message); // encode as (utf-8) Uint8Array
+    const hashBuffer = await window.crypto.subtle.digest('SHA-256', msgUint8); // hash the message
+    hashEncoded = arrayBufferToBase64(hashBuffer)
   }
   else {
-    // hashBuffer = await subtle.digest('SHA-256', msgUint8);
     const hash = crypto.createHash('sha256');
     hash.update(message);
-    hashBuffer = hash.digest();
+    hashEncoded = hash.digest('base64');
   }
-  return hashBuffer;
+  return hashEncoded;
 }
 /**
  * Generates a PKCE code challenge given the code verifier
@@ -47,8 +47,8 @@ export async function hashMessage(message: string) {
  */
 export async function generateCodeChallengeAsync(code_verifier: string): Promise<string> {
   // const msgUint8 = new TextEncoder().encode(code_verifier); // encode as (utf-8) Uint8Array
-  const hashBuffer = await hashMessage(code_verifier); // hash the message
-  const hashEncoded = arrayBufferToBase64(hashBuffer) // convert bytes to base64 string
+  const hashEncoded = await (await hashMessageToBase64(code_verifier) // hash the message
+  ) // hash the message
     .replace(/\+/g, '-')
     .replace(/\//g, '_')
     .replace(/=/g, '');
