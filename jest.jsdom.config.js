@@ -7,7 +7,6 @@ export default {
     },
   },
   testEnvironment: 'jsdom',
-  modulePathIgnorePatterns: ["PKCEUtils.test.ts"], // TODO: remove ignorePatterns
   reporters: ["default", ["jest-junit", { outputName: "junit-jsdom.xml" }]],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
