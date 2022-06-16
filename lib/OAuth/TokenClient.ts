@@ -182,10 +182,10 @@ export class TokenClient implements ITokenClient {
     const request: RequestInit = { method: 'POST' };
     const headers = this.getPostRequestHeaders(client_id, client_secret);
     const body = {
-        grant_type: 'refresh_token',
-        refresh_token: refreshToken,
-        client_id
-      };
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+      client_id
+    };
     const requestBody = this.objToWWWFormUrlEncodedBody(body);
     request.headers = headers;
     request.body = requestBody;
