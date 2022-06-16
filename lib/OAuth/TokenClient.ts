@@ -25,8 +25,8 @@ export interface ITokenClient {
    * @param code Authorization code
    * @param redirect_uri Authorization endpoint redirect uri
    * @param client_id OAuth application client id
-   * @param client_secret OPTIONAL OAuth application client secret
-   * @param code_verifier OPTIONAL PKCE code verifier
+   * @param client_secret OPTIONAL OAuth application client secret. Required for web apps.
+   * @param code_verifier OPTIONAL PKCE code verifier. Required for SPA apps.
    */
   getAccessTokenFromCode(code: string, redirect_uri: string, client_id: string, client_secret?: string, code_verifier?: string): Promise<GetAccessTokenResponse>;
 
@@ -34,7 +34,7 @@ export interface ITokenClient {
    * Gets a refreshed access token given a refresh token
    * @param refresh_token Refresh token
    * @param client_id OAuth application client id
-   * @param client_secret OPTIONAL OAuth application client secret
+   * @param client_secret OPTIONAL OAuth application client secret. Required for web apps.
    */
   refreshAccessToken(refresh_token: string, client_id: string, client_secret?: string): Promise<GetAccessTokenResponse>;
 }
@@ -53,7 +53,7 @@ export class TokenClient implements ITokenClient {
    * Gets a refreshed access token given a refresh token
    * @param refresh_token Refresh token
    * @param client_id OAuth application client id
-   * @param client_secret OPTIONAL OAuth application client secret
+   * @param client_secret OPTIONAL OAuth application client secret. Required for web apps.
    */
   async refreshAccessToken(refresh_token: string, client_id: string, client_secret?: string): Promise<GetAccessTokenResponse> {
     const request = this.createRefreshTokenRequest(refresh_token, client_id, client_secret);
@@ -75,8 +75,8 @@ export class TokenClient implements ITokenClient {
    * @param code Authorization code
    * @param redirect_uri Authorization endpoint redirect uri
    * @param client_id OAuth application client id
-   * @param client_secret OPTIONAL OAuth application client secret
-   * @param code_verifier OPTIONAL PKCE code verifier
+   * @param client_secret OPTIONAL OAuth application client secret. Required for web apps.
+   * @param code_verifier OPTIONAL PKCE code verifier. Required for SPA apps.
    */
   async getAccessTokenFromCode(code: string, redirect_uri: string, client_id: string, client_secret?: string, code_verifier?: string): Promise<GetAccessTokenResponse> {
     const request = this.createAuthorizationCodeTokenRequest(code, redirect_uri, client_id, code_verifier, client_secret);
