@@ -25,10 +25,10 @@ export interface ITokenClient {
    * @param code Authorization code
    * @param redirect_uri Authorization endpoint redirect uri
    * @param client_id OAuth application client id
-   * @param code_verifier OPTIONAL PKCE code verifier
    * @param client_secret OPTIONAL OAuth application client secret
+   * @param code_verifier OPTIONAL PKCE code verifier
    */
-  getAccessTokenFromCode(code: string, redirect_uri: string, client_id: string, code_verifier?: string, client_secret?: string): Promise<GetAccessTokenResponse>;
+  getAccessTokenFromCode(code: string, redirect_uri: string, client_id: string, client_secret?: string, code_verifier?: string): Promise<GetAccessTokenResponse>;
 
   /**getAccessTokenFromCode(code: string, redirect_uri: string, client_id: string, code_verifier?: string): Promise<GetAccessTokenResponse>;
    * Gets a refreshed access token given a refresh token
@@ -53,6 +53,7 @@ export class TokenClient implements ITokenClient {
    * Gets a refreshed access token given a refresh token
    * @param refresh_token Refresh token
    * @param client_id OAuth application client id
+   * @param client_secret OPTIONAL OAuth application client secret
    */
   async refreshAccessToken(refresh_token: string, client_id: string, client_secret?: string): Promise<GetAccessTokenResponse> {
     const request = this.createRefreshTokenRequest(refresh_token, client_id, client_secret);
@@ -74,9 +75,10 @@ export class TokenClient implements ITokenClient {
    * @param code Authorization code
    * @param redirect_uri Authorization endpoint redirect uri
    * @param client_id OAuth application client id
-   * @param code_verifier PKCE code verifier
+   * @param client_secret OPTIONAL OAuth application client secret
+   * @param code_verifier OPTIONAL PKCE code verifier
    */
-  async getAccessTokenFromCode(code: string, redirect_uri: string, client_id: string, code_verifier?: string, client_secret?: string): Promise<GetAccessTokenResponse> {
+  async getAccessTokenFromCode(code: string, redirect_uri: string, client_id: string, client_secret?: string, code_verifier?: string): Promise<GetAccessTokenResponse> {
     const request = this.createAuthorizationCodeTokenRequest(code, redirect_uri, client_id, code_verifier, client_secret);
     let url = this._baseUrl;
     const res: Response = await fetch(url, request);
