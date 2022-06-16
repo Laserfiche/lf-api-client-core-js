@@ -186,7 +186,6 @@ export class TokenClient implements ITokenClient {
         refresh_token: refreshToken,
         client_id
       };
-
     const requestBody = this.objToWWWFormUrlEncodedBody(body);
     request.headers = headers;
     request.body = requestBody;
