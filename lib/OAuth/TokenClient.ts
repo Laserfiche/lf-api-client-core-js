@@ -182,22 +182,15 @@ export class TokenClient implements ITokenClient {
     return request;
   }
 
-  private getPostRequestHeaders(client_id?: string, client_secret?: string) {
-    let headers: Record<string, string>;
+  private getPostRequestHeaders(client_id: string, client_secret?: string) {
+    const headers: Record<string, string> = {
+      'Content-Type': CONTENT_TYPE_WWW_FORM_URLENCODED
+    };
     if (client_secret) {
       const basicCredentials = client_id + ':' + client_secret;
       const encodedClientSecret = StringUtils.stringToBase64(basicCredentials);
-      headers = {
-        'Authorization': 'Basic ' + encodedClientSecret,
-        'Content-Type': CONTENT_TYPE_WWW_FORM_URLENCODED
-      };
+      headers['Authorization'] = 'Basic ' + encodedClientSecret;
     }
-    else {
-      headers = {
-        'Content-Type': CONTENT_TYPE_WWW_FORM_URLENCODED
-      };
-    }
-
     return headers;
   }
 
