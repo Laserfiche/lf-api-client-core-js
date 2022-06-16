@@ -201,5 +201,4 @@ export class TokenClient implements ITokenClient {
     }
     return urlSearchParams.toString();
   }
-
 }
