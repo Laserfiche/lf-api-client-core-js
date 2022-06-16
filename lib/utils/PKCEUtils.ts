@@ -21,16 +21,14 @@ export function generateCodeVerifier(): string {
  * @returns The PKCE code challenge
  */
 export async function generateCodeChallengeAsync(code_verifier: string): Promise<string> {
-  // const msgUint8 = new TextEncoder().encode(code_verifier); // encode as (utf-8) Uint8Array
-  const hashEncoded = await (await hashMessageToBase64(code_verifier) // hash the message
-  ) // hash the message
+  const base64CodeVerifierHash = (await createBase64SHA256Hash(code_verifier))
     .replace(/\+/g, '-')
     .replace(/\//g, '_')
     .replace(/=/g, '');
-  return hashEncoded;
+  return base64CodeVerifierHash;
 }
 
-// TODO: move to js utils?
+// Generates random array
 function generateRandomValuesFromArray(array: Uint8Array): Uint8Array {
   let randomArray;
   if (CoreUtils.isBrowser()) {
@@ -42,11 +40,10 @@ function generateRandomValuesFromArray(array: Uint8Array): Uint8Array {
   return randomArray;
 }
 
-// TODO: move to js utils?
-async function hashMessageToBase64(message: string) {
+async function createBase64SHA256Hash(message: string) {
   let hashEncoded;
   if (CoreUtils.isBrowser()) {
-  const msgUint8 = new TextEncoder().encode(message); // encode as (utf-8) Uint8Array
+    const msgUint8 = new TextEncoder().encode(message); // encode as (utf-8) Uint8Array
     const hashBuffer = await window.crypto.subtle.digest('SHA-256', msgUint8); // hash the message
     hashEncoded = StringUtils.arrayBufferToBase64(hashBuffer)
   }
