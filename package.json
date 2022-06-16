@@ -1,12 +1,13 @@
 {
   "name": "@laserfiche/lf-api-client-core",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "type": "module",
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --rootDir=lib --config jest.node.config.js",
@@ -22,6 +23,10 @@
   "author": "Laserfiche",
   "url": "https://www.laserfiche.com/",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Laserfiche/lf-api-client-core-js"
+  },
   "devDependencies": {
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/jest": "^27.0.3",
