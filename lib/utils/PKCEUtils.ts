@@ -7,7 +7,7 @@ import crypto from "crypto";
 export function generateCodeVerifier(): string {
   const array = new Uint8Array(25);
   const randomString = generateRandomValuesFromArray(array);
-  const code_verifier_raw = Array.from(randomString, dec2base64).join('');
+  const code_verifier_raw = Array.from(randomString, StringUtils.base10ToBase16).join('');
   const code_verifier = StringUtils.stringToBase64(code_verifier_raw)
     .replace(/\+/g, '-')
     .replace(/\//g, '_')
@@ -15,31 +15,6 @@ export function generateCodeVerifier(): string {
   return code_verifier;
 }
 
-export function generateRandomValuesFromArray(array: Uint8Array): Uint8Array {
-  let randomArray;
-  if (CoreUtils.isBrowser()) {
-    randomArray = window.crypto.getRandomValues(array);
-  }
-  else {
-    randomArray = crypto.randomBytes(array.length)
-  }
-  return randomArray;
-}
-
-export async function hashMessageToBase64(message: string) {
-  let hashEncoded;
-  if (CoreUtils.isBrowser()) {
-  const msgUint8 = new TextEncoder().encode(message); // encode as (utf-8) Uint8Array
-    const hashBuffer = await window.crypto.subtle.digest('SHA-256', msgUint8); // hash the message
-    hashEncoded = arrayBufferToBase64(hashBuffer)
-  }
-  else {
-    const hash = crypto.createHash('sha256');
-    hash.update(message);
-    hashEncoded = hash.digest('base64');
-  }
-  return hashEncoded;
-}
 /**
  * Generates a PKCE code challenge given the code verifier
  * @param code_verifier
@@ -55,19 +30,30 @@ export async function generateCodeChallengeAsync(code_verifier: string): Promise
   return hashEncoded;
 }
 
-
-// TODO: move to js utils
-function arrayBufferToBase64(buffer: ArrayBuffer) {
-  var binary = '';
-  var bytes = new Uint8Array(buffer);
-  var len = bytes.byteLength;
-  for (var i = 0; i < len; i++) {
-      binary += String.fromCharCode(bytes[i]);
+// TODO: move to js utils?
+function generateRandomValuesFromArray(array: Uint8Array): Uint8Array {
+  let randomArray;
+  if (CoreUtils.isBrowser()) {
+    randomArray = window.crypto.getRandomValues(array);
   }
-  return StringUtils.stringToBase64(binary);
+  else {
+    randomArray = crypto.randomBytes(array.length)
+  }
+  return randomArray;
 }
 
-// TODO: move to js-utils
-function dec2base64(dec: number) {
-  return dec.toString(16).padStart(2, "0");
+// TODO: move to js utils?
+async function hashMessageToBase64(message: string) {
+  let hashEncoded;
+  if (CoreUtils.isBrowser()) {
+  const msgUint8 = new TextEncoder().encode(message); // encode as (utf-8) Uint8Array
+    const hashBuffer = await window.crypto.subtle.digest('SHA-256', msgUint8); // hash the message
+    hashEncoded = StringUtils.arrayBufferToBase64(hashBuffer)
+  }
+  else {
+    const hash = crypto.createHash('sha256');
+    hash.update(message);
+    hashEncoded = hash.digest('base64');
+  }
+  return hashEncoded;
 }
