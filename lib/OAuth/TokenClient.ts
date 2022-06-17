@@ -3,6 +3,7 @@ import { AccessKey } from './AccessKey.js';
 import { GetAccessTokenResponse } from './GetAccessTokenResponse.js';
 import { getOauthTokenUrl } from '../utils/DomainUtils.js';
 import { HTTPError } from '../HttpError.js';
+import { StringUtils } from '@laserfiche/lf-js-utils';
 
 const CONTENT_TYPE_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
 
@@ -23,16 +24,18 @@ export interface ITokenClient {
    * @param code Authorization code
    * @param redirect_uri Authorization endpoint redirect uri
    * @param client_id OAuth application client id
-   * @param code_verifier PKCE code verifier
+   * @param client_secret OPTIONAL OAuth application client secret. Required for web apps.
+   * @param code_verifier OPTIONAL PKCE code verifier. Required for SPA apps.
    */
-  getAccessTokenFromCode(code: string, redirect_uri: string, client_id: string, code_verifier?: string): Promise<GetAccessTokenResponse>;
+  getAccessTokenFromCode(code: string, redirect_uri: string, client_id: string, client_secret?: string, code_verifier?: string): Promise<GetAccessTokenResponse>;
 
-  /**
+  /**getAccessTokenFromCode(code: string, redirect_uri: string, client_id: string, code_verifier?: string): Promise<GetAccessTokenResponse>;
    * Gets a refreshed access token given a refresh token
    * @param refresh_token Refresh token
    * @param client_id OAuth application client id
+   * @param client_secret OPTIONAL OAuth application client secret. Required for web apps.
    */
-  refreshAccessToken(refresh_token: string, client_id: string): Promise<GetAccessTokenResponse>;
+  refreshAccessToken(refresh_token: string, client_id: string, client_secret?: string): Promise<GetAccessTokenResponse>;
 }
 
 /**
@@ -49,9 +52,10 @@ export class TokenClient implements ITokenClient {
    * Gets a refreshed access token given a refresh token
    * @param refresh_token Refresh token
    * @param client_id OAuth application client id
+   * @param client_secret OPTIONAL OAuth application client secret. Required for web apps.
    */
-  async refreshAccessToken(refresh_token: string, client_id: string): Promise<GetAccessTokenResponse> {
-    const request = this.createRefreshTokenRequest(refresh_token, client_id);
+  async refreshAccessToken(refresh_token: string, client_id: string, client_secret?: string): Promise<GetAccessTokenResponse> {
+    const request = this.createRefreshTokenRequest(refresh_token, client_id, client_secret);
     let url = this._baseUrl;
     const res: Response = await fetch(url, request);
     if (res.status === 200) {
@@ -70,10 +74,11 @@ export class TokenClient implements ITokenClient {
    * @param code Authorization code
    * @param redirect_uri Authorization endpoint redirect uri
    * @param client_id OAuth application client id
-   * @param code_verifier PKCE code verifier
+   * @param client_secret OPTIONAL OAuth application client secret. Required for web apps.
+   * @param code_verifier OPTIONAL PKCE code verifier. Required for SPA apps.
    */
-  async getAccessTokenFromCode(code: string, redirect_uri: string, client_id: string, code_verifier?: string): Promise<GetAccessTokenResponse> {
-    const request = this.createAuthorizationCodeTokenRequest(code, redirect_uri, client_id, code_verifier);
+  async getAccessTokenFromCode(code: string, redirect_uri: string, client_id: string, client_secret?: string, code_verifier?: string): Promise<GetAccessTokenResponse> {
+    const request = this.createAuthorizationCodeTokenRequest(code, redirect_uri, client_id, code_verifier, client_secret);
     let url = this._baseUrl;
     const res: Response = await fetch(url, request);
     if (res.status === 200) {
@@ -144,15 +149,17 @@ export class TokenClient implements ITokenClient {
     }
   }
 
-  private createAuthorizationCodeTokenRequest(code: string, redirect_uri: string, client_id: string, code_verifier?: string): RequestInit {
+  private createAuthorizationCodeTokenRequest(code: string, redirect_uri: string, client_id: string, code_verifier?: string, client_secret?: string): RequestInit {
     const request: RequestInit = { method: 'POST' };
-    const headers = this.getPostRequestHeaders();
-    const body = {
+    const headers = this.getPostRequestHeaders(client_id, client_secret);
+    const body: any = {
       grant_type: 'authorization_code',
       code,
       redirect_uri,
       client_id,
-      code_verifier
+    }
+    if (code_verifier) {
+      body['code_verifier'] = code_verifier;
     };
     const requestBody = this.objToWWWFormUrlEncodedBody(body);
     request.headers = headers;
@@ -160,9 +167,9 @@ export class TokenClient implements ITokenClient {
     return request;
   }
 
-  private createRefreshTokenRequest(refreshToken: string, client_id: string): RequestInit {
+  private createRefreshTokenRequest(refreshToken: string, client_id: string, client_secret?: string): RequestInit {
     const request: RequestInit = { method: 'POST' };
-    const headers = this.getPostRequestHeaders();
+    const headers = this.getPostRequestHeaders(client_id, client_secret);
     const body = {
       grant_type: 'refresh_token',
       refresh_token: refreshToken,
@@ -174,11 +181,15 @@ export class TokenClient implements ITokenClient {
     return request;
   }
 
-  private getPostRequestHeaders() {
+  private getPostRequestHeaders(client_id: string, client_secret?: string) {
     const headers: Record<string, string> = {
       'Content-Type': CONTENT_TYPE_WWW_FORM_URLENCODED
     };
-
+    if (client_secret) {
+      const basicCredentials = client_id + ':' + client_secret;
+      const encodedClientSecret = StringUtils.stringToBase64(basicCredentials);
+      headers['Authorization'] = 'Basic ' + encodedClientSecret;
+    }
     return headers;
   }
 
