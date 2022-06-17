@@ -1,5 +1,6 @@
 import { CoreUtils, StringUtils } from "@laserfiche/lf-js-utils";
-import crypto from "crypto";
+import * as crypto from "crypto";
+
 /**
  * Generates a random PKCE code verifier
  * @returns PKCE code verifier
@@ -48,7 +49,7 @@ async function createBase64SHA256Hash(message: string) {
     hashEncoded = StringUtils.arrayBufferToBase64(hashBuffer)
   }
   else {
-    const hash = crypto.createHash('sha256');
+    const hash = (crypto as any).createHash('sha256');
     hash.update(message);
     hashEncoded = hash.digest('base64');
   }
