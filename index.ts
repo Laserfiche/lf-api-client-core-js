@@ -8,6 +8,5 @@ export { GetAccessTokenResponse, AccessKey, OAuthClientCredentialsHandler, HttpR
 export * as JwtUtils from './lib/utils/JwtUtils.js';
 export * as DomainUtils from './lib/utils/DomainUtils.js';
 export * as PKCEUtils from './lib/utils/PKCEUtils.js';
-export { TokenClient };
 export { HTTPError, HTTPError_NAME };
 
