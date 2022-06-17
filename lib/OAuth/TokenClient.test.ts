@@ -1,6 +1,7 @@
 import { OAuthAccessKey, testServicePrincipalKey } from '../../testHelper.js';
 import { GetAccessTokenResponse } from './GetAccessTokenResponse.js';
 import { TokenClient } from './TokenClient.js';
+import "isomorphic-fetch";
 
 describe('getAccessTokenFromServicePrincipal', () => {
   let inst: TokenClient;

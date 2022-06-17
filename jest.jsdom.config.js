@@ -9,6 +9,7 @@ export default {
   testEnvironment: 'jsdom',
   modulePathIgnorePatterns: ["PKCEUtils.test.ts"], // TODO: remove ignorePatterns
   reporters: ["default", ["jest-junit", { outputName: "junit-jsdom.xml" }]],
+  testTimeout:200000,
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
   }
