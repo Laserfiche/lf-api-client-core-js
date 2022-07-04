@@ -1,6 +1,6 @@
 {
   "name": "@laserfiche/lf-api-client-core",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -44,7 +44,7 @@
   "dependencies": {
     "@laserfiche/lf-js-utils": "^4.0.2",
     "dotenv": "^16.0.1",
-    "jsrsasign": "^10.5.13",
+    "jsrsasign": "^10.5.25",
     "jsrsasign-util": "^1.0.5"
   }
 }
