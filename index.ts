@@ -4,7 +4,8 @@ import { OAuthClientCredentialsHandler } from './lib/HttpHandlers/OAuthClientCre
 import { HttpRequestHandler } from './lib/HttpHandlers/HttpRequestHandler.js';
 import { TokenClient } from './lib/OAuth/TokenClient.js';
 import { HTTPError, HTTPError_NAME } from './lib/HttpError.js';
-export { GetAccessTokenResponse, AccessKey, OAuthClientCredentialsHandler, HttpRequestHandler };
+import { BeforeFetchResult } from './lib/HttpHandlers/BeforeFetchResult.js';
+export { GetAccessTokenResponse, AccessKey, OAuthClientCredentialsHandler, HttpRequestHandler, BeforeFetchResult };
 export * as JwtUtils from './lib/utils/JwtUtils.js';
 export * as DomainUtils from './lib/utils/DomainUtils.js';
 export * as PKCEUtils from './lib/utils/PKCEUtils.js';
