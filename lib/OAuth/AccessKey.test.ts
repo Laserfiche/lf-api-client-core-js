@@ -33,12 +33,12 @@ describe('AccessKey', () => {
     expect(expectedDecodedAccessKey.jwk.iat).toBe(decodedAccessKey.jwk.iat);
   });
 
-  test.each([['YXNkYXNkYXNkYXNkYWQ='], ['你好你'], ['"This is a \"string\" in JS"']])(
+  test.each([['YXNkYXNkYXNkYXNkYWQ='], ['你好你好'], ['"This is a \"string\" in JS"']])(
     'create from base 64 encoded access key -> %s',
     (base64EncodedAccessKey) => {
       expect(() => {
         AccessKey.createFromBase64EncodedAccessKey(base64EncodedAccessKey);
-      }).toThrow(`${Object.keys({ base64EncodedAccessKey })} is not valid`);
+      }).toThrow(`${Object.keys({ base64EncodedAccessKey })} is not valid` || `The string to be decoded contains invalid characters.`);
     }
   );
 
