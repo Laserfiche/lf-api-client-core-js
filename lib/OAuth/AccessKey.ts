@@ -30,8 +30,8 @@ export class AccessKey implements IAccessKey {
     if (!base64EncodedAccessKey.trim()) {
       throw new Error('Base 64 Encoded Access Key cannot be null or empty');
     }
-    let accessKeyStr: string = StringUtils.base64toString(base64EncodedAccessKey) ?? '';
     try {
+      let accessKeyStr: string = StringUtils.base64toString(base64EncodedAccessKey) ?? '';
       let accessKey: IAccessKey = JSON.parse(accessKeyStr);
       return accessKey;
     } catch (err) {

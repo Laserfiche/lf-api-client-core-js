@@ -38,7 +38,7 @@ describe('AccessKey', () => {
     (base64EncodedAccessKey) => {
       expect(() => {
         AccessKey.createFromBase64EncodedAccessKey(base64EncodedAccessKey);
-      }).toThrow(`${Object.keys({ base64EncodedAccessKey })} is not valid` || `The string to be decoded contains invalid characters.`);
+      }).toThrow(`${Object.keys({ base64EncodedAccessKey })} is not valid`);
     }
   );
 
