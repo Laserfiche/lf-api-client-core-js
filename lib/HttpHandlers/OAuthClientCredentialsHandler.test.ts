@@ -1,16 +1,16 @@
 import { OAuthAccessKey, testServicePrincipalKey } from '../../testHelper.js';
 import { BeforeFetchResult } from './BeforeFetchResult.js';
 import { OAuthClientCredentialsHandler } from './OAuthClientCredentialsHandler.js';
-import { AccessKey } from '../OAuth/AccessKey.js';
+import { IAccessKey } from '../OAuth/AccessKey.js';
 import "isomorphic-fetch";
 
 describe('OAuthClientCredentialsHandler', () => {
   test('Empty service principal key throws exception', () => {
-    expect(() => new OAuthClientCredentialsHandler('', {} as AccessKey)).toThrow();
+    expect(() => new OAuthClientCredentialsHandler('', {} as IAccessKey)).toThrow();
   });
 
   test('Malformed access key throws exception', () => {
-    expect(() => new OAuthClientCredentialsHandler('blah', {} as AccessKey)).toThrow();
+    expect(() => new OAuthClientCredentialsHandler('blah', {} as IAccessKey)).toThrow();
   });
 
   test('Correct config returns handler', () => {
