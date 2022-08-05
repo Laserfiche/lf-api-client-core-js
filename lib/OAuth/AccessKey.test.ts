@@ -33,7 +33,7 @@ describe('AccessKey', () => {
     expect(expectedDecodedAccessKey.jwk.iat).toBe(decodedAccessKey.jwk.iat);
   });
 
-  test.each([['YXNkYXNkYXNkYXNkYWQ='], ['你好你好'], ['"This is a \"string\" in JS"']])(
+  test.each([['YXNkYXNkYXNkYXNkYWQ='], ['你好你好'], ['"This is a \"string\" in JS"'], ["c\nc"], ["😀 😃 😄 😁"]])(
     'create from base 64 encoded access key -> %s',
     (base64EncodedAccessKey) => {
       expect(() => {
@@ -42,7 +42,7 @@ describe('AccessKey', () => {
     }
   );
 
-  test.each([[''], ['     ']])(
+  test.each([[''], ['     '], ['\n']])(
     'create from base 64 encoded access key -> \'%s\'',
     (base64EncodedAccessKey) => {
       expect(() => {
