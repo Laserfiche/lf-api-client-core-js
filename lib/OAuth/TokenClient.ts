@@ -1,5 +1,5 @@
 import { KEYUTIL, KJUR } from 'jsrsasign';
-import { IAccessKey } from './AccessKey.js';
+import { AccessKey } from './AccessKey.js';
 import { GetAccessTokenResponse } from './GetAccessTokenResponse.js';
 import { getOauthTokenUrl } from '../utils/DomainUtils.js';
 import { HTTPError } from '../HttpError.js';
@@ -17,7 +17,7 @@ export interface ITokenClient {
    * @param servicePrincipalKey Laserfiche cloud service principal key
    * @param accessKey OAuth service application access key
    */
-  getAccessTokenFromServicePrincipal(servicePrincipalKey: string, accessKey: IAccessKey): Promise<GetAccessTokenResponse>;
+  getAccessTokenFromServicePrincipal(servicePrincipalKey: string, accessKey: AccessKey): Promise<GetAccessTokenResponse>;
 
   /**
    * Gets an OAuth access token given an OAuth code
@@ -97,7 +97,7 @@ export class TokenClient implements ITokenClient {
    * @param servicePrincipalKey Laserfiche cloud service principal key
    * @param accessKey OAuth service application access key
    */
-  async getAccessTokenFromServicePrincipal(servicePrincipalKey: string, accessKey: IAccessKey): Promise<GetAccessTokenResponse> {
+  async getAccessTokenFromServicePrincipal(servicePrincipalKey: string, accessKey: AccessKey): Promise<GetAccessTokenResponse> {
     let currentTime: any = new Date(); // the current time in milliseconds
     let now: number = currentTime / 1000;
     let expire: number = currentTime / 1000 + 3600;

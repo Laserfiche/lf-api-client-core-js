@@ -1,12 +1,12 @@
 import { HttpRequestHandler } from './HttpRequestHandler.js';
 import { TokenClient } from '../OAuth/TokenClient.js';
-import { IAccessKey } from '../OAuth/AccessKey.js';
+import { AccessKey } from '../OAuth/AccessKey.js';
 import { BeforeFetchResult } from './BeforeFetchResult.js';
 
 export class OAuthClientCredentialsHandler implements HttpRequestHandler {
   // A valid JWK access key taken from the Laserfiche Developer Console
   // config page for your application.
-  private _accessKey: IAccessKey;
+  private _accessKey: AccessKey;
   private _tokenClient: TokenClient;
   private _accessToken: string | undefined;
 
@@ -16,7 +16,7 @@ export class OAuthClientCredentialsHandler implements HttpRequestHandler {
   // "Service Principals"
   private _servicePrincipalKey: string;
 
-  public constructor(servicePrincipalKey: string, accessKey: IAccessKey) {
+  public constructor(servicePrincipalKey: string, accessKey: AccessKey) {
     if (!servicePrincipalKey) throw new Error('Service principal key cannot be blank.');
 
     this._accessKey = accessKey;

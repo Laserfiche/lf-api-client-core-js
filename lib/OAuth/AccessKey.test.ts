@@ -1,4 +1,4 @@
-import { AccessKey, IAccessKey } from './AccessKey';
+import { AccessKeyImpl, AccessKey } from './AccessKey';
 import { JWK } from './JWK';
 
 describe('AccessKey', () => {
@@ -16,10 +16,14 @@ describe('AccessKey', () => {
       d: 'B1oAZHCPP2Ic03fhRuXVKQpEpQdM5bqqbK7iKQU-4Uh',
       iat: 1659632705,
     };
-    let expectedDecodedAccessKey: IAccessKey = new AccessKey(customerId, clientId, domain, jwk);
+    let expectedDecodedAccessKey: AccessKey = new AccessKeyImpl();
+    expectedDecodedAccessKey.clientId = clientId;
+    expectedDecodedAccessKey.customerId = customerId;
+    expectedDecodedAccessKey.domain = domain;
+    expectedDecodedAccessKey.jwk = jwk; 
     let base64EncodedAccessKey: string =
       'ewoJImN1c3RvbWVySWQiOiAiNzIxNTE4OTYzNCIsCgkiY2xpZW50SWQiOiAiVjVncUh4a3ppaFpLZFFUU2M2REZZbmtkIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogIl9wa194TTVWQ3FFTkQ2T1VMcl9ETllzLUdlZ0FVSndMQlA5bHlGZW5BTWgiLAoJCSJ4IjogIjBDZk1XWDZ5T21ObzdGX2ttOG52OFNBa1FQVXpEdzA2TGtuTnpYYWR3VFMiLAoJCSJ5IjogImdmTnMtSkE5djBpVzlzcVVBZEhmWHE4WlNBc1l4SWtZUnhPSDk0Y0hsYWwiLAoJCSJkIjogIkIxb0FaSENQUDJJYzAzZmhSdVhWS1FwRXBRZE01YnFxYks3aUtRVS00VWgiLAoJCSJpYXQiOiAxNjU5NjMyNzA1Cgl9Cn0=';
-    let decodedAccessKey: IAccessKey = AccessKey.createFromBase64EncodedAccessKey(base64EncodedAccessKey);
+    let decodedAccessKey: AccessKey = AccessKeyImpl.createFromBase64EncodedAccessKey(base64EncodedAccessKey);
     expect(expectedDecodedAccessKey.clientId).toBe(decodedAccessKey.clientId);
     expect(expectedDecodedAccessKey.customerId).toBe(decodedAccessKey.customerId);
     expect(expectedDecodedAccessKey.domain).toBe(decodedAccessKey.domain);
@@ -37,14 +41,14 @@ describe('AccessKey', () => {
     'create from base 64 encoded access key -> %s',
     (base64EncodedAccessKey) => {
       expect(() => {
-        AccessKey.createFromBase64EncodedAccessKey(base64EncodedAccessKey);
+        AccessKeyImpl.createFromBase64EncodedAccessKey(base64EncodedAccessKey);
       }).toThrow(`${Object.keys({ base64EncodedAccessKey })} is not valid`);
     }
   );
 
   test.each([[''], ['     '], ['\n']])("create from base 64 encoded access key -> '%s'", (base64EncodedAccessKey) => {
     expect(() => {
-      AccessKey.createFromBase64EncodedAccessKey(base64EncodedAccessKey);
+      AccessKeyImpl.createFromBase64EncodedAccessKey(base64EncodedAccessKey);
     }).toThrow('Base 64 Encoded Access Key cannot be null or empty');
   });
 });
