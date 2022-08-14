@@ -15,23 +15,14 @@ export interface AccessKey {
   jwk: JWK;
 }
 
-
-export class AccessKeyImpl implements AccessKey {
-  customerId: string = '';
-  clientId: string = '';
-  domain: string = '';
-  jwk:JWK = {} as JWK;
-
-  static createFromBase64EncodedAccessKey(base64EncodedAccessKey: string): AccessKey {
-    if (!base64EncodedAccessKey.trim()) {
-      throw new Error('Base 64 Encoded Access Key cannot be null or empty');
-    }
-    try {
-      let accessKeyStr: string = StringUtils.base64toString(base64EncodedAccessKey) ?? '';
-      let accessKey: AccessKey = JSON.parse(accessKeyStr);
-      return accessKey;
-    } catch (err) {
-      throw new SyntaxError(`${Object.keys({ base64EncodedAccessKey })} is not valid`);
-    }
+/**
+ * Creates an AccessKey given a base64Encoded AccessKey
+ */
+export function createFromBase64EncodedAccessKey(base64EncodedAccessKey: string): AccessKey {
+  const accessKeyStr: string = StringUtils.base64toString(base64EncodedAccessKey);
+  const accessKey = JSON.parse(accessKeyStr);
+  if (!accessKey?.jwk?.kid) {
+    throw new Error('base64EncodedAccessKey cannot be parsed.');
   }
+  return accessKey;
 }
