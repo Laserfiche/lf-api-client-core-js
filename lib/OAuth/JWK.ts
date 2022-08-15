@@ -1,3 +1,6 @@
+/**
+ * JSON Web Key
+ */
 export interface JWK {
   kty: 'EC' | string;
   use: 'sig' | string;
