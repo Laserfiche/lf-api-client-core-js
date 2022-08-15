@@ -5,7 +5,7 @@ describe('createFromBase64EncodedAccessKey', () => {
     // Arrange
     const expectedAccessKey: AccessKey = {
       customerId: '7215189634',
-      clientId: 'V5gqHxkzihZKdQTSc6DFYnkd',      
+      clientId: 'V5gqHxkzihZKdQTSc6DFYnkd',
       domain: 'laserfiche.ca',
       jwk: {
         kty: 'EC',
@@ -29,7 +29,6 @@ describe('createFromBase64EncodedAccessKey', () => {
     //Assert
     const accessKeyJSON: string = JSON.stringify(expectedAccessKey);
     const decodedAccessKeyJSON: string = JSON.stringify(decodedAccessKey);
-    console.log(decodedAccessKeyJSON);
     expect(decodedAccessKeyJSON).toBe(accessKeyJSON);
   });
 
@@ -47,8 +46,8 @@ describe('createFromBase64EncodedAccessKey', () => {
       try {
         createFromBase64EncodedAccessKey(base64EncodedAccessKey);
         return false;
-      } catch (err : any) {
-        const msg : string | undefined = err?.message;
+      } catch (err: any) {
+        const msg: string | undefined = err?.message;
         return msg?.includes('Unexpected') && msg?.includes('JSON');
       }
     }).toBeTruthy();
