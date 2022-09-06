@@ -30,7 +30,7 @@ export function createFromBase64EncodedAccessKey(base64EncodedAccessKey: string)
 
 /**
  * Create OAuth 2.0 client_credentials Authorization JWT that can be used with Laserfiche Token endpoint to request an Access Token.
- * @param servicePrincipalKey
+ * @param servicePrincipalKey Service Principal Key
  * @param accessKey AccessKey JSON object or base64 encoded AccessKey
  * @returns Authorization JWT with a one hour expiration.
  */

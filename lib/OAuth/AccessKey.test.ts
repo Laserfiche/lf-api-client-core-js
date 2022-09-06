@@ -1,5 +1,5 @@
 import { createFromBase64EncodedAccessKey, createClientCredentialsAuthorizationJwt, AccessKey } from './AccessKey';
-import { TokenClient } from './TokenClient';
+import { parseAccessToken } from '../utils/JwtUtils';
 
 describe('createFromBase64EncodedAccessKey', () => {
   test('createFromBase64EncodedAccessKey successfully parses base 64 string', () => {
@@ -80,7 +80,7 @@ describe('createClientCredentialsAuthorizationJwt', () => {
     const authorizationToken: string = createClientCredentialsAuthorizationJwt(servicePrincipalKey, accessKey);
 
     //Assert
-    expect(authorizationToken.length).toBeGreaterThan(10);
+    expect(isValidJWT(authorizationToken)).toBeTruthy();
   });
 
   test('createClientCredentialsAuthorizationJwt successfully creates Client Credentials Authorization Jwt from Base64EncodedAccessKey', async () => {
@@ -97,6 +97,20 @@ describe('createClientCredentialsAuthorizationJwt', () => {
     );
 
     //Assert
-    expect(authorizationToken.length).toBeGreaterThan(10);
+    expect(isValidJWT(authorizationToken)).toBeTruthy();
+  });
+
+  test('createClientCredentialsAuthorizationJwt fails to create Client Credentials Authorization Jwt from bad Base64EncodedAccessKey', async () => {
+    // Arrange
+    const base64EncodedAccessKey: string = 'ewo_BAD_2';
+    const servicePrincipalKey = '_FAKE_2rrr1A_C_22'; //Not an active key
+
+    //Act - Assert
+    expect(() => createClientCredentialsAuthorizationJwt(servicePrincipalKey, base64EncodedAccessKey)).toThrow();
   });
 });
+
+function isValidJWT(jwt: string): boolean {
+  const jwtObj = parseAccessToken(jwt);
+  return jwtObj && !!jwtObj.header && !!jwtObj.payload && !!jwtObj.signature;
+}
