@@ -1,11 +1,11 @@
 import { GetAccessTokenResponse } from './lib/OAuth/GetAccessTokenResponse.js';
-import { createFromBase64EncodedAccessKey, AccessKey } from './lib/OAuth/AccessKey.js';
+import { createFromBase64EncodedAccessKey, createClientCredentialsAuthorizationJwt, AccessKey } from './lib/OAuth/AccessKey.js';
 import { OAuthClientCredentialsHandler } from './lib/HttpHandlers/OAuthClientCredentialsHandler.js';
 import { HttpRequestHandler } from './lib/HttpHandlers/HttpRequestHandler.js';
 import { TokenClient } from './lib/OAuth/TokenClient.js';
 import { HTTPError, HTTPError_NAME } from './lib/HttpError.js';
 import { BeforeFetchResult } from './lib/HttpHandlers/BeforeFetchResult.js';
-export { GetAccessTokenResponse, createFromBase64EncodedAccessKey, AccessKey, OAuthClientCredentialsHandler, HttpRequestHandler, BeforeFetchResult };
+export { GetAccessTokenResponse, createFromBase64EncodedAccessKey, createClientCredentialsAuthorizationJwt as createClientCredentials, AccessKey, OAuthClientCredentialsHandler, HttpRequestHandler, BeforeFetchResult };
 export * as JwtUtils from './lib/utils/JwtUtils.js';
 export * as DomainUtils from './lib/utils/DomainUtils.js';
 export * as PKCEUtils from './lib/utils/PKCEUtils.js';

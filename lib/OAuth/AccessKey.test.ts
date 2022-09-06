@@ -1,4 +1,5 @@
-import { createFromBase64EncodedAccessKey, AccessKey } from './AccessKey';
+import { createFromBase64EncodedAccessKey, createClientCredentialsAuthorizationJwt, AccessKey } from './AccessKey';
+import { parseAccessToken } from '../utils/JwtUtils';
 
 describe('createFromBase64EncodedAccessKey', () => {
   test('createFromBase64EncodedAccessKey successfully parses base 64 string', () => {
@@ -53,3 +54,63 @@ describe('createFromBase64EncodedAccessKey', () => {
     }).toBeTruthy();
   });
 });
+
+describe('createClientCredentialsAuthorizationJwt', () => {
+  test('createClientCredentialsAuthorizationJwt successfully creates Client Credentials Authorization Jwt', async () => {
+    // Arrange
+    const accessKey: AccessKey = {
+      customerId: '122222222',
+      clientId: 'b2c235cc-2f52-414c-9d4e-3a6b58bf79da',
+      domain: 'a.clouddev.laserfiche.com',
+      jwk: {
+        kty: 'EC',
+        crv: 'P-256',
+        use: 'sig',
+        kid: 'ihX3QNlrwa7S9ykIuGRgIw2J2IFro5VkvFU4BKq-BY4',
+        x: '8TF14AaUHUQJM45iNx0yI-Q11egegVQrWsOwLj0SqlQ',
+        y: 'Odo8vq4jW6hGZRC5_Q7n_tbtBZK-EkpVpbKrUKRUKN0',
+        d: '_ncf4tfr8p55p1UxYf359DxZ2y3PaDBeDWmzIWiJApw',
+        iat: 1662154221,
+      },
+    };
+
+    const servicePrincipalKey = '-_FAKE_2rrr1A_C_22'; //Not an active key
+
+    //Act
+    const authorizationToken: string = createClientCredentialsAuthorizationJwt(servicePrincipalKey, accessKey);
+
+    //Assert
+    expect(isValidJWT(authorizationToken)).toBeTruthy();
+  });
+
+  test('createClientCredentialsAuthorizationJwt successfully creates Client Credentials Authorization Jwt from Base64EncodedAccessKey', async () => {
+    // Arrange
+    const base64EncodedAccessKey: string =
+      'ewoJImN1c2RvbWVySWQiOiAiMTIzNDU2Nzg5IiwKCSJjbGllbnRJZCI6ICJiMmMyMTVjYy0yZjUyLTQxNGItOWQ0ZS0zYTZiNThiZjc5ZGEiLAoJImRvbWFpbiI6ICJhLmNsb3VkZGV2Lmxhc2VyZmljaGUuY29tIiwKCSJqd2siOiB7CgkJImt0eSI6ICJFQyIsCgkJImNydiI6ICJQLTI1NiIsCgkJInVzZSI6ICJzaWciLAoJCSJraWQiOiAiaWhYM1FObHJ3YTdTOXlrSXVHUmdJdzJKMklGcm81Vmt2RlU0QktxLUJZNCIsCgkJIngiOiAiOFRGMTRBYVVIVVFKTTQ1aU54MHlJLVExMWdnZWdWUXJXc093TGowU3FsUSIsCgkJInkiOiAiT2RvOHZxNGpXNmhHWlJDNV9RN25fdGJ0QlpLLUVrcFZwYktyVUtSVUtOMCIsCgkJImQiOiAiX25jZjR0ZnI4cDU1cDFVeFlmMzU5RHhaM3kzUGFEQmVEV216SVdpSkFwdyIsCgkJImlhdCI6IDE2NjIxNTQyMjEKCX0KfQ==';
+
+    const servicePrincipalKey = '_FAKE_2rrr1A_C_22'; //Not an active key
+
+    //Act
+    const authorizationToken: string = createClientCredentialsAuthorizationJwt(
+      servicePrincipalKey,
+      base64EncodedAccessKey
+    );
+
+    //Assert
+    expect(isValidJWT(authorizationToken)).toBeTruthy();
+  });
+
+  test('createClientCredentialsAuthorizationJwt fails to create Client Credentials Authorization Jwt from bad Base64EncodedAccessKey', async () => {
+    // Arrange
+    const base64EncodedAccessKey: string = 'ewo_BAD_2';
+    const servicePrincipalKey = '_FAKE_2rrr1A_C_22'; //Not an active key
+
+    //Act - Assert
+    expect(() => createClientCredentialsAuthorizationJwt(servicePrincipalKey, base64EncodedAccessKey)).toThrow();
+  });
+});
+
+function isValidJWT(jwt: string): boolean {
+  const jwtObj = parseAccessToken(jwt);
+  return jwtObj && !!jwtObj.header && !!jwtObj.payload && !!jwtObj.signature;
+}
