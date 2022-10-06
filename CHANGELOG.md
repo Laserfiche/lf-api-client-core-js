@@ -1,9 +1,9 @@
-## 2.0.0
+## 1.0.12
 
 ### Features
 
 ### Fixes
-- **[BREAKING]** `jwtUtils`:
+- **[BREAKING]** `JwtUtils`:
   - add `regionalDomain`, `oauthAuthorizeUrl`, and `oauthTokenUrl` to `LfEndpoints` interface.
   - remove `getLfRegionalDomainFromAccountId` method.
   - remove `getLfDevEnvironmentSubDomain` method.

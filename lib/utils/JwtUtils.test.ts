@@ -34,53 +34,16 @@ describe('JwtUtils', () => {
     expect(trid).toEqual(expectedTrusteeId);
   });
 
-  it('getLfEndpoints returns the region-specific Laserfiche Cloud endpoints for clouddev environment', () => {
+  it('getLfEndpoints returns the region-specific Laserfiche Cloud endpoints', () => {
     // Arrange
-    const regionalDomain = 'a.clouddev.laserfiche.com';
+    const regionalDomain = 'test.com';
     const expectedEndpoints: JwtUtils.LfEndpoints = {
-      webClientUrl: 'https://app.a.clouddev.laserfiche.com/laserfiche',
-      wsignoutUrl: 'https://accounts.a.clouddev.laserfiche.com/WebSTS/?wa=wsignout1.0',
-      repositoryApiBaseUrl: 'https://api.a.clouddev.laserfiche.com/repository/',
-      regionalDomain: 'a.clouddev.laserfiche.com',
-      oauthAuthorizeUrl: 'https://signin.a.clouddev.laserfiche.com/oauth/Authorize',
-      oauthTokenUrl: 'https://signin.a.clouddev.laserfiche.com/oauth/Token'
-    };
-
-    // Act
-    const endpoints = JwtUtils.getLfEndpoints(regionalDomain);
-
-    // Assert
-    expect(endpoints).toEqual(expectedEndpoints);
-  });
-
-  it('getLfEndpoints returns the region-specific Laserfiche Cloud endpoints for production environment', () => {
-    // Arrange
-    const expectedEndpoints: JwtUtils.LfEndpoints = {
-      webClientUrl: 'https://app.laserfiche.com/laserfiche',
-      wsignoutUrl: 'https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0',
-      repositoryApiBaseUrl: 'https://api.laserfiche.com/repository/',
-      regionalDomain: 'laserfiche.com',
-      oauthAuthorizeUrl: 'https://signin.laserfiche.com/oauth/Authorize',
-      oauthTokenUrl: 'https://signin.laserfiche.com/oauth/Token'
-    };
-
-    // Act
-    const endpoints = JwtUtils.getLfEndpoints('laserfiche.com');
-
-    // Assert
-    expect(endpoints).toEqual(expectedEndpoints);
-  });
-
-  it('getLfEndpoints returns the region-specific Laserfiche Cloud endpoints for cloudtest environment', () => {
-    // Arrange
-    const regionalDomain = 'cloudtest.laserfiche.com';
-    const expectedEndpoints: JwtUtils.LfEndpoints = {
-      webClientUrl: 'https://app.cloudtest.laserfiche.com/laserfiche',
-      wsignoutUrl: 'https://accounts.cloudtest.laserfiche.com/WebSTS/?wa=wsignout1.0',
-      repositoryApiBaseUrl: 'https://api.cloudtest.laserfiche.com/repository/',
-      regionalDomain: 'cloudtest.laserfiche.com',
-      oauthAuthorizeUrl: 'https://signin.cloudtest.laserfiche.com/oauth/Authorize',
-      oauthTokenUrl: 'https://signin.cloudtest.laserfiche.com/oauth/Token'
+      webClientUrl: 'https://app.test.com/laserfiche',
+      wsignoutUrl: 'https://accounts.test.com/WebSTS/?wa=wsignout1.0',
+      repositoryApiBaseUrl: 'https://api.test.com/repository/',
+      regionalDomain: 'test.com',
+      oauthAuthorizeUrl: 'https://signin.test.com/oauth/Authorize',
+      oauthTokenUrl: 'https://signin.test.com/oauth/Token'
     };
 
     // Act
