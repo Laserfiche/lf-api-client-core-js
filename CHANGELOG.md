@@ -4,6 +4,7 @@
 
 ### Fixes
 - **[BREAKING]** `JwtUtils`:
+  - remove interface `LfEndpoints`.
   - remove function `getLfRegionalDomainFromAccountId`.
   - remove function `getLfDevEnvironmentSubDomain`.
   - remove function `getLfEndpoints`.
@@ -19,7 +20,7 @@
       oauthTokenUrl: string;
     }
     ```
-  - add function `getLfEndpoints(regionalDomain: string): LfEndpoints;`.
+  - add function `getLfEndpoints(regionalDomain: string): LfEndpoints`.
   - remove function `getRegionFromAccountId`.
   - remove function `getOauthTokenUrl`.
   - remove function `getEnvironmentSubDomain`.
