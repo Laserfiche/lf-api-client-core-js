@@ -1,4 +1,4 @@
-import { getEnvironmentSubDomain, getRepositoryEndpoint, getOauthTokenUrl } from './DomainUtils.js';
+import { getRepositoryEndpoint, getLfEndpoints, LfEndpoints } from './DomainUtils.js';
 
 describe('DomainUtil', () => {
   const baseUrlUSProd = 'https://api.laserfiche.com/repository';
@@ -11,54 +11,28 @@ describe('DomainUtil', () => {
   const baseDomainCAProd = 'laserfiche.ca';
   const baseDomainUSDev = 'a.clouddev.laserfiche.com';
 
-  test('getEnvironmentSubDomain returns correct subdomain', () => {
-    let url = new URL(baseUrlUSProd);
-    let result = getEnvironmentSubDomain(url.hostname);
-
-    expect(result).toBe('');
-
-    url = new URL(baseUrlUSDev);
-    result = getEnvironmentSubDomain(url.hostname);
-
-    expect(result).toBe('a.clouddev.');
-
-    url = new URL(baseUrlCAProd);
-    result = getEnvironmentSubDomain(url.hostname);
-
-    expect(result).toBe('');
-
-    url = new URL(baseUrlUSTest);
-    result = getEnvironmentSubDomain(url.hostname);
-
-    expect(result).toBe('cloudtest.');
-  });
-
   test('getRepositoryEndpoint returns correct endpoint', () => {
     let result = getRepositoryEndpoint('laserfiche.com');
 
     expect(result).toBe(`https://api.laserfiche.com/repository`);
   });
 
-  test('getOAuthTokenUrl returns correct endpoint', () => {
-    // Need to take out subdomain
-    let url = new URL(baseUrlUSProd);
-    let result = getOauthTokenUrl(baseDomainUSProd);
+  it('getLfEndpoints returns the region-specific Laserfiche Cloud endpoints', () => {
+    // Arrange
+    const regionalDomain = 'laserfiche.com';
+    const expectedEndpoints: LfEndpoints = {
+      webClientUrl: 'https://app.laserfiche.com/laserfiche',
+      wsignoutUrl: 'https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0',
+      repositoryApiBaseUrl: 'https://api.laserfiche.com/repository/',
+      regionalDomain: 'laserfiche.com',
+      oauthAuthorizeUrl: 'https://signin.laserfiche.com/oauth/Authorize',
+      oauthTokenUrl: 'https://signin.laserfiche.com/oauth/Token'
+    };
 
-    expect(result).toBe(`https://signin.laserfiche.com/OAuth/Token`);
+    // Act
+    const endpoints = getLfEndpoints(regionalDomain);
 
-    url = new URL(baseUrlUSDev);
-    result = getOauthTokenUrl(baseDomainUSDev);
-
-    expect(result).toBe(`https://signin.a.clouddev.laserfiche.com/OAuth/Token`);
-
-    url = new URL(baseUrlCAProd);
-    result = getOauthTokenUrl(baseDomainCAProd);
-
-    expect(result).toBe(`https://signin.laserfiche.ca/OAuth/Token`);
-
-    url = new URL(baseUrlUSTest);
-    result = getOauthTokenUrl(baseDomainUSTest);
-
-    expect(result).toBe(`https://signin.cloudtest.laserfiche.com/OAuth/Token`);
+    // Assert
+    expect(endpoints).toEqual(expectedEndpoints);
   });
 });
