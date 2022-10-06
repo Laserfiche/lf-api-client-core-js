@@ -34,25 +34,6 @@ describe('JwtUtils', () => {
     expect(trid).toEqual(expectedTrusteeId);
   });
 
-  it('getLfEndpoints returns the region-specific Laserfiche Cloud endpoints', () => {
-    // Arrange
-    const regionalDomain = 'laserfiche.com';
-    const expectedEndpoints: JwtUtils.LfEndpoints = {
-      webClientUrl: 'https://app.laserfiche.com/laserfiche',
-      wsignoutUrl: 'https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0',
-      repositoryApiBaseUrl: 'https://api.laserfiche.com/repository/',
-      regionalDomain: 'laserfiche.com',
-      oauthAuthorizeUrl: 'https://signin.laserfiche.com/oauth/Authorize',
-      oauthTokenUrl: 'https://signin.laserfiche.com/oauth/Token'
-    };
-
-    // Act
-    const endpoints = JwtUtils.getLfEndpoints(regionalDomain);
-
-    // Assert
-    expect(endpoints).toEqual(expectedEndpoints);
-  });
-
   it('parseAccessToken parses a base64-encoded jwt', () => {
     // Arrange
     const jwtString = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9l

@@ -1,14 +1,54 @@
-/** @internal */
-export function getRegionFromAccountId(accountId: string | undefined, env: string) {
-  if (accountId?.length == 9) {
-    return `${env}laserfiche.com`;
-  } else if (accountId?.length == 10 && accountId.slice(0, 1) === '1') {
-    return `${env}laserfiche.ca`;
-  } else if (accountId?.length == 10 && accountId.slice(0, 1) === '2') {
-    return `${env}eu.laserfiche.com`;
-  }
-  return `${env}laserfiche.com`;
+/**
+ * Laserfiche Cloud endpoints
+ */
+ export interface LfEndpoints {
+  webClientUrl: string;
+  wsignoutUrl: string;
+  repositoryApiBaseUrl: string;
+  regionalDomain: string;
+  oauthAuthorizeUrl: string;
+  oauthTokenUrl: string;
 }
+
+/**
+ * Returns region-specific Laserfiche Cloud endpoints
+ * @param regionalDomain regional specific host, such as 'laserfiche.com', or 'eu.laserfiche.com'
+ * @returns
+ * @example
+ * ```typescript
+ * getLfEndpoints('laserfiche.com');
+ *  // => {
+ *  //      webClientUrl: 'https://app.laserfiche.com/laserfiche',
+ *  //      wsignoutUrl: 'https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0',
+ *  //      repositoryApiBaseUrl: 'https://api.laserfiche.com/repository/',
+ *  //      regionalDomain: 'laserfiche.com',
+ *  //      oauthAuthorizeUrl: `https://signin.laserfiche.com/oauth/Authorize`,
+ *  //      oauthTokenUrl: `https://signin.laserfiche.com/oauth/Token`
+ *  //     }
+ *
+ *  getLfEndpoints('eu.laserfiche.com');
+ *  // => {
+ *  //      webClientUrl: 'https://app.eu.laserfiche.com/laserfiche',
+ *  //      wsignoutUrl: 'https://accounts.eu.laserfiche.com/WebSTS/?wa=wsignout1.0',
+ *  //      repositoryApiBaseUrl: 'https://api.eu.laserfiche.com/repository/',
+ *  //      regionalDomain: 'eu.laserfiche.com',
+ *  //      oauthAuthorizeUrl: `https://signin.eu.laserfiche.com/oauth/Authorize`,
+ *  //      oauthTokenUrl: `https://signin.eu.laserfiche.com/oauth/Token`
+ *  //     }
+ * ```
+ */
+ export function getLfEndpoints(regionalDomain: string): LfEndpoints {
+  if (!regionalDomain) throw new Error('regionalDomain is undefined.');
+  return {
+    webClientUrl: `https://app.${regionalDomain}/laserfiche`,
+    repositoryApiBaseUrl: `https://api.${regionalDomain}/repository/`,
+    wsignoutUrl: `https://accounts.${regionalDomain}/WebSTS/?wa=wsignout1.0`,
+    regionalDomain,
+    oauthAuthorizeUrl: `https://signin.${regionalDomain}/oauth/Authorize`,
+    oauthTokenUrl: `https://signin.${regionalDomain}/oauth/Token`
+  };
+}
+
 /**
  * Creates the Laserfiche repository API base address
  * @param regionDomain Laserfiche Cloud Regional Domain
@@ -23,15 +63,3 @@ export function getRepositoryEndpoint(regionDomain: string): string {
   return `https://api.${regionDomain}/repository`;
 }
 
-/** @internal */
-export function getOauthTokenUrl(regionDomain: string): string {
-  if (!regionDomain) throw new Error('regionDomain is undefined.');
-  return `https://signin.${regionDomain}/OAuth/Token`;
-}
-
-/** @internal */
-export function getEnvironmentSubDomain(baseUrl: string): string {
-  if (baseUrl.includes('clouddev')) return 'a.clouddev.';
-  else if (baseUrl.includes('cloudtest')) return 'cloudtest.';
-  return '';
-}

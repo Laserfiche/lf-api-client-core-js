@@ -4,10 +4,25 @@
 
 ### Fixes
 - **[BREAKING]** `JwtUtils`:
-  - add `regionalDomain`, `oauthAuthorizeUrl`, and `oauthTokenUrl` to `LfEndpoints` interface.
-  - remove `getLfRegionalDomainFromAccountId` method.
-  - remove `getLfDevEnvironmentSubDomain` method.
-  - change `getLfEndpoints` method input parameter to only take in `regionalDomain`: regional specific host.
+  - remove function `getLfRegionalDomainFromAccountId`.
+  - remove function `getLfDevEnvironmentSubDomain`.
+  - remove function `getLfEndpoints`.
+- **[BREAKING]** `DomainUtils`:
+  - add 
+    ```
+    interface LfEndpoints {
+      webClientUrl: string;
+      wsignoutUrl: string;
+      repositoryApiBaseUrl: string;
+      regionalDomain: string;
+      oauthAuthorizeUrl: string;
+      oauthTokenUrl: string;
+    }
+    ```
+  - add function `getLfEndpoints(regionalDomain: string): LfEndpoints;`.
+  - remove function `getRegionFromAccountId`.
+  - remove function `getOauthTokenUrl`.
+  - remove function `getEnvironmentSubDomain`.
 
 
 ### Chore & Maintenance
