@@ -36,14 +36,14 @@ describe('JwtUtils', () => {
 
   it('getLfEndpoints returns the region-specific Laserfiche Cloud endpoints', () => {
     // Arrange
-    const regionalDomain = 'test.com';
+    const regionalDomain = 'laserfiche.com';
     const expectedEndpoints: JwtUtils.LfEndpoints = {
-      webClientUrl: 'https://app.test.com/laserfiche',
-      wsignoutUrl: 'https://accounts.test.com/WebSTS/?wa=wsignout1.0',
-      repositoryApiBaseUrl: 'https://api.test.com/repository/',
-      regionalDomain: 'test.com',
-      oauthAuthorizeUrl: 'https://signin.test.com/oauth/Authorize',
-      oauthTokenUrl: 'https://signin.test.com/oauth/Token'
+      webClientUrl: 'https://app.laserfiche.com/laserfiche',
+      wsignoutUrl: 'https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0',
+      repositoryApiBaseUrl: 'https://api.laserfiche.com/repository/',
+      regionalDomain: 'laserfiche.com',
+      oauthAuthorizeUrl: 'https://signin.laserfiche.com/oauth/Authorize',
+      oauthTokenUrl: 'https://signin.laserfiche.com/oauth/Token'
     };
 
     // Act
