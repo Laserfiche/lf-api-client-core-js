@@ -1,64 +1,33 @@
-import { getEnvironmentSubDomain, getRepositoryEndpoint, getOauthTokenUrl } from './DomainUtils.js';
+import { getRepositoryEndpoint, getLfEndpoints, LfEndpoints, getOauthTokenUrl } from './DomainUtils.js';
 
 describe('DomainUtil', () => {
-  const baseUrlUSProd = 'https://api.laserfiche.com/repository';
-  const baseUrlCAProd = 'https://api.laserfiche.ca/repository';
-  const baseUrlUSDev = 'https://api.a.clouddev.laserfiche.com/repository';
-  const baseUrlUSTest = 'https://api.cloudtest.laserfiche.com/repository';
 
-  const baseDomainUSProd = 'laserfiche.com';
-  const baseDomainUSTest = 'cloudtest.laserfiche.com';
-  const baseDomainCAProd = 'laserfiche.ca';
-  const baseDomainUSDev = 'a.clouddev.laserfiche.com';
-
-  test('getEnvironmentSubDomain returns correct subdomain', () => {
-    let url = new URL(baseUrlUSProd);
-    let result = getEnvironmentSubDomain(url.hostname);
-
-    expect(result).toBe('');
-
-    url = new URL(baseUrlUSDev);
-    result = getEnvironmentSubDomain(url.hostname);
-
-    expect(result).toBe('a.clouddev.');
-
-    url = new URL(baseUrlCAProd);
-    result = getEnvironmentSubDomain(url.hostname);
-
-    expect(result).toBe('');
-
-    url = new URL(baseUrlUSTest);
-    result = getEnvironmentSubDomain(url.hostname);
-
-    expect(result).toBe('cloudtest.');
-  });
-
-  test('getRepositoryEndpoint returns correct endpoint', () => {
+  it('getRepositoryEndpoint returns correct endpoint', () => {
     let result = getRepositoryEndpoint('laserfiche.com');
 
     expect(result).toBe(`https://api.laserfiche.com/repository`);
   });
 
-  test('getOAuthTokenUrl returns correct endpoint', () => {
-    // Need to take out subdomain
-    let url = new URL(baseUrlUSProd);
-    let result = getOauthTokenUrl(baseDomainUSProd);
+  it('getOauthTokenUrl returns correct endpoint', () => {
+    let result = getOauthTokenUrl('laserfiche.com');
 
-    expect(result).toBe(`https://signin.laserfiche.com/OAuth/Token`);
+    expect(result).toBe(`https://signin.laserfiche.com/oauth/Token`);
+  });
 
-    url = new URL(baseUrlUSDev);
-    result = getOauthTokenUrl(baseDomainUSDev);
+  it('getLfEndpoints returns the region-specific Laserfiche Cloud endpoints', () => {
+    // Arrange
+    const regionalDomain = 'laserfiche.com';
+    const expectedEndpoints: LfEndpoints = {
+      webClientUrl: 'https://app.laserfiche.com/laserfiche',
+      wsignoutUrl: 'https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0',
+      regionalDomain: 'laserfiche.com',
+      oauthAuthorizeUrl: 'https://signin.laserfiche.com/oauth/Authorize',
+    };
 
-    expect(result).toBe(`https://signin.a.clouddev.laserfiche.com/OAuth/Token`);
+    // Act
+    const endpoints = getLfEndpoints(regionalDomain);
 
-    url = new URL(baseUrlCAProd);
-    result = getOauthTokenUrl(baseDomainCAProd);
-
-    expect(result).toBe(`https://signin.laserfiche.ca/OAuth/Token`);
-
-    url = new URL(baseUrlUSTest);
-    result = getOauthTokenUrl(baseDomainUSTest);
-
-    expect(result).toBe(`https://signin.cloudtest.laserfiche.com/OAuth/Token`);
+    // Assert
+    expect(endpoints).toEqual(expectedEndpoints);
   });
 });
