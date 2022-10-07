@@ -1,6 +1,6 @@
 import { AccessKey, createClientCredentialsAuthorizationJwt } from './AccessKey.js';
 import { GetAccessTokenResponse } from './GetAccessTokenResponse.js';
-import { getLfEndpoints } from '../utils/DomainUtils.js';
+import { getOauthTokenUrl } from '../utils/DomainUtils.js';
 import { HTTPError } from '../HttpError.js';
 import { StringUtils } from '@laserfiche/lf-js-utils';
 
@@ -52,7 +52,7 @@ export class TokenClient implements ITokenClient {
   private _baseUrl: string;
 
   constructor(regionalDomain: string) {
-    this._baseUrl = getLfEndpoints(regionalDomain).oauthTokenUrl;
+    this._baseUrl = getOauthTokenUrl(regionalDomain);
   }
 
   /**

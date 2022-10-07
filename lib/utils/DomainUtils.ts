@@ -4,10 +4,8 @@
  export interface LfEndpoints {
   webClientUrl: string;
   wsignoutUrl: string;
-  repositoryApiBaseUrl: string;
   regionalDomain: string;
   oauthAuthorizeUrl: string;
-  oauthTokenUrl: string;
 }
 
 /**
@@ -20,7 +18,7 @@
  *  // => {
  *  //      webClientUrl: 'https://app.laserfiche.com/laserfiche',
  *  //      wsignoutUrl: 'https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0',
- *  //      repositoryApiBaseUrl: 'https://api.laserfiche.com/repository/',
+ *  //      repositoryApiBaseUrl: 'https://api.laserfiche.com/repository',
  *  //      regionalDomain: 'laserfiche.com',
  *  //      oauthAuthorizeUrl: `https://signin.laserfiche.com/oauth/Authorize`,
  *  //      oauthTokenUrl: `https://signin.laserfiche.com/oauth/Token`
@@ -30,7 +28,7 @@
  *  // => {
  *  //      webClientUrl: 'https://app.eu.laserfiche.com/laserfiche',
  *  //      wsignoutUrl: 'https://accounts.eu.laserfiche.com/WebSTS/?wa=wsignout1.0',
- *  //      repositoryApiBaseUrl: 'https://api.eu.laserfiche.com/repository/',
+ *  //      repositoryApiBaseUrl: 'https://api.eu.laserfiche.com/repository',
  *  //      regionalDomain: 'eu.laserfiche.com',
  *  //      oauthAuthorizeUrl: `https://signin.eu.laserfiche.com/oauth/Authorize`,
  *  //      oauthTokenUrl: `https://signin.eu.laserfiche.com/oauth/Token`
@@ -41,11 +39,9 @@
   if (!regionalDomain) throw new Error('regionalDomain is undefined.');
   return {
     webClientUrl: `https://app.${regionalDomain}/laserfiche`,
-    repositoryApiBaseUrl: `https://api.${regionalDomain}/repository/`,
     wsignoutUrl: `https://accounts.${regionalDomain}/WebSTS/?wa=wsignout1.0`,
     regionalDomain,
     oauthAuthorizeUrl: `https://signin.${regionalDomain}/oauth/Authorize`,
-    oauthTokenUrl: `https://signin.${regionalDomain}/oauth/Token`
   };
 }
 
@@ -61,5 +57,19 @@
 export function getRepositoryEndpoint(regionDomain: string): string {
   if (!regionDomain) throw new Error('regionDomain is undefined.');
   return `https://api.${regionDomain}/repository`;
+}
+
+/**
+ * Creates the Laserfiche Oauth Token endpoint
+ * @param regionDomain Laserfiche Cloud Regional Domain
+ * @returns Laserfiche Oauth Token endpoint
+ * @example
+ * ```typescript
+ * getOauthTokenUrl('laserfiche.com'); // 'https://signin.laserfiche.com/oauth/Token'
+ * ```
+ */
+ export function getOauthTokenUrl(regionDomain: string): string {
+  if (!regionDomain) throw new Error('regionDomain is undefined.');
+  return `https://signin.${regionDomain}/oauth/Token`;
 }
 

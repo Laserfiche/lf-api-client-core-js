@@ -14,15 +14,12 @@
     interface LfEndpoints {
       webClientUrl: string;
       wsignoutUrl: string;
-      repositoryApiBaseUrl: string;
       regionalDomain: string;
       oauthAuthorizeUrl: string;
-      oauthTokenUrl: string;
     }
     ```
   - add function `getLfEndpoints(regionalDomain: string): LfEndpoints`.
   - remove function `getRegionFromAccountId`.
-  - remove function `getOauthTokenUrl`.
   - remove function `getEnvironmentSubDomain`.
 
 
