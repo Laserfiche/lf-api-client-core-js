@@ -13,3 +13,7 @@ Name: @laserfiche/lf-api-client-core
 ```bash
 npm install @laserfiche/lf-api-client-core
 ```
+
+## Change Log
+
+See CHANGELOG [here](./CHANGELOG.md).
