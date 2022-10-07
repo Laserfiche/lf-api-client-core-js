@@ -18,20 +18,16 @@
  *  // => {
  *  //      webClientUrl: 'https://app.laserfiche.com/laserfiche',
  *  //      wsignoutUrl: 'https://accounts.laserfiche.com/WebSTS/?wa=wsignout1.0',
- *  //      repositoryApiBaseUrl: 'https://api.laserfiche.com/repository',
  *  //      regionalDomain: 'laserfiche.com',
  *  //      oauthAuthorizeUrl: `https://signin.laserfiche.com/oauth/Authorize`,
- *  //      oauthTokenUrl: `https://signin.laserfiche.com/oauth/Token`
  *  //     }
  *
  *  getLfEndpoints('eu.laserfiche.com');
  *  // => {
  *  //      webClientUrl: 'https://app.eu.laserfiche.com/laserfiche',
  *  //      wsignoutUrl: 'https://accounts.eu.laserfiche.com/WebSTS/?wa=wsignout1.0',
- *  //      repositoryApiBaseUrl: 'https://api.eu.laserfiche.com/repository',
  *  //      regionalDomain: 'eu.laserfiche.com',
  *  //      oauthAuthorizeUrl: `https://signin.eu.laserfiche.com/oauth/Authorize`,
- *  //      oauthTokenUrl: `https://signin.eu.laserfiche.com/oauth/Token`
  *  //     }
  * ```
  */
