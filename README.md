@@ -4,7 +4,7 @@ Javascript Library containing the implementation of OAuth 2.0 credential handler
 
 ## Documentation
 
-- [Js Client Core Library Documentation](https://developer.laserfiche.com/client_reference/lf-api-client-core-js/docs/1.x/index.html)
+- [Js Client Core Library Documentation](https://developer.laserfiche.com/client_reference/lf-api-client-core-js/docs/HEAD/index.html)
 
 ## Installation
 
@@ -16,4 +16,4 @@ npm install @laserfiche/lf-api-client-core
 
 ## Change Log
 
-See CHANGELOG [here](https://github.com/Laserfiche/lf-api-client-core-js/blob/1.x/CHANGELOG.md).
+See CHANGELOG [here](https://github.com/Laserfiche/lf-api-client-core-js/blob/HEAD/CHANGELOG.md).
