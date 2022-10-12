@@ -16,4 +16,4 @@ npm install @laserfiche/lf-api-client-core
 
 ## Change Log
 
-See CHANGELOG [here](./CHANGELOG.md).
+See CHANGELOG [here](https://github.com/Laserfiche/lf-api-client-core-js/blob/1.x/CHANGELOG.md).
