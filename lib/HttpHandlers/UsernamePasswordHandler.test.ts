@@ -1,7 +1,6 @@
 import { SelfHostedUsername, SelfHostedPassword, RepositoryId, baseUrl } from '../../testHelper.js';
 import { BeforeFetchResult } from './BeforeFetchResult.js';
 import { UsernamePasswordHandler } from './UsernamePasswordHandler.js';
-import { AccessKey } from '../OAuth/AccessKey.js';
 import 'isomorphic-fetch';
 
 describe.skip('UsernamePasswordHandler', () => {
