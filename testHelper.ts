@@ -9,3 +9,8 @@ if (!accessKeyBase64) {
   throw new Error(`Unable to load ACCESS_KEY from .env`);
 }
 export const OAuthAccessKey: AccessKey = createFromBase64EncodedAccessKey(accessKeyBase64 ?? '');
+export const AuthorizationType: string = process.env.AUTHORIZATION_TYPE ?? '';
+export const SelfHostedUsername: string = process.env.APISERVER_USERNAME ?? '';
+export const SelfHostedPassword: string = process.env.APISERVER_PASSWORD ?? '';
+export const RepositoryId: string = process.env.REPOSITORY_ID ?? '';
+export const baseUrl: string = process.env.APISERVER_REPOSITORY_API_BASE_URL ?? '';
