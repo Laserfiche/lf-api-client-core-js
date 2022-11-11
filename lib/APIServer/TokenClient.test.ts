@@ -6,7 +6,7 @@ import { SessionKeyInfo } from './SessionKeyInfo.js';
 
 
 //add a test for ampersand
-describe('getAccessTokenFromServicePrincipal', () => {
+describe.skip('getAccessTokenFromServicePrincipal', () => {
   let inst: TokenClient;
   let body: CreateConnectionRequest = {
     grant_type: 'password',
