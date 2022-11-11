@@ -9,7 +9,7 @@ export interface ITokenClient {
    * @param body   Request body that contains username, password and grant type
    * @return Create an access token successfully.
    */
-  createAccessToken(repoId: String, body: CreateConnectionRequest): Promise<SessionKeyInfo>;
+  createAccessToken(repoId: string, body: CreateConnectionRequest): Promise<SessionKeyInfo>;
 }
 
 export class TokenClient implements ITokenClient{
@@ -20,17 +20,19 @@ export class TokenClient implements ITokenClient{
     this._baseUrl = baseUrl;
   }
 
-  async createAccessToken(repoId: String, body: CreateConnectionRequest): Promise<SessionKeyInfo> {
+  async createAccessToken(repoId: string, body: CreateConnectionRequest): Promise<SessionKeyInfo> {
+    const encodedGrantType = body.grant_type ? encodeURIComponent(body.grant_type) : '';
+    const encodedUsername = body.username ? encodeURIComponent(body.username) : '';
+    const encodedPassword = body.password ? encodeURIComponent(body.password) : '';
     const req: RequestInit = {
         method: 'POST',
         headers: new Headers({
           'content-type': 'application/x-www-form-urlencoded',
           'accept': 'application/json'
         }),
-        body: `grant_type=password&username=${body.username}&password=${body.password}`,
+        body: `grant_type=${encodedGrantType}&username=${encodedUsername}&password=${encodedPassword}`,
       };
-  
-      const url = this._baseUrl + `/v1/Repositories/${repoId}/Token`;
+      const url = this._baseUrl + `/v1/Repositories/${encodeURIComponent(repoId)}/Token`;
       const res: Response = await fetch(url, req);
       if (res.status === 200) {
         const getAccessTokenResponse = await res.json();

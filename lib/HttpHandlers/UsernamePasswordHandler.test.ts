@@ -1,27 +1,25 @@
-import { SelfHostedUsername, SelfHostedPassword, RepositoryId, baseUrl } from '../../testHelper.js';
+import { ApiServer_Username, ApiServer_Password, ApiServer_RepositoryId, ApiServer_baseUrl } from '../../testHelper.js';
 import { BeforeFetchResult } from './BeforeFetchResult.js';
 import { UsernamePasswordHandler } from './UsernamePasswordHandler.js';
 import 'isomorphic-fetch';
 
-describe.skip('UsernamePasswordHandler', () => {
+describe('UsernamePasswordHandler', () => {
   test('Correct config returns handler', () => {
     let httpRequestHandler = new UsernamePasswordHandler(
-      RepositoryId,
-      SelfHostedUsername,
-      SelfHostedPassword,
-      baseUrl,
-      null
+      ApiServer_RepositoryId,
+      ApiServer_Username,
+      ApiServer_Password,
+      ApiServer_baseUrl
     );
     expect(httpRequestHandler).toBeTruthy();
   });
 
   test('Correct config returns new token', async () => {
     let httpRequestHandler = new UsernamePasswordHandler(
-      RepositoryId,
-      SelfHostedUsername,
-      SelfHostedPassword,
-      baseUrl,
-      null
+      ApiServer_RepositoryId,
+      ApiServer_Username,
+      ApiServer_Password,
+      ApiServer_baseUrl
     );
     const url = 'https://laserfiche.com/repository/';
     let request: RequestInit = {
@@ -41,11 +39,10 @@ describe.skip('UsernamePasswordHandler', () => {
 
   test('Correct config returns existing token', async () => {
     let httpRequestHandler = new UsernamePasswordHandler(
-      RepositoryId,
-      SelfHostedUsername,
-      SelfHostedPassword,
-      baseUrl,
-      null
+      ApiServer_RepositoryId,
+      ApiServer_Username,
+      ApiServer_Password,
+      ApiServer_baseUrl
     );
     const url = 'https://laserfiche.com/repository/';
     let request: RequestInit = {
@@ -72,11 +69,10 @@ describe.skip('UsernamePasswordHandler', () => {
 
   test('Correct config beforeFetchRequestAsync returns regional domain', async () => {
     let httpRequestHandler = new UsernamePasswordHandler(
-      RepositoryId,
-      SelfHostedUsername,
-      SelfHostedPassword,
-      baseUrl,
-      null
+      ApiServer_RepositoryId,
+      ApiServer_Username,
+      ApiServer_Password,
+      ApiServer_baseUrl
     );
     const url = 'https://laserfiche.com/repository/';
     let request: RequestInit = {
@@ -89,11 +85,10 @@ describe.skip('UsernamePasswordHandler', () => {
 
   test('After Send Async Token Removed When Unauthorized', async () => {
     let httpRequestHandler = new UsernamePasswordHandler(
-      RepositoryId,
-      SelfHostedUsername,
-      SelfHostedPassword,
-      baseUrl,
-      null
+      ApiServer_RepositoryId,
+      ApiServer_Username,
+      ApiServer_Password,
+      ApiServer_baseUrl
     );
     const url = 'https://laserfiche.com/repository/';
     let request: RequestInit = {

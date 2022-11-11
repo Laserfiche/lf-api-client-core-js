@@ -1,11 +1,7 @@
 ## 1.1.0
 
 ### Features
-- **[Breaking]** `Self-hosted API Server support`:
-  - add interface `CreateConnectionRequest`.
-  - add interface  `SessionKeyInfo`.
-  - add interface and implementation `APIServer/TokenClient`.
-  - add self hosted integration tests `UsernamePasswordHandler.test`.
+- Added support for Self-hosted API Server
 
 ## 1.0.12
 
