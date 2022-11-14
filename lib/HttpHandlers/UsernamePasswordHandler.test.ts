@@ -2,6 +2,7 @@ import { ApiServer_Username, ApiServer_Password, ApiServer_RepositoryId, ApiServ
 import { BeforeFetchResult } from './BeforeFetchResult.js';
 import { UsernamePasswordHandler } from './UsernamePasswordHandler.js';
 import 'isomorphic-fetch';
+import { getSystemErrorMap } from 'util';
 
 describe.skip('UsernamePasswordHandler', () => {
   test('Correct config returns handler', () => {
@@ -14,7 +15,7 @@ describe.skip('UsernamePasswordHandler', () => {
     expect(httpRequestHandler).toBeTruthy();
   });
 
-  test('Correct config returns new token', async () => {
+  test('Before fetch request async returns new token', async () => {
     let httpRequestHandler = new UsernamePasswordHandler(
       ApiServer_RepositoryId,
       ApiServer_Username,
@@ -37,7 +38,7 @@ describe.skip('UsernamePasswordHandler', () => {
     ).not.toBeNull;
   });
 
-  test('Correct config returns existing token', async () => {
+  test('Before fetch request async returns existing token', async () => {
     let httpRequestHandler = new UsernamePasswordHandler(
       ApiServer_RepositoryId,
       ApiServer_Username,
@@ -67,7 +68,7 @@ describe.skip('UsernamePasswordHandler', () => {
     expect(bearerTokenParameter).toBe(bearerTokenParameter2);
   });
 
-  test('Correct config beforeFetchRequestAsync returns regional domain', async () => {
+  test('Before fetch request async returns regional domain', async () => {
     let httpRequestHandler = new UsernamePasswordHandler(
       ApiServer_RepositoryId,
       ApiServer_Username,
@@ -83,7 +84,33 @@ describe.skip('UsernamePasswordHandler', () => {
     expect(result?.regionalDomain).toBeTruthy();
   });
 
-  test('After Send Async Token Removed When Unauthorized', async () => {
+  test.each([
+    [ApiServer_RepositoryId, 'fake123', ApiServer_Password, 401],
+    [ApiServer_RepositoryId, ApiServer_Username, 'fake123', 401],
+    ['fake123', ApiServer_Username, ApiServer_Password, 404],
+  ])(
+    'Before fetch request async failed authentication throws exception',
+    async (repositoryId, username, password, status) => {
+      let httpRequestHandler = new UsernamePasswordHandler(repositoryId, username, password, ApiServer_baseUrl);
+      let request: RequestInit = {
+        method: 'GET',
+        headers: {},
+      };
+      expect(async () => {
+        try {
+          await httpRequestHandler.beforeFetchRequestAsync(ApiServer_baseUrl, request);
+          return false;
+        } catch (e: any) {
+          expect(e.status).toBe(status);
+          expect(e.type).not.toBeNull();
+          expect(e.title).not.toBeNull();
+          return true;
+        }
+      }).toBeTruthy();
+    }
+  );
+
+  test('After fetch request async token removed when unauthorized', async () => {
     let httpRequestHandler = new UsernamePasswordHandler(
       ApiServer_RepositoryId,
       ApiServer_Username,
