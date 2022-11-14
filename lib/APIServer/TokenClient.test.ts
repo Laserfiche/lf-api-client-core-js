@@ -5,7 +5,6 @@ import { CreateConnectionRequest } from './CreateConnectionRequest.js';
 import { SessionKeyInfo } from './SessionKeyInfo.js';
 
 
-//add a test for ampersand
 describe.skip('getAccessTokenFromServicePrincipal', () => {
   let inst: TokenClient;
   let body: CreateConnectionRequest = {
