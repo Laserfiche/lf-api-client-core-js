@@ -1,3 +1,8 @@
+## 1.1.0
+
+### Features
+- Added support for Self-hosted API Server
+
 ## 1.0.12
 
 ### Features
