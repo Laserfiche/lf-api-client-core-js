@@ -12,5 +12,6 @@ export default {
   testTimeout:200000,
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
-  }
+  },
+  runner: "groups"
 };

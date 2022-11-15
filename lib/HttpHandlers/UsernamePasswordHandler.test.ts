@@ -1,10 +1,15 @@
 import { username, password, repositoryId, baseUrl } from '../../testHelper.js';
 import { BeforeFetchResult } from './BeforeFetchResult.js';
 import { UsernamePasswordHandler } from './UsernamePasswordHandler.js';
-import { StatusCodes } from 'http-status-codes';
 import 'isomorphic-fetch';
 
-describe.skip('UsernamePasswordHandler', () => {
+/**
+ * SelfHosted Integration Tests
+ *
+ * @group IntegrationTests/SelfHosted
+ */
+
+describe('UsernamePasswordHandler', () => {
   test('Correct config returns handler', () => {
     let httpRequestHandler = new UsernamePasswordHandler(repositoryId, username, password, baseUrl);
     expect(httpRequestHandler).toBeTruthy();
@@ -65,9 +70,9 @@ describe.skip('UsernamePasswordHandler', () => {
   });
 
   test.each([
-    [repositoryId, 'fake123', password, StatusCodes.UNAUTHORIZED],
-    [repositoryId, username, 'fake123', StatusCodes.UNAUTHORIZED],
-    ['fake123', username, password, StatusCodes.NOT_FOUND],
+    [repositoryId, 'fake123', password, 401],
+    [repositoryId, username, 'fake123', 401],
+    ['fake123', username, password, 404],
   ])(
     'Before fetch request async failed authentication throws exception',
     async (repositoryId, username, password, status) => {

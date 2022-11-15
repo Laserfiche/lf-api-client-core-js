@@ -1,5 +1,11 @@
 import * as JwtUtils from './JwtUtils.js';
 
+/**
+ * Unit Tests
+ *
+ * @group UnitTests
+ */
+
 describe('JwtUtils', () => {
 
   it('getAccountIdFromLfJWT returns the account id', () => {

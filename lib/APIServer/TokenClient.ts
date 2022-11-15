@@ -5,11 +5,11 @@ import { HTTPError } from '../HttpError.js';
 export interface ITokenClient {
   /**
    * Gets the self hosted access token
-   * @param repoId Repository name
+   * @param repositoryId Repository name
    * @param body   Request body that contains username, password and grant type
    * @return Create an access token successfully.
    */
-  createAccessToken(repoId: string, body: CreateConnectionRequest): Promise<SessionKeyInfo>;
+  createAccessToken(repositoryId: string, body: CreateConnectionRequest): Promise<SessionKeyInfo>;
 }
 
 export class TokenClient implements ITokenClient{
@@ -20,7 +20,7 @@ export class TokenClient implements ITokenClient{
     this._baseUrl = baseUrl;
   }
 
-  async createAccessToken(repoId: string, body: CreateConnectionRequest): Promise<SessionKeyInfo> {
+  async createAccessToken(repositoryId: string, body: CreateConnectionRequest): Promise<SessionKeyInfo> {
     const encodedGrantType = body.grant_type ? encodeURIComponent(body.grant_type) : '';
     const encodedUsername = body.username ? encodeURIComponent(body.username) : '';
     const encodedPassword = body.password ? encodeURIComponent(body.password) : '';
@@ -32,7 +32,7 @@ export class TokenClient implements ITokenClient{
         }),
         body: `grant_type=${encodedGrantType}&username=${encodedUsername}&password=${encodedPassword}`,
       };
-      const url = this._baseUrl + `/v1/Repositories/${encodeURIComponent(repoId)}/Token`;
+      const url = this._baseUrl + `/v1/Repositories/${encodeURIComponent(repositoryId)}/Token`;
       const res: Response = await fetch(url, req);
       if (res.status === 200) {
         const getAccessTokenResponse = await res.json();
