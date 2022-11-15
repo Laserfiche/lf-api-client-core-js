@@ -80,10 +80,10 @@ describe.skip('UsernamePasswordHandler', () => {
         try {
           await httpRequestHandler.beforeFetchRequestAsync(baseUrl, request);
           return false;
-        } catch (e: any) {
-          expect(e.status).toBe(status);
-          expect(e.type).not.toBeNull();
-          expect(e.title).not.toBeNull();
+        } catch (err: any) {
+          expect(err.status).toBe(status);
+          expect(err.type).not.toBeNull();
+          expect(err.title).not.toBeNull();
           return true;
         }
       }).toBeTruthy();
