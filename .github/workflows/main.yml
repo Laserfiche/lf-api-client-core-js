@@ -80,7 +80,7 @@ jobs:
         env:
           ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
           SERVICE_PRINCIPAL_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
-        run: npm run test -- --group=IntegrationTests/Cloud --group=UnitTests
+        run: npm run test:all -- --group=IntegrationTests/Cloud --group=UnitTests
 
       - name: Test Report
         uses: dorny/test-reporter@v1
