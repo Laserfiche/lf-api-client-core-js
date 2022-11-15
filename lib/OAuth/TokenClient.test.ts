@@ -1,7 +1,7 @@
-import { OAuthAccessKey, testServicePrincipalKey } from '../../testHelper.js';
+import { accessKey, testServicePrincipalKey } from '../../testHelper.js';
 import { GetAccessTokenResponse } from './GetAccessTokenResponse.js';
 import { TokenClient } from './TokenClient.js';
-import "isomorphic-fetch";
+import 'isomorphic-fetch';
 
 describe('getAccessTokenFromServicePrincipal', () => {
   let inst: TokenClient;
@@ -10,7 +10,7 @@ describe('getAccessTokenFromServicePrincipal', () => {
     inst = new TokenClient(domain);
 
     expect(
-      async () => await inst.getAccessTokenFromServicePrincipal(testServicePrincipalKey, OAuthAccessKey)
+      async () => await inst.getAccessTokenFromServicePrincipal(testServicePrincipalKey, accessKey)
     ).rejects.toThrow();
   });
 
@@ -19,28 +19,28 @@ describe('getAccessTokenFromServicePrincipal', () => {
     inst = new TokenClient(domain);
 
     expect(
-      async () => await inst.getAccessTokenFromServicePrincipal(testServicePrincipalKey, OAuthAccessKey)
+      async () => await inst.getAccessTokenFromServicePrincipal(testServicePrincipalKey, accessKey)
     ).rejects.toThrow();
   });
 
   test('Correct config returns access token', async () => {
-    let domain = OAuthAccessKey.domain;
+    let domain = accessKey.domain;
     inst = new TokenClient(domain);
 
     let result: GetAccessTokenResponse = await inst.getAccessTokenFromServicePrincipal(
       testServicePrincipalKey,
-      OAuthAccessKey
+      accessKey
     );
     expect(result?.access_token).toBeTruthy();
   });
 
   test('Correct domain is case insensitive', async () => {
-    let domain = OAuthAccessKey.domain.toUpperCase();
+    let domain = accessKey.domain.toUpperCase();
     inst = new TokenClient(domain);
 
     let result: GetAccessTokenResponse = await inst.getAccessTokenFromServicePrincipal(
       testServicePrincipalKey,
-      OAuthAccessKey
+      accessKey
     );
     expect(result?.access_token).toBeTruthy();
   });
