@@ -1,6 +1,12 @@
 import { createFromBase64EncodedAccessKey, createClientCredentialsAuthorizationJwt, AccessKey } from './AccessKey';
 import { parseAccessToken } from '../utils/JwtUtils';
 
+/**
+ * Unit Tests
+ *
+ * @group UnitTests
+ */
+
 describe('createFromBase64EncodedAccessKey', () => {
   test('createFromBase64EncodedAccessKey successfully parses base 64 string', () => {
     // Arrange

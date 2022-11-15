@@ -3,6 +3,12 @@ import { GetAccessTokenResponse } from './GetAccessTokenResponse.js';
 import { TokenClient } from './TokenClient.js';
 import 'isomorphic-fetch';
 
+/**
+ * Cloud Integration Tests
+ *
+ * @group IntegrationTests/Cloud
+ */
+
 describe('getAccessTokenFromServicePrincipal', () => {
   let inst: TokenClient;
   test('Wrong domain returns null', async () => {

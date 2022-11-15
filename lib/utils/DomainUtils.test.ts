@@ -1,5 +1,11 @@
 import { getRepositoryEndpoint, getLfEndpoints, LfEndpoints, getOauthTokenUrl } from './DomainUtils.js';
 
+/**
+ * Unit Tests
+ *
+ * @group UnitTests
+ */
+
 describe('DomainUtil', () => {
 
   it('getRepositoryEndpoint returns correct endpoint', () => {

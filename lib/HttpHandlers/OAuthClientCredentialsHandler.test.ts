@@ -4,6 +4,12 @@ import { OAuthClientCredentialsHandler } from './OAuthClientCredentialsHandler.j
 import { AccessKey } from '../OAuth/AccessKey.js';
 import 'isomorphic-fetch';
 
+/**
+ * Cloud Integration Tests
+ *
+ * @group IntegrationTests/Cloud
+ */
+
 describe('OAuthClientCredentialsHandler', () => {
   test('Empty service principal key throws exception', () => {
     expect(() => new OAuthClientCredentialsHandler('', {} as AccessKey)).toThrow();
