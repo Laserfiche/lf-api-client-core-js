@@ -4,7 +4,7 @@ import 'isomorphic-fetch';
 import { CreateConnectionRequest } from './CreateConnectionRequest.js';
 import { SessionKeyInfo } from './SessionKeyInfo.js';
 
-describe.skip('getAccessTokenFromServicePrincipal', () => {
+describe.skip('getAccessTokenFromAPIServer', () => {
   let inst: TokenClient;
   let body: CreateConnectionRequest = {
     grant_type: 'password',
