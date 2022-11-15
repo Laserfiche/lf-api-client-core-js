@@ -1,27 +1,17 @@
-import { ApiServer_Username, ApiServer_Password, ApiServer_RepositoryId, ApiServer_baseUrl } from '../../testHelper.js';
+import { username, password, repositoryId, baseUrl } from '../../testHelper.js';
 import { BeforeFetchResult } from './BeforeFetchResult.js';
 import { UsernamePasswordHandler } from './UsernamePasswordHandler.js';
+import { StatusCodes } from 'http-status-codes';
 import 'isomorphic-fetch';
-import { getSystemErrorMap } from 'util';
 
 describe.skip('UsernamePasswordHandler', () => {
   test('Correct config returns handler', () => {
-    let httpRequestHandler = new UsernamePasswordHandler(
-      ApiServer_RepositoryId,
-      ApiServer_Username,
-      ApiServer_Password,
-      ApiServer_baseUrl
-    );
+    let httpRequestHandler = new UsernamePasswordHandler(repositoryId, username, password, baseUrl);
     expect(httpRequestHandler).toBeTruthy();
   });
 
   test('Before fetch request async returns new token', async () => {
-    let httpRequestHandler = new UsernamePasswordHandler(
-      ApiServer_RepositoryId,
-      ApiServer_Username,
-      ApiServer_Password,
-      ApiServer_baseUrl
-    );
+    let httpRequestHandler = new UsernamePasswordHandler(repositoryId, username, password, baseUrl);
     const url = 'https://laserfiche.com/repository/';
     let request: RequestInit = {
       method: 'GET',
@@ -39,12 +29,7 @@ describe.skip('UsernamePasswordHandler', () => {
   });
 
   test('Before fetch request async returns existing token', async () => {
-    let httpRequestHandler = new UsernamePasswordHandler(
-      ApiServer_RepositoryId,
-      ApiServer_Username,
-      ApiServer_Password,
-      ApiServer_baseUrl
-    );
+    let httpRequestHandler = new UsernamePasswordHandler(repositoryId, username, password, baseUrl);
     const url = 'https://laserfiche.com/repository/';
     let request: RequestInit = {
       method: 'GET',
@@ -69,12 +54,7 @@ describe.skip('UsernamePasswordHandler', () => {
   });
 
   test('Before fetch request async returns regional domain', async () => {
-    let httpRequestHandler = new UsernamePasswordHandler(
-      ApiServer_RepositoryId,
-      ApiServer_Username,
-      ApiServer_Password,
-      ApiServer_baseUrl
-    );
+    let httpRequestHandler = new UsernamePasswordHandler(repositoryId, username, password, baseUrl);
     const url = 'https://laserfiche.com/repository/';
     let request: RequestInit = {
       method: 'GET',
@@ -85,20 +65,20 @@ describe.skip('UsernamePasswordHandler', () => {
   });
 
   test.each([
-    [ApiServer_RepositoryId, 'fake123', ApiServer_Password, 401],
-    [ApiServer_RepositoryId, ApiServer_Username, 'fake123', 401],
-    ['fake123', ApiServer_Username, ApiServer_Password, 404],
+    [repositoryId, 'fake123', password, StatusCodes.UNAUTHORIZED],
+    [repositoryId, username, 'fake123', StatusCodes.UNAUTHORIZED],
+    ['fake123', username, password, StatusCodes.NOT_FOUND],
   ])(
     'Before fetch request async failed authentication throws exception',
     async (repositoryId, username, password, status) => {
-      let httpRequestHandler = new UsernamePasswordHandler(repositoryId, username, password, ApiServer_baseUrl);
+      let httpRequestHandler = new UsernamePasswordHandler(repositoryId, username, password, baseUrl);
       let request: RequestInit = {
         method: 'GET',
         headers: {},
       };
       expect(async () => {
         try {
-          await httpRequestHandler.beforeFetchRequestAsync(ApiServer_baseUrl, request);
+          await httpRequestHandler.beforeFetchRequestAsync(baseUrl, request);
           return false;
         } catch (e: any) {
           expect(e.status).toBe(status);
@@ -111,12 +91,7 @@ describe.skip('UsernamePasswordHandler', () => {
   );
 
   test('After fetch request async token removed when unauthorized', async () => {
-    let httpRequestHandler = new UsernamePasswordHandler(
-      ApiServer_RepositoryId,
-      ApiServer_Username,
-      ApiServer_Password,
-      ApiServer_baseUrl
-    );
+    let httpRequestHandler = new UsernamePasswordHandler(repositoryId, username, password, baseUrl);
     const url = 'https://laserfiche.com/repository/';
     let request: RequestInit = {
       method: 'GET',
