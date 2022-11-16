@@ -1,3 +1,12 @@
+## 1.1.1
+
+### Improvements 
+- Categorized all test cases into 3 groups: IntegrationTests/Cloud, IntegrationTests/SelfHosted, and UnitTests
+- Ran test case groups IntegrationTests/Cloud and UnitTests in the github pipeline 
+
+### Maintenance
+- Refactored self hosted implementation and test cases
+
 ## 1.1.0
 
 ### Features
