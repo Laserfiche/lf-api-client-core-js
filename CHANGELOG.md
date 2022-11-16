@@ -1,11 +1,7 @@
 ## 1.1.1
 
-### Improvements 
-- Categorized all test cases into 3 groups: IntegrationTests/Cloud, IntegrationTests/SelfHosted, and UnitTests
-- Ran test case groups IntegrationTests/Cloud and UnitTests in the github pipeline 
-
 ### Maintenance
-- Refactored self hosted implementation and test cases
+- Updated function createAccessToken with unabbreviated repositoryId parameter name
 
 ## 1.1.0
 
