@@ -1,3 +1,8 @@
+## 1.1.1
+
+### Maintenance
+- Updated function `createAccessToken` with unabbreviated `repositoryId` parameter name
+
 ## 1.1.0
 
 ### Features
