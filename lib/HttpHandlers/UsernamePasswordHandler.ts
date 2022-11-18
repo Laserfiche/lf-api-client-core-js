@@ -1,7 +1,7 @@
-import { CreateConnectionRequest } from '../APIServer/CreateConnectionRequest';
-import { ITokenClient, TokenClient } from '../APIServer/TokenClient';
-import { BeforeFetchResult } from './BeforeFetchResult';
-import { HttpRequestHandler } from './HttpRequestHandler';
+import { CreateConnectionRequest } from '../APIServer/CreateConnectionRequest.js';
+import { ITokenClient, TokenClient } from '../APIServer/TokenClient.js';
+import { BeforeFetchResult } from './BeforeFetchResult.js';
+import { HttpRequestHandler } from './HttpRequestHandler.js';
 
 const GRANT_TYPE: string = 'password';
 export class UsernamePasswordHandler implements HttpRequestHandler {

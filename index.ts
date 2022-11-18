@@ -3,7 +3,7 @@ import { CreateConnectionRequest } from './lib/APIServer/CreateConnectionRequest
 import { SessionKeyInfo } from './lib/APIServer/SessionKeyInfo.js';
 import { createFromBase64EncodedAccessKey, createClientCredentialsAuthorizationJwt, AccessKey } from './lib/OAuth/AccessKey.js';
 import { OAuthClientCredentialsHandler } from './lib/HttpHandlers/OAuthClientCredentialsHandler.js';
-import { UsernamePasswordHandler } from './lib/HttpHandlers/UsernamePasswordHandler';
+import { UsernamePasswordHandler } from './lib/HttpHandlers/UsernamePasswordHandler.js';
 import { HttpRequestHandler } from './lib/HttpHandlers/HttpRequestHandler.js';
 import { TokenClient } from './lib/OAuth/TokenClient.js';
 import { TokenClient as SelfHostedTokenClient} from './lib/APIServer/TokenClient.js';

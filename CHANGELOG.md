@@ -1,3 +1,8 @@
+## 1.1.2
+
+### Fixes
+- Fixed import errors by adding a `.js` extension next to all the files being imported in `APIServer\TokenClient.ts` and `UsernamePasswordHandler.ts`
+
 ## 1.1.1
 
 ### Maintenance
