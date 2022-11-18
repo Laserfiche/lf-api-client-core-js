@@ -1,5 +1,5 @@
-import { CreateConnectionRequest } from './CreateConnectionRequest';
-import { SessionKeyInfo } from './SessionKeyInfo';
+import { CreateConnectionRequest } from './CreateConnectionRequest.js';
+import { SessionKeyInfo } from './SessionKeyInfo.js';
 import { HTTPError } from '../HttpError.js';
 
 export interface ITokenClient {
