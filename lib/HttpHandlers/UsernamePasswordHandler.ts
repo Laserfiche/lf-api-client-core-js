@@ -17,7 +17,7 @@ export class UsernamePasswordHandler implements HttpRequestHandler {
    * @param repositoryId Repository name
    * @param username     The username used with "password" grant type.
    * @param password     The password used with "password" grant type.
-   * @param baseUrl      APIServer Base Url e.g. https://example.com/LFRepositoryAPI
+   * @param baseUrl      APIServer Base Url e.g. https://{APIServerName}/LFRepositoryAPI
    * @param client       OPTIONAL
    */
   constructor(
