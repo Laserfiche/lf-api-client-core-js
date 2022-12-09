@@ -12,7 +12,7 @@ export class UsernamePasswordHandler implements HttpRequestHandler {
   private _request: CreateConnectionRequest;
 
   /**
-   * Creates a username and password authorization handler for self hosted API server
+   * Creates a username and password authorization handler for Laserfiche Self-Hosted API server
    *
    * @param repositoryId Repository name
    * @param username     The username used with "password" grant type.
@@ -41,6 +41,11 @@ export class UsernamePasswordHandler implements HttpRequestHandler {
     }
   }
 
+  /**
+   * Called to prepare the request to the API service.
+   * @param url The HTTP url
+   * @param request The HTTP request
+   */
   async beforeFetchRequestAsync(url: string, request: RequestInit): Promise<BeforeFetchResult> {
     if (!this._accessToken) {
       let resp = await this._client.createAccessToken(this._repositoryId, this._request);
@@ -61,6 +66,13 @@ export class UsernamePasswordHandler implements HttpRequestHandler {
     };
   }
 
+  /**
+   * Called to handle the response from the API service.
+   * @param url The HTTP url
+   * @param response The HTTP response
+   * @param request The HTTP request
+   * @returns true if the request should be retried.
+   */
   async afterFetchResponseAsync(url: string, response: Response, request: RequestInit): Promise<boolean> {
     if (response.status === 401) {
       this._accessToken = undefined;

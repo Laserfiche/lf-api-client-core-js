@@ -2,22 +2,35 @@ import { StringUtils } from '@laserfiche/lf-js-utils';
 import { JWK } from './JWK.js';
 import { KEYUTIL, KJUR } from 'jsrsasign';
 
+/**
+ * The access key exported from the Laserfiche Developer Console.
+ */
 export interface AccessKey {
-  // The account ID associated to the application
+  /**
+   * The account ID associated to the application
+   */
   customerId: string;
 
-  // The client ID for the application. You can find the client ID
-  // on the Laserfiche Developer Console config page for your application
+  /**
+   * The client ID for the application. You can find the client ID
+   * on the Laserfiche Developer Console config page for your application
+   */
   clientId: string;
 
-  // The domain for the API environment
+  /**
+   * The domain for the API environment
+   */
   domain: string;
 
+  /**
+   * The application's json web key.
+   */
   jwk: JWK;
 }
 
 /**
- * Creates an AccessKey given a base64Encoded AccessKey
+ * Creates an AccessKey given a base-64 encoded access key.
+ * @param base64EncodedAccessKey The base-64 encoded access key exported from the Laserfiche Developer Console.
  */
 export function createFromBase64EncodedAccessKey(base64EncodedAccessKey: string): AccessKey {
   const accessKeyStr: string = StringUtils.base64toString(base64EncodedAccessKey);
@@ -29,9 +42,9 @@ export function createFromBase64EncodedAccessKey(base64EncodedAccessKey: string)
 }
 
 /**
- * Create OAuth 2.0 client_credentials Authorization JWT that can be used with Laserfiche Token endpoint to request an Access Token.
- * @param servicePrincipalKey Service Principal Key
- * @param accessKey AccessKey JSON object or base64 encoded AccessKey
+ * Create OAuth 2.0 client_credentials Authorization JWT that can be used with Laserfiche Cloud Token endpoint to request an Access Token.
+ * @param servicePrincipalKey The service principal key created for the service principal from the Laserfiche Account Administration.
+ * @param accessKey AccessKey JSON object or base-64 encoded AccessKey exported from the Laserfiche Developer Console.
  * @returns Authorization JWT with a one hour expiration.
  */
 export function createClientCredentialsAuthorizationJwt(
