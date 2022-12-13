@@ -7,7 +7,7 @@ import { StringUtils } from '@laserfiche/lf-js-utils';
 const CONTENT_TYPE_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded';
 
 /**
- * An object to interact with the OAuth 2.0 token endpoint.
+ * An object to interact with the Laserfiche Cloud OAuth 2.0 token endpoint.
  */
 export interface ITokenClient {
   /**
@@ -36,7 +36,7 @@ export interface ITokenClient {
     code_verifier?: string
   ): Promise<GetAccessTokenResponse>;
 
-  /**getAccessTokenFromCode(code: string, redirect_uri: string, client_id: string, code_verifier?: string): Promise<GetAccessTokenResponse>;
+  /**
    * Gets a refreshed access token given a refresh token
    * @param refresh_token Refresh token
    * @param client_id OAuth application client id
@@ -46,11 +46,15 @@ export interface ITokenClient {
 }
 
 /**
- * An object to interact with the OAuth 2.0 token endpoint.
+ * An object to interact with the Laserfiche Cloud OAuth 2.0 token endpoint.
  */
 export class TokenClient implements ITokenClient {
   private _baseUrl: string;
 
+  /**
+   * Constructor for a TokenClient used to interact with the Laserfiche Cloud OAuth 2.0 token endpoint.
+   * @param regionalDomain regional specific host, such as 'laserfiche.com', or 'eu.laserfiche.com'
+   */
   constructor(regionalDomain: string) {
     this._baseUrl = getOauthTokenUrl(regionalDomain);
   }
