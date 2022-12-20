@@ -8,11 +8,13 @@ import { UsernamePasswordHandler } from './lib/HttpHandlers/UsernamePasswordHand
 import { HttpRequestHandler } from './lib/HttpHandlers/HttpRequestHandler.js';
 import { ITokenClient, TokenClient } from './lib/OAuth/TokenClient.js';
 import { ITokenClient as ISelfHostedTokenClient, TokenClient as SelfHostedTokenClient } from './lib/APIServer/TokenClient.js';
-import { HTTPError, HTTPError_NAME } from './lib/HttpError.js';
+import { ProblemDetails } from './lib/ProblemDetails.js';
+import { ApiException } from './lib/ApiException.js';
 import { BeforeFetchResult } from './lib/HttpHandlers/BeforeFetchResult.js';
 export { GetAccessTokenResponse, CreateConnectionRequest, SessionKeyInfo, createFromBase64EncodedAccessKey, createClientCredentialsAuthorizationJwt as createClientCredentials, AccessKey, JWK, OAuthClientCredentialsHandler, UsernamePasswordHandler, HttpRequestHandler, BeforeFetchResult };
 export * as JwtUtils from './lib/utils/JwtUtils.js';
 export * as DomainUtils from './lib/utils/DomainUtils.js';
 export * as PKCEUtils from './lib/utils/PKCEUtils.js';
-export { HTTPError, HTTPError_NAME };
+export { ProblemDetails };
+export { ApiException };
 export { ITokenClient, TokenClient, ISelfHostedTokenClient, SelfHostedTokenClient };

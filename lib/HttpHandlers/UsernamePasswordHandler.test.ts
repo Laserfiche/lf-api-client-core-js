@@ -81,17 +81,20 @@ describe('UsernamePasswordHandler', () => {
         method: 'GET',
         headers: {},
       };
-      expect(async () => {
-        try {
-          await httpRequestHandler.beforeFetchRequestAsync(baseUrl, request);
-          return false;
-        } catch (err: any) {
-          expect(err.status).toBe(status);
-          expect(err.type).not.toBeNull();
-          expect(err.title).not.toBeNull();
-          return true;
-        }
-      }).toBeTruthy();
+      try {
+        await httpRequestHandler.beforeFetchRequestAsync(baseUrl, request);
+        return false;
+      } catch (e: any) {
+        expect(e.status).toBe(status);
+        expect(e.message).toBeDefined();
+        expect(e.problemDetails.title).toEqual(e.message);
+        expect(e.problemDetails.operationId).toBeDefined();
+        expect(e.problemDetails.type).toBeDefined();
+        expect(e.problemDetails.instance).toBeDefined();
+        expect(e.problemDetails.errorSource).toBeDefined();
+        expect(e.problemDetails.traceId).toBeDefined();
+        return true;
+      }
     }
   );
 

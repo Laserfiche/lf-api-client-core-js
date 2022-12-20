@@ -1,6 +1,8 @@
 import { CreateConnectionRequest } from './CreateConnectionRequest.js';
 import { SessionKeyInfo } from './SessionKeyInfo.js';
 import { HTTPError } from '../HttpError.js';
+import { ProblemDetails } from '../ProblemDetails.js';
+import { ApiException } from '../ApiException.js';
 
 export interface ITokenClient {
   /**
@@ -43,9 +45,12 @@ export class TokenClient implements ITokenClient{
         return getAccessTokenResponse;
       } else if (res.headers.get('Content-Type')?.includes('json') === true) {
         const errorResponse = await res.json();
-        throw errorResponse;
+        const problemDetails = ProblemDetails.fromJS(errorResponse);
+        const apiException = new ApiException(problemDetails.title ?? "HTTP status code " + problemDetails.status,
+                                               problemDetails.status, res.headers, problemDetails);
+        throw apiException;
       } else {
-        throw new HTTPError(`Get access token error.`, res.status);
+        throw new ApiException(`Get access token error.`, res.status, res.headers, undefined);
       }
   }
 }
