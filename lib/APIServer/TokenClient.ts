@@ -1,6 +1,8 @@
 import { CreateConnectionRequest } from './CreateConnectionRequest.js';
 import { SessionKeyInfo } from './SessionKeyInfo.js';
 import { HTTPError } from '../HttpError.js';
+import { ProblemDetails } from '../ProblemDetails.js';
+import { ApiException } from '../ApiException.js';
 
 export interface ITokenClient {
   /**
@@ -14,6 +16,7 @@ export interface ITokenClient {
 
 export class TokenClient implements ITokenClient{
   private _baseUrl: string;
+  private _createAccessTokenErrMsg: string = "Get access token error.";
 
   /**
    * Constructor for a TokenClient used to interact with the Laserfiche Self-Hosted token endpoint.
@@ -43,9 +46,12 @@ export class TokenClient implements ITokenClient{
         return getAccessTokenResponse;
       } else if (res.headers.get('Content-Type')?.includes('json') === true) {
         const errorResponse = await res.json();
-        throw errorResponse;
+        const problemDetails = ProblemDetails.fromJS(errorResponse);
+        const apiException = new ApiException(problemDetails.title ?? this._createAccessTokenErrMsg,
+                                               problemDetails.status, res.headers, problemDetails);
+        throw apiException;
       } else {
-        throw new HTTPError(`Get access token error.`, res.status);
+        throw new ApiException(this._createAccessTokenErrMsg, res.status, res.headers, null);
       }
   }
 }
