@@ -18,10 +18,8 @@ export class ProblemDetails implements IProblemDetails {
     errorCode?: number;
     /** The trace id. */
     traceId?: string | undefined;
-
-
-
-    extensions: any;
+    /** A property that may contain additional info such as in the case of partial success responses. */
+    extensions?: any;
 
     constructor(data?: IProblemDetails) {
         if (data) {
@@ -88,4 +86,6 @@ export interface IProblemDetails {
     errorCode?: number;
     /** The trace id. */
     traceId?: string | undefined;
+    /** A property that may contain additional info such as in the case of partial success responses. */
+    extensions?: any;
 }

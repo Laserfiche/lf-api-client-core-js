@@ -52,6 +52,9 @@ export interface ITokenClient {
  */
 export class TokenClient implements ITokenClient {
   private _baseUrl: string;
+  private _accessTokenSPErrMsg: string = "Get access token error.";
+  private _refreshTokenErrMsg: string = "Refresh access token error.";
+  private _acessTokenCodeErrMsg: string = "Get access token from code error.";
 
   /**
    * Constructor for a TokenClient used to interact with the Laserfiche Cloud OAuth 2.0 token endpoint.
@@ -81,11 +84,11 @@ export class TokenClient implements ITokenClient {
     } else if (res.headers.get('Content-Type')?.includes('json') === true) {
       const errorResponse = await res.json();
       const problemDetails = ProblemDetails.fromJS(errorResponse);
-      const apiException = new ApiException(problemDetails.title ?? "HTTP status code " + problemDetails.status,
+      const apiException = new ApiException(problemDetails.title ?? this._refreshTokenErrMsg,
                                              problemDetails.status, res.headers, problemDetails);
       throw apiException;
     } else {
-      throw new ApiException(`Refresh access token error.`, res.status, res.headers, undefined);
+      throw new ApiException(this._refreshTokenErrMsg, res.status, res.headers, null);
     }
   }
 
@@ -119,11 +122,11 @@ export class TokenClient implements ITokenClient {
     } else if (res.headers.get('Content-Type')?.includes('json') === true) {
       const errorResponse = await res.json();
       const problemDetails = ProblemDetails.fromJS(errorResponse);
-      const apiException = new ApiException(problemDetails.title ?? "HTTP status code " + problemDetails.status,
+      const apiException = new ApiException(problemDetails.title ?? this._acessTokenCodeErrMsg,
                                              problemDetails.status, res.headers, problemDetails);
       throw apiException;
     } else {
-      throw new ApiException(`Get access token from code error.`, res.status, res.headers, undefined);
+      throw new ApiException(this._acessTokenCodeErrMsg, res.status, res.headers, null);
     }
   }
 
@@ -157,11 +160,11 @@ export class TokenClient implements ITokenClient {
     } else if (res.headers.get('Content-Type')?.includes('json') === true) {
       const errorResponse = await res.json();
       const problemDetails = ProblemDetails.fromJS(errorResponse);
-      const apiException = new ApiException(problemDetails.title ?? "HTTP status code " + problemDetails.status,
+      const apiException = new ApiException(problemDetails.title ?? this._accessTokenSPErrMsg,
                                              problemDetails.status, res.headers, problemDetails);
       throw apiException;
     } else {
-      throw new ApiException(`Get access token error.`, res.status, res.headers, undefined);
+      throw new ApiException(this._accessTokenSPErrMsg, res.status, res.headers, null);
     }
   }
 

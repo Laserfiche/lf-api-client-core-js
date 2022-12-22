@@ -1,3 +1,8 @@
+## 1.1.3
+
+### Fixes
+- Errors will now be thrown with the new `ApiException` type that has a `ProblemDetails` property to match the error handling of `lf-repository-api-client-js`.
+
 ## 1.1.2
 
 ### Fixes
