@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  NPM_VERSION: "1.1.3"
+  NPM_VERSION: "1.1.5"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -55,10 +55,9 @@ jobs:
             ./README.md
             ./LICENSE
 
-
   test:
     runs-on: ubuntu-latest
-    needs: [ build ]
+    needs: [build]
     steps:
       - uses: actions/checkout@v2
 
@@ -92,10 +91,9 @@ jobs:
           only-summary: "true"
           fail-on-error: "false"
 
-
   build-documentation:
     runs-on: ubuntu-latest
-    needs: [ build, test ]
+    needs: [build, test]
     steps:
       - uses: actions/checkout@v2
 
@@ -126,41 +124,39 @@ jobs:
       - name: delete temporary directory
         run: rm -r ./docs_temp
 
-
   publish-documentation:
     runs-on: ubuntu-latest
     environment: documentation
     if: ${{ github.run_attempt != 1 }}
-    needs: [ build, test, build-documentation ] # wait for build to finish
+    needs: [build, test, build-documentation] # wait for build to finish
     steps:
-    - name: Create temporary directory
-      run: mkdir -p ./docs_temp/${{ github.ref_name }}/
+      - name: Create temporary directory
+        run: mkdir -p ./docs_temp/${{ github.ref_name }}/
 
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v3.0.0
-      with:
-        name: documentation-artifact
-        path: ${{ github.workspace }}/docs_temp/${{ github.ref_name }}/
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: documentation-artifact
+          path: ${{ github.workspace }}/docs_temp/${{ github.ref_name }}/
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-west-2 # Use your bucket region here
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2 # Use your bucket region here
 
-    - name: Upload docs to S3 bucket
-      run: aws s3 sync ./docs_temp/${{ github.ref_name }}/ s3://apiserver-publish-client-library-docs/${{ github.event.repository.name }}/docs/${{ github.ref_name }} --delete
+      - name: Upload docs to S3 bucket
+        run: aws s3 sync ./docs_temp/${{ github.ref_name }}/ s3://apiserver-publish-client-library-docs/${{ github.event.repository.name }}/docs/${{ github.ref_name }} --delete
 
-    - name: Delete temporary directory
-      run: rm -r ./docs_temp/${{ github.ref_name }}/
-
+      - name: Delete temporary directory
+        run: rm -r ./docs_temp/${{ github.ref_name }}/
 
   publish-preview-package:
     runs-on: ubuntu-latest
     environment: preview
     if: ${{ github.run_attempt != 1 }}
-    needs: [ build, test, build-documentation ] # wait for build to finish
+    needs: [build, test, build-documentation] # wait for build to finish
     steps:
       - uses: actions/checkout@v2
         with:
@@ -175,7 +171,7 @@ jobs:
         uses: actions/setup-node@v2.5.1
         with:
           node-version: "14"
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: "https://registry.npmjs.org"
 
       - name: Npm tool install
         run: npm install -g npm@8
@@ -198,12 +194,11 @@ jobs:
           commit_sha: ${{ github.sha }}
           message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}}
 
-
   publish-production-package:
     runs-on: ubuntu-latest
     environment: production
     if: ${{ github.run_attempt != 1 }}
-    needs: [ build, test, build-documentation ]
+    needs: [build, test, build-documentation]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -218,7 +213,7 @@ jobs:
         uses: actions/setup-node@v2.5.1
         with:
           node-version: "14"
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: "https://registry.npmjs.org"
 
       - name: Npm tool install
         run: npm install -g npm@8
