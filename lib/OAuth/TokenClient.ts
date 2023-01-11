@@ -16,6 +16,7 @@ export interface ITokenClient {
    * Gets an OAuth access token given a Laserfiche cloud service principal key and an OAuth service application access key.
    * @param servicePrincipalKey Laserfiche cloud service principal key
    * @param accessKey OAuth service application access key
+   * @param scope OPTIONAL The scope of the requested access token.
    */
   getAccessTokenFromServicePrincipal(
     servicePrincipalKey: string,
@@ -29,6 +30,7 @@ export interface ITokenClient {
    * @param client_id OAuth application client id
    * @param client_secret OPTIONAL OAuth application client secret. Required for web apps.
    * @param code_verifier OPTIONAL PKCE code verifier. Required for SPA apps.
+   * @param scope OPTIONAL The scope of the requested access token.
    */
   getAccessTokenFromCode(
     code: string,
@@ -43,6 +45,7 @@ export interface ITokenClient {
    * @param refresh_token Refresh token
    * @param client_id OAuth application client id
    * @param client_secret OPTIONAL OAuth application client secret. Required for web apps.
+   * @param scope OPTIONAL The scope of the requested access token.
    */
   refreshAccessToken(refresh_token: string, client_id: string, client_secret?: string): Promise<GetAccessTokenResponse>;
 }
@@ -69,13 +72,15 @@ export class TokenClient implements ITokenClient {
    * @param refresh_token Refresh token
    * @param client_id OAuth application client id
    * @param client_secret OPTIONAL OAuth application client secret. Required for web apps.
+   * @param scope OPTIONAL The scope of the requested access token.
    */
   async refreshAccessToken(
     refresh_token: string,
     client_id: string,
-    client_secret?: string
+    client_secret?: string,
+    scope?: string
   ): Promise<GetAccessTokenResponse> {
-    const request = this.createRefreshTokenRequest(refresh_token, client_id, client_secret);
+    const request = this.createRefreshTokenRequest(refresh_token, client_id, client_secret, scope);
     let url = this._baseUrl;
     const res: Response = await fetch(url, request);
     if (res.status === 200) {
@@ -99,6 +104,7 @@ export class TokenClient implements ITokenClient {
    * @param client_id OAuth application client id
    * @param client_secret OPTIONAL OAuth application client secret. Required for web apps.
    * @param code_verifier OPTIONAL PKCE code verifier. Required for SPA apps.
+   * @param scope OPTIONAL The scope of the requested access token.
    */
   async getAccessTokenFromCode(
     code: string,
@@ -134,10 +140,12 @@ export class TokenClient implements ITokenClient {
    * Gets an OAuth access token given a Laserfiche cloud service principal key and an OAuth service application access key.
    * @param servicePrincipalKey Laserfiche cloud service principal key
    * @param accessKey OAuth service application access key
+   * @param scope OPTIONAL The scope of the requested access token.
    */
   async getAccessTokenFromServicePrincipal(
     servicePrincipalKey: string,
-    accessKey: AccessKey
+    accessKey: AccessKey,
+    scope?: string
   ): Promise<GetAccessTokenResponse> {
     const token = createClientCredentialsAuthorizationJwt(servicePrincipalKey, accessKey);
 
@@ -149,7 +157,7 @@ export class TokenClient implements ITokenClient {
         credentials: 'include',
         Authorization: `Bearer ${token}`,
       }),
-      body: 'grant_type=client_credentials',
+      body: `grant_type=client_credentials&scope=${scope}`,
     };
 
     const url = this._baseUrl;
@@ -173,7 +181,8 @@ export class TokenClient implements ITokenClient {
     redirect_uri: string,
     client_id: string,
     code_verifier?: string,
-    client_secret?: string
+    client_secret?: string,
+    scope?: string
   ): RequestInit {
     const request: RequestInit = { method: 'POST' };
     const headers = this.getPostRequestHeaders(client_id, client_secret);
@@ -186,20 +195,26 @@ export class TokenClient implements ITokenClient {
     if (code_verifier) {
       body['code_verifier'] = code_verifier;
     }
+    if (scope) {
+      body['scope'] = scope;
+    }
     const requestBody = this.objToWWWFormUrlEncodedBody(body);
     request.headers = headers;
     request.body = requestBody;
     return request;
   }
 
-  private createRefreshTokenRequest(refreshToken: string, client_id: string, client_secret?: string): RequestInit {
+  private createRefreshTokenRequest(refreshToken: string, client_id: string, client_secret?: string, scope?: string): RequestInit {
     const request: RequestInit = { method: 'POST' };
     const headers = this.getPostRequestHeaders(client_id, client_secret);
-    const body = {
+    let body: any= {
       grant_type: 'refresh_token',
       refresh_token: refreshToken,
-      client_id,
+      client_id
     };
+    if (scope){
+      body['scope'] = scope;
+    }
     const requestBody = this.objToWWWFormUrlEncodedBody(body);
     request.headers = headers;
     request.body = requestBody;

@@ -20,8 +20,9 @@ export class OAuthClientCredentialsHandler implements HttpRequestHandler {
    * Constructor
    * @param servicePrincipalKey The service principal key created for the service principal from the Laserfiche Account Administration.
    * @param accessKey The access key exported from the Laserfiche Developer Console.
+   * @param scope Specifies the requested scopes for the authorization request. Scopes are case-sensitive and space-delimited.
    */
-  public constructor(servicePrincipalKey: string, accessKey: AccessKey) {
+  public constructor(servicePrincipalKey: string, accessKey: AccessKey, scope?: string) {
     if (!servicePrincipalKey) throw new Error('Service principal key cannot be blank.');
 
     this._accessKey = accessKey;

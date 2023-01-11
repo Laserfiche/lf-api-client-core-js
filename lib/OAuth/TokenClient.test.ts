@@ -35,9 +35,23 @@ describe('getAccessTokenFromServicePrincipal', () => {
 
     let result: GetAccessTokenResponse = await inst.getAccessTokenFromServicePrincipal(
       testServicePrincipalKey,
-      accessKey
+      accessKey,
     );
     expect(result?.access_token).toBeTruthy();
+    expect(result?.scope).toBeNull();
+  });
+
+  test('Correct config with scope returns scope', async () => {
+    let domain = accessKey.domain;
+    inst = new TokenClient(domain);
+
+    let result: GetAccessTokenResponse = await inst.getAccessTokenFromServicePrincipal(
+      testServicePrincipalKey,
+      accessKey,
+      "repositories.Read"
+    );
+    expect(result?.access_token).toBeTruthy();
+    expect(result?.scope).toBe("repositories.Read");
   });
 
   test('Correct domain is case insensitive', async () => {
