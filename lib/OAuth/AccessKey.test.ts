@@ -62,32 +62,69 @@ describe('createFromBase64EncodedAccessKey', () => {
 });
 
 describe('createClientCredentialsAuthorizationJwt', () => {
-  test('createClientCredentialsAuthorizationJwt successfully creates Client Credentials Authorization Jwt', async () => {
+  test('createClientCredentialsAuthorizationJwt successfully creates Client Credentials Authorization Jwt with default expiration time', async () => {
     // Arrange
-    const accessKey: AccessKey = {
-      customerId: '122222222',
-      clientId: 'b2c235cc-2f52-414c-9d4e-3a6b58bf79da',
-      domain: 'a.clouddev.laserfiche.com',
-      jwk: {
-        kty: 'EC',
-        crv: 'P-256',
-        use: 'sig',
-        kid: 'ihX3QNlrwa7S9ykIuGRgIw2J2IFro5VkvFU4BKq-BY4',
-        x: '8TF14AaUHUQJM45iNx0yI-Q11egegVQrWsOwLj0SqlQ',
-        y: 'Odo8vq4jW6hGZRC5_Q7n_tbtBZK-EkpVpbKrUKRUKN0',
-        d: '_ncf4tfr8p55p1UxYf359DxZ2y3PaDBeDWmzIWiJApw',
-        iat: 1662154221,
-      },
-    };
-
-    const servicePrincipalKey = '-_FAKE_2rrr1A_C_22'; //Not an active key
+    const { servicePrincipalKey, accessKey } = getValidDataForCreatingJWT();
 
     //Act
     const authorizationToken: string = createClientCredentialsAuthorizationJwt(servicePrincipalKey, accessKey);
 
     //Assert
     expect(isValidJWT(authorizationToken)).toBeTruthy();
+    const JWT = parseAccessToken(authorizationToken);
+    type payloadType = typeof JWT.payload;
+    expect(JWT.payload).toHaveProperty('exp');
+    expect(JWT.payload['exp' as keyof payloadType] - JWT.payload['iat' as keyof payloadType]).toBe(3600);
   });
+
+  test.each([0.1, 5678])(
+    'createClientCredentialsAuthorizationJwt successfully creates Client Credentials Authorization Jwt with specified expiration time -> %s',
+    async (expirationTime) => {
+      // Arrange
+      const { servicePrincipalKey, accessKey } = getValidDataForCreatingJWT();
+
+      //Act
+      const authorizationToken: string = createClientCredentialsAuthorizationJwt(
+        servicePrincipalKey,
+        accessKey,
+        expirationTime
+      );
+
+      //Assert
+      expect(isValidJWT(authorizationToken)).toBeTruthy();
+      const JWT = parseAccessToken(authorizationToken);
+      type payloadType = typeof JWT.payload;
+      expect(JWT.payload).toHaveProperty('exp');
+      expect(JWT.payload['exp' as keyof payloadType] - JWT.payload['iat' as keyof payloadType]).toBe(
+        Math.ceil(expirationTime)
+      );
+    }
+  );
+
+  test('createClientCredentialsAuthorizationJwt successfully creates Client Credentials Authorization Jwt that never expires', async () => {
+    // Arrange
+    const { servicePrincipalKey, accessKey } = getValidDataForCreatingJWT();
+
+    //Act
+    const authorizationToken: string = createClientCredentialsAuthorizationJwt(servicePrincipalKey, accessKey, 0);
+
+    //Assert
+    expect(isValidJWT(authorizationToken)).toBeTruthy();
+    expect(parseAccessToken(authorizationToken).payload).not.toHaveProperty('exp');
+  });
+
+  test.each([-0.1, -3600])(
+    'createClientCredentialsAuthorizationJwt fails to create Client Credentials Authorization Jwt from invalid expiration time -> %s',
+    async (invalidExpiration) => {
+      // Arrange
+      const { servicePrincipalKey, accessKey } = getValidDataForCreatingJWT();
+
+      // Act and Assert
+      expect(() => createClientCredentialsAuthorizationJwt(servicePrincipalKey, accessKey, invalidExpiration)).toThrow(
+        'Expiration time must be later than the current time.'
+      );
+    }
+  );
 
   test('createClientCredentialsAuthorizationJwt successfully creates Client Credentials Authorization Jwt from Base64EncodedAccessKey', async () => {
     // Arrange
@@ -120,3 +157,24 @@ function isValidJWT(jwt: string): boolean {
   const jwtObj = parseAccessToken(jwt);
   return jwtObj && !!jwtObj.header && !!jwtObj.payload && !!jwtObj.signature;
 }
+
+const getValidDataForCreatingJWT = (): { servicePrincipalKey: string; accessKey: AccessKey } => {
+  return {
+    servicePrincipalKey: '-_FAKE_2rrr1A_C_22',
+    accessKey: {
+      customerId: '122222222',
+      clientId: 'b2c235cc-2f52-414c-9d4e-3a6b58bf79da',
+      domain: 'a.clouddev.laserfiche.com',
+      jwk: {
+        kty: 'EC',
+        crv: 'P-256',
+        use: 'sig',
+        kid: 'ihX3QNlrwa7S9ykIuGRgIw2J2IFro5VkvFU4BKq-BY4',
+        x: '8TF14AaUHUQJM45iNx0yI-Q11egegVQrWsOwLj0SqlQ',
+        y: 'Odo8vq4jW6hGZRC5_Q7n_tbtBZK-EkpVpbKrUKRUKN0',
+        d: '_ncf4tfr8p55p1UxYf359DxZ2y3PaDBeDWmzIWiJApw',
+        iat: 1662154221,
+      },
+    },
+  };
+};
