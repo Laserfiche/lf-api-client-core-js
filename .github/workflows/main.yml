@@ -55,9 +55,10 @@ jobs:
             ./README.md
             ./LICENSE
 
+
   test:
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [ build ]
     steps:
       - uses: actions/checkout@v2
 
@@ -91,9 +92,10 @@ jobs:
           only-summary: "true"
           fail-on-error: "false"
 
+
   build-documentation:
     runs-on: ubuntu-latest
-    needs: [build, test]
+    needs: [ build, test ]
     steps:
       - uses: actions/checkout@v2
 
@@ -124,11 +126,12 @@ jobs:
       - name: delete temporary directory
         run: rm -r ./docs_temp
 
+
   publish-documentation:
     runs-on: ubuntu-latest
     environment: documentation
     if: ${{ github.run_attempt != 1 }}
-    needs: [build, test, build-documentation] # wait for build to finish
+    needs: [ build, test, build-documentation ] # wait for build to finish
     steps:
       - name: Create temporary directory
         run: mkdir -p ./docs_temp/${{ github.ref_name }}/
@@ -152,11 +155,12 @@ jobs:
       - name: Delete temporary directory
         run: rm -r ./docs_temp/${{ github.ref_name }}/
 
+
   publish-preview-package:
     runs-on: ubuntu-latest
     environment: preview
     if: ${{ github.run_attempt != 1 }}
-    needs: [build, test, build-documentation] # wait for build to finish
+    needs: [ build, test, build-documentation ] # wait for build to finish
     steps:
       - uses: actions/checkout@v2
         with:
@@ -171,7 +175,7 @@ jobs:
         uses: actions/setup-node@v2.5.1
         with:
           node-version: "14"
-          registry-url: "https://registry.npmjs.org"
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Npm tool install
         run: npm install -g npm@8
@@ -194,11 +198,12 @@ jobs:
           commit_sha: ${{ github.sha }}
           message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}}
 
+
   publish-production-package:
     runs-on: ubuntu-latest
     environment: production
     if: ${{ github.run_attempt != 1 }}
-    needs: [build, test, build-documentation]
+    needs: [ build, test, build-documentation ]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -213,7 +218,7 @@ jobs:
         uses: actions/setup-node@v2.5.1
         with:
           node-version: "14"
-          registry-url: "https://registry.npmjs.org"
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Npm tool install
         run: npm install -g npm@8
