@@ -1,4 +1,4 @@
-import { ProblemDetails } from "./ProblemDetails";
+import { ProblemDetails } from "./ProblemDetails.js";
 const OPERATION_ID_HEADER: string = "x-requestid";
 
 export class ApiException extends Error  {
