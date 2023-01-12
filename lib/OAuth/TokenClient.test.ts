@@ -54,6 +54,32 @@ describe('getAccessTokenFromServicePrincipal', () => {
     expect(result?.scope).toBe("repositories.Read");
   });
 
+  test('Correct config with incorrect scope is not included', async () => {
+    let domain = accessKey.domain;
+    inst = new TokenClient(domain);
+
+    let result: GetAccessTokenResponse = await inst.getAccessTokenFromServicePrincipal(
+      testServicePrincipalKey,
+      accessKey,
+      "repositories.Read invalidScope"
+    );
+    expect(result?.access_token).toBeTruthy();
+    expect(result?.scope).toBe("repositories.Read");
+  });
+
+  // test('Correct config with read specific entry scope', async () => {
+  //   let domain = accessKey.domain;
+  //   inst = new TokenClient(domain);
+
+  //   let result: GetAccessTokenResponse = await inst.getAccessTokenFromServicePrincipal(
+  //     testServicePrincipalKey,
+  //     accessKey,
+  //     "repositories/Repositories/r-12345/Entries/123.ReadWrite"
+  //   );
+  //   expect(result?.access_token).toBeTruthy();
+  //   expect(result?.scope).toBe("repositories/Repositories/r-12345/Entries/123.ReadWrite");
+  // });
+
   test('Correct domain is case insensitive', async () => {
     let domain = accessKey.domain.toUpperCase();
     inst = new TokenClient(domain);
