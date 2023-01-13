@@ -1,3 +1,7 @@
+## 1.1.4
+### Features
+- An optional `scope` parameter has been added when requesting an access token for `getAccessTokenFromCode` and `getAccessTokenFromServicePrincipal`.
+
 ## 1.1.3
 
 ### Fixes
