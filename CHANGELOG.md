@@ -1,3 +1,8 @@
+## 1.1.5
+
+### Features
+- Updated function `createClientCredentialsAuthorizationJwt` with optional `expireInSeconds` parameter
+
 ## 1.1.3
 
 ### Fixes
