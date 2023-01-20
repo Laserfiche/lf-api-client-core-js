@@ -58,7 +58,7 @@ describe('UsernamePasswordHandler', () => {
     expect(bearerTokenParameter).toBe(bearerTokenParameter2);
   });
 
-  test('Before fetch request async returns regional domain', async () => {
+  test.only('Before fetch request async returns regional domain', async () => {
     let httpRequestHandler = new UsernamePasswordHandler(repositoryId, username, password, baseUrl);
     const url = 'https://laserfiche.com/repository/';
     let request: RequestInit = {
@@ -66,6 +66,7 @@ describe('UsernamePasswordHandler', () => {
       headers: {},
     };
     let result: BeforeFetchResult = await httpRequestHandler.beforeFetchRequestAsync(url, request);
+    console.log(result.regionalDomain);
     expect(result?.regionalDomain).toBeTruthy();
   });
 

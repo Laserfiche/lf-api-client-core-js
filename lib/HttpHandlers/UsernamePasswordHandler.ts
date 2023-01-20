@@ -1,3 +1,4 @@
+import { stringToBase64 } from '@laserfiche/lf-js-utils/dist/utils/string-utils.js';
 import { CreateConnectionRequest } from '../APIServer/CreateConnectionRequest.js';
 import { ITokenClient, TokenClient } from '../APIServer/TokenClient.js';
 import { BeforeFetchResult } from './BeforeFetchResult.js';
@@ -7,7 +8,6 @@ const GRANT_TYPE: string = 'password';
 export class UsernamePasswordHandler implements HttpRequestHandler {
   private _accessToken: string | undefined;
   private _repositoryId: string;
-  private _baseUrl: string;
   private _client: ITokenClient;
   private _request: CreateConnectionRequest;
 
@@ -27,7 +27,7 @@ export class UsernamePasswordHandler implements HttpRequestHandler {
     baseUrl: string,
     client?: ITokenClient
   ) {
-    this._baseUrl = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
+    baseUrl = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
     this._repositoryId = repositoryId;
     this._request = {
       grant_type: GRANT_TYPE,
@@ -35,7 +35,7 @@ export class UsernamePasswordHandler implements HttpRequestHandler {
       password: password,
     };
     if (!client) {
-      this._client = new TokenClient(this._baseUrl ?? '');
+      this._client = new TokenClient(baseUrl ?? '');
     } else {
       this._client = client;
     }
@@ -47,7 +47,7 @@ export class UsernamePasswordHandler implements HttpRequestHandler {
    * @param request The HTTP request
    */
   async beforeFetchRequestAsync(url: string, request: RequestInit): Promise<BeforeFetchResult> {
-    if (!this._accessToken) {
+    if (!this._accessToken && this._request.username && this._request.password) {
       let resp = await this._client.createAccessToken(this._repositoryId, this._request);
       if (resp?.access_token) {
         this._accessToken = resp.access_token;
@@ -62,7 +62,7 @@ export class UsernamePasswordHandler implements HttpRequestHandler {
       (<any>request.headers)['Authorization'] = 'Bearer ' + this._accessToken;
     }
     return {
-      regionalDomain: this._baseUrl,
+      regionalDomain: url
     };
   }
 
