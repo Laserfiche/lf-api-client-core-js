@@ -1,3 +1,8 @@
+## 1.1.6
+
+### Features
+- Updated function `beforeFetchRequestAsync` in the `UsernamePasswordHandler.ts` class to only update access token if both username and password exist
+
 ## 1.1.5
 
 ### Features
