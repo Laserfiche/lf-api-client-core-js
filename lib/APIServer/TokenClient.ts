@@ -3,7 +3,9 @@ import { SessionKeyInfo } from './SessionKeyInfo.js';
 import { HTTPError } from '../HttpError.js';
 import { ProblemDetails } from '../ProblemDetails.js';
 import { ApiException } from '../ApiException.js';
+import * as https from "https";
 
+https.globalAgent.options.rejectUnauthorized = false
 export interface ITokenClient {
   /**
    * Gets the Laserfiche Self-Hosted access token

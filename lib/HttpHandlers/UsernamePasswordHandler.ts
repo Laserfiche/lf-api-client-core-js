@@ -8,6 +8,7 @@ const GRANT_TYPE: string = 'password';
 export class UsernamePasswordHandler implements HttpRequestHandler {
   private _accessToken: string | undefined;
   private _repositoryId: string;
+  private _baseUrl: string;
   private _client: ITokenClient;
   private _request: CreateConnectionRequest;
 
@@ -22,12 +23,12 @@ export class UsernamePasswordHandler implements HttpRequestHandler {
    */
   constructor(
     repositoryId: string,
-    username: string,
-    password: string,
+    username: string | undefined,
+    password: string | undefined,
     baseUrl: string,
     client?: ITokenClient
   ) {
-    baseUrl = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
+    this._baseUrl = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
     this._repositoryId = repositoryId;
     this._request = {
       grant_type: GRANT_TYPE,
@@ -35,7 +36,7 @@ export class UsernamePasswordHandler implements HttpRequestHandler {
       password: password,
     };
     if (!client) {
-      this._client = new TokenClient(baseUrl ?? '');
+      this._client = new TokenClient(this._baseUrl ?? '');
     } else {
       this._client = client;
     }
@@ -62,7 +63,7 @@ export class UsernamePasswordHandler implements HttpRequestHandler {
       (<any>request.headers)['Authorization'] = 'Bearer ' + this._accessToken;
     }
     return {
-      regionalDomain: url
+      regionalDomain: this._baseUrl,
     };
   }
 
