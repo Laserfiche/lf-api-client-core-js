@@ -3,4 +3,5 @@ export interface GetAccessTokenResponse {
   expires_in: number | undefined;
   token_type: string | undefined;
   refresh_token: string | undefined;
+  scope: string | undefined;
 }
