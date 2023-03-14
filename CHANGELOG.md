@@ -1,3 +1,8 @@
+## 1.1.7
+
+### Fixes
+- `ApiException` thrown from a HEAD request contains the error message obtained from the response header
+
 ## 1.1.5
 
 ### Features
