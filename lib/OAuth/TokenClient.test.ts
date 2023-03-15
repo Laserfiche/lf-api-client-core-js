@@ -48,10 +48,10 @@ describe('getAccessTokenFromServicePrincipal', () => {
     let result: GetAccessTokenResponse = await inst.getAccessTokenFromServicePrincipal(
       testServicePrincipalKey,
       accessKey,
-      "repositories.Read"
+      "repository.Read"
     );
     expect(result?.access_token).toBeTruthy();
-    expect(result?.scope).toBe("repositories.Read");
+    expect(result?.scope).toBe("repository.Read");
   });
 
   test('Correct config with incorrect scope is not included', async () => {
@@ -61,10 +61,10 @@ describe('getAccessTokenFromServicePrincipal', () => {
     let result: GetAccessTokenResponse = await inst.getAccessTokenFromServicePrincipal(
       testServicePrincipalKey,
       accessKey,
-      "repositories.Read invalidScope"
+      "repository.Read invalidScope"
     );
     expect(result?.access_token).toBeTruthy();
-    expect(result?.scope).toBe("repositories.Read");
+    expect(result?.scope).toBe("repository.Read");
   });
 
   // test('Correct config with read specific entry scope', async () => {

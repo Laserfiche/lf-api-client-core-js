@@ -1,5 +1,7 @@
 import { ProblemDetails } from "./ProblemDetails.js";
+
 const OPERATION_ID_HEADER: string = "x-requestid";
+const API_SERVER_ERROR_HEADER: string = "x-apiserver-error";
 
 export class ApiException extends Error  {
     message: string;
@@ -10,14 +12,13 @@ export class ApiException extends Error  {
     constructor(message: string, status: number, headers: { [key: string]: any; }, problemDetails: ProblemDetails | null) {
       super();
 
-      this.message =  message;
-      this.status = status;
-      this.headers = headers;
       this.problemDetails = problemDetails != null && problemDetails.status !== undefined ? problemDetails : ProblemDetails.fromJS({
-        "title": message ?? "HTTP status code " + status,
+        "title": headers[API_SERVER_ERROR_HEADER]? decodeURIComponent(headers[API_SERVER_ERROR_HEADER]) : "HTTP status code " + status,
         "status": status,
         "operationId": headers[OPERATION_ID_HEADER],
       });
+      this.message = this.problemDetails.title?? message;
+      this.status = status;
+      this.headers = headers;
     }
-
   }
