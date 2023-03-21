@@ -17,6 +17,7 @@ describe('getAccessTokenFromAPIServer', () => {
     username: username,
     password: password,
   };
+
   test('Wrong domain returns null', async () => {
     let domain = 'fake.laserfiche.com';
     inst = new TokenClient(domain);
@@ -39,8 +40,7 @@ describe('getAccessTokenFromAPIServer', () => {
 
   test('Correct domain is case insensitive', async () => {
     let domain = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
-    let domainUpperCase = domain.toUpperCase();
-    inst = new TokenClient(domainUpperCase);
+    inst = new TokenClient(domain.toUpperCase());
     let result: SessionKeyInfo = await inst.createAccessToken(repositoryId, body);
     expect(result?.access_token).toBeTruthy();
   });
