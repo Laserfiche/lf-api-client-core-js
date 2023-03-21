@@ -101,7 +101,8 @@ jobs:
           name: Jest Test Results
           path: ./*.xml
           reporter: jest-junit
-          only-summary: "true"
+          only-summary: "false"
+          list-tests: "failed"
           fail-on-error: "false"
 
 
