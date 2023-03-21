@@ -76,11 +76,21 @@ jobs:
       - name: Npm ci
         run: npm ci
 
-      - name: Npm test
+      - name: Npm test on cloud
+        id: test-cloud
         env:
           ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
           SERVICE_PRINCIPAL_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
         run: npm run test:Cloud
+
+      - name: Npm test on self-hosted
+        if: always() && (steps.test-cloud.outcome == 'success' || steps.test-cloud.outcome == 'failure')
+        env:
+          REPOSITORY_ID: ${{ secrets.APISERVER_REPOSITORY_ID }}
+          APISERVER_USERNAME:  ${{ secrets.APISERVER_USERNAME }}
+          APISERVER_PASSWORD:  ${{ secrets.APISERVER_PASSWORD }}
+          APISERVER_REPOSITORY_API_BASE_URL:  ${{ secrets.APISERVER_REPOSITORY_API_BASE_URL }}
+        run: npm run test:SelfHosted
 
       - name: Test Report
         uses: dorny/test-reporter@v1
