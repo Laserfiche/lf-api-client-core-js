@@ -31,7 +31,7 @@ describe('getAccessTokenFromAPIServer', () => {
   });
   
   test('Correct config returns access token', async () => {
-    let domain = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
+    let domain = baseUrl;
     inst = new TokenClient(domain);
 
     let result: SessionKeyInfo = await inst.createAccessToken(repositoryId, body);
@@ -39,8 +39,8 @@ describe('getAccessTokenFromAPIServer', () => {
   });
 
   test('Correct domain is case insensitive', async () => {
-    let domain = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
-    inst = new TokenClient(domain.toUpperCase());
+    let domain = baseUrl.toUpperCase();
+    inst = new TokenClient(domain);
     let result: SessionKeyInfo = await inst.createAccessToken(repositoryId, body);
     expect(result?.access_token).toBeTruthy();
   });

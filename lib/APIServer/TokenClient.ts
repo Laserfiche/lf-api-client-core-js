@@ -24,7 +24,7 @@ export class TokenClient implements ITokenClient{
    */
   constructor(baseUrl: string) {
     if (!baseUrl) throw new Error('baseUrl is undefined.');
-    this._baseUrl = baseUrl;
+    this._baseUrl = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
   }
 
   async createAccessToken(repositoryId: string, body: CreateConnectionRequest): Promise<SessionKeyInfo> {

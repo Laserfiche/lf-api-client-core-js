@@ -27,7 +27,7 @@ export class UsernamePasswordHandler implements HttpRequestHandler {
     baseUrl: string,
     client?: ITokenClient
   ) {
-    this._baseUrl = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
+    this._baseUrl = baseUrl;
     this._repositoryId = repositoryId;
     this._request = {
       grant_type: GRANT_TYPE,
