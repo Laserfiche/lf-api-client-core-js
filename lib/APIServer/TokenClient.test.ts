@@ -17,6 +17,7 @@ describe('getAccessTokenFromAPIServer', () => {
     username: username,
     password: password,
   };
+
   test('Wrong domain returns null', async () => {
     let domain = 'fake.laserfiche.com';
     inst = new TokenClient(domain);
@@ -28,7 +29,7 @@ describe('getAccessTokenFromAPIServer', () => {
     inst = new TokenClient(domain);
     expect(async () => await inst.createAccessToken(repositoryId, body)).rejects.toThrow();
   });
-
+  
   test('Correct config returns access token', async () => {
     let domain = baseUrl;
     inst = new TokenClient(domain);
