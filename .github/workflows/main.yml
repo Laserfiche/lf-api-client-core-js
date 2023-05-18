@@ -225,7 +225,6 @@ jobs:
   publish-documentation:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    environment: github-pages
     needs: [ publish-preview-package ]
     steps:
       - name: Set DOCUMENTATION_VERSION environment variable
@@ -238,7 +237,7 @@ jobs:
             echo '::error::Unable to publish documentation for the current branch.'
             exit 1
           fi
-          
+
       - name: Print DOCUMENTATION_VERSION environment variable
         run: |
           echo 'Publishing documentation to ${{ env.GITHUB_PAGES_BRANCH }} for ${{ env.DOCUMENTATION_VERSION }}.'
