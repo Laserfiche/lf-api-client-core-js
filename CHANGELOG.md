@@ -1,3 +1,8 @@
+## 1.1.8
+
+### Fixes
+- Fixed security vulnerability issue by updating the project dependency versions to the latest version
+
 ## 1.1.7
 
 ### Fixes
