@@ -1,7 +1,7 @@
 ## 1.1.8
 
 ### Fixes
-- Fixed security vulnerability issue by updating the project dependency versions to the latest version
+- Fixed security vulnerability issue by updating json5 dependency to version 2.2.3 in the `package-lock.json` file
 
 ## 1.1.7
 
