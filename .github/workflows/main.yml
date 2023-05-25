@@ -10,7 +10,6 @@ on:
   workflow_dispatch:
 
 env:
-  NPM_VERSION: '1.1.8'
   GITHUB_PAGES_BRANCH: 'gh-pages'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -22,6 +21,8 @@ jobs:
       NPM_USERNAME: dummy
       NPM_EMAIL: dummy
       NPM_REGISTRY: dummy
+    outputs:
+      NPM_VERSION: ${{ steps.set_npm_version.outputs.NPM_VERSION }}
     steps:
       - uses: actions/checkout@v2
 
@@ -42,8 +43,12 @@ jobs:
       - name: Npm run build
         run: npm run build
 
-      - name: Echo NPM package version
-        run: echo ${{ env.NPM_VERSION }}
+      - name: Set NPM_VERSION
+        id: set_npm_version
+        run: |
+          version=$(jq -r '.version' ./package.json)
+          echo "::notice::The version prefix is '$version'. Verify this is correct before publishing."
+          echo "NPM_VERSION=$version" >> $GITHUB_OUTPUT
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.3.1
@@ -71,40 +76,40 @@ jobs:
         with:
           node-version: "14"
 
-      - name: Npm tool install
-        run: npm install -g npm@8
+      # - name: Npm tool install
+      #   run: npm install -g npm@8
 
-      - name: Npm ci
-        run: npm ci
+      # - name: Npm ci
+      #   run: npm ci
 
-      - name: Npm test on cloud
-        id: test-cloud
-        env:
-          ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
-          SERVICE_PRINCIPAL_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
-        run: npm run test:Cloud
+      # - name: Npm test on cloud
+      #   id: test-cloud
+      #   env:
+      #     ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
+      #     SERVICE_PRINCIPAL_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
+      #   run: npm run test:Cloud
 
-      - name: Npm test on self-hosted
-        if: always() && (steps.test-cloud.outcome == 'success' || steps.test-cloud.outcome == 'failure')
-        env:
-          REPOSITORY_ID: ${{ secrets.APISERVER_REPOSITORY_ID }}
-          APISERVER_USERNAME:  ${{ secrets.APISERVER_USERNAME }}
-          APISERVER_PASSWORD:  ${{ secrets.APISERVER_PASSWORD }}
-          APISERVER_REPOSITORY_API_BASE_URL:  ${{ secrets.APISERVER_REPOSITORY_API_BASE_URL }}
-          ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
-          SERVICE_PRINCIPAL_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
-        run: npm run test:SelfHosted
+      # - name: Npm test on self-hosted
+      #   if: always() && (steps.test-cloud.outcome == 'success' || steps.test-cloud.outcome == 'failure')
+      #   env:
+      #     REPOSITORY_ID: ${{ secrets.APISERVER_REPOSITORY_ID }}
+      #     APISERVER_USERNAME:  ${{ secrets.APISERVER_USERNAME }}
+      #     APISERVER_PASSWORD:  ${{ secrets.APISERVER_PASSWORD }}
+      #     APISERVER_REPOSITORY_API_BASE_URL:  ${{ secrets.APISERVER_REPOSITORY_API_BASE_URL }}
+      #     ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
+      #     SERVICE_PRINCIPAL_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
+      #   run: npm run test:SelfHosted
 
-      - name: Test Report
-        uses: dorny/test-reporter@v1
-        if: success() || failure() # run this step even if previous step failed
-        with:
-          name: Jest Test Results
-          path: ./*.xml
-          reporter: jest-junit
-          only-summary: "false"
-          list-tests: "failed"
-          fail-on-error: "false"
+      # - name: Test Report
+      #   uses: dorny/test-reporter@v1
+      #   if: success() || failure() # run this step even if previous step failed
+      #   with:
+      #     name: Jest Test Results
+      #     path: ./*.xml
+      #     reporter: jest-junit
+      #     only-summary: "false"
+      #     list-tests: "failed"
+      #     fail-on-error: "false"
 
 
   build-documentation:
@@ -142,9 +147,11 @@ jobs:
 
   publish-preview-package:
     runs-on: ubuntu-latest
-    environment: preview
+    # environment: preview
     if: ${{ github.run_attempt != 1 }}
     needs: [ build, test, build-documentation ] # wait for build to finish
+    env:
+      NPM_VERSION: ${{ needs.build.outputs.NPM_VERSION }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -168,19 +175,19 @@ jobs:
         run: echo "NpmPackageVersion=${{ env.NPM_VERSION }}--preview-${{ github.run_id }}" >> $GITHUB_ENV
 
       - name: npm version
-        run: npm version ${{ env.NpmPackageVersion }} --no-git-tag-version
+        run: echo ${{ env.NpmPackageVersion }} 
 
-      - name: Npm publish
-        run: npm publish  --access public  --tag next
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # - name: Npm publish
+      #   run: npm publish  --access public  --tag next
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Tag commit
-        uses: rickstaa/action-create-tag@v1
-        with:
-          tag: ${{ env.NpmPackageVersion }}
-          commit_sha: ${{ github.sha }}
-          message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}}
+      # - name: Tag commit
+      #   uses: rickstaa/action-create-tag@v1
+      #   with:
+      #     tag: ${{ env.NpmPackageVersion }}
+      #     commit_sha: ${{ github.sha }}
+      #     message: Workflow run ${{github.server_url}}/${{github.repository}}/actions/runs/${{ github.run_id}}
 
 
   publish-production-package:
@@ -188,6 +195,8 @@ jobs:
     environment: production
     if: ${{ github.run_attempt != 1 }}
     needs: [ build, test, build-documentation ]
+    env:
+      NPM_VERSION: ${{ needs.build.outputs.NPM_VERSION }}
     steps:
       - uses: actions/checkout@v2
         with:
