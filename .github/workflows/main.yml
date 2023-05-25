@@ -47,7 +47,7 @@ jobs:
         id: set_npm_version
         run: |
           version=$(jq -r '.version' ./package.json)
-          echo "::notice::The version prefix is '$version'. Verify this is correct before publishing."
+          echo "::notice::Please verify if the version prefix '$version' is correct before publishing a new package from this workflow."
           echo "NPM_VERSION=$version" >> $GITHUB_OUTPUT
 
       - name: Upload a Build Artifact
