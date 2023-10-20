@@ -146,7 +146,7 @@ function isValidJWT(jwt: string): boolean {
 }
 
 function getAccessKeyFromEnv(): AccessKey {
-  const json: string = process.env.VALID_ACCESS_KEY_JSON ?? "";
+  const json: string = process.env.ACCESS_KEY_JSON ?? "";
   const accessKey: AccessKey = JSON.parse(json);
   return accessKey;
 }
