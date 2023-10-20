@@ -81,6 +81,7 @@ jobs:
         id: test-cloud
         env:
           ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
+          ACCESS_KEY_JSON: ${{ secrets.ACCESS_KEY_JSON }}
           SERVICE_PRINCIPAL_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
         run: npm run test:Cloud
 
@@ -92,6 +93,7 @@ jobs:
           APISERVER_PASSWORD:  ${{ secrets.APISERVER_PASSWORD }}
           APISERVER_REPOSITORY_API_BASE_URL:  ${{ secrets.APISERVER_REPOSITORY_API_BASE_URL }}
           ACCESS_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_INTEGRATION_TEST_ACCESS_KEY }}
+          ACCESS_KEY_JSON: ${{ secrets.ACCESS_KEY_JSON }}
           SERVICE_PRINCIPAL_KEY: ${{ secrets.DEV_CA_PUBLIC_USE_TESTOAUTHSERVICEPRINCIPAL_SERVICE_PRINCIPAL_KEY }}
         run: npm run test:SelfHosted
 
@@ -114,9 +116,9 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2.5.1
+        uses: actions/setup-node@v3
         with:
-          node-version: "14"
+          node-version: "18"
 
       - name: Npm tool install
         run: npm install -g npm@8
