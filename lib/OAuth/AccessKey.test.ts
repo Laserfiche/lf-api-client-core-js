@@ -152,7 +152,7 @@ function getAccessKeyFromEnv(): AccessKey {
 }
 
 function getAccessKeyBase64EncodedFromEnv(): string {
-  return process.env.ACCESS_KEY_BASE_64_STRING ?? "";
+  return process.env.ACCESS_KEY ?? "";
 }
 
 function getServicePrincipalKeyFromEnv(): string {
