@@ -38,7 +38,7 @@ describe('getAccessTokenFromServicePrincipal', () => {
       accessKey,
     );
     expect(result?.access_token).toBeTruthy();
-    expect(result?.scope).toBeNull();
+    expect(result?.scope).toBe(undefined);
   });
 
   test('Correct config with scope returns scope', async () => {
