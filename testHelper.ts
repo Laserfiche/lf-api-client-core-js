@@ -1,3 +1,5 @@
+// Copyright (c) Laserfiche
+// Licensed under the MIT License. See LICENSE in the project root for license information.
 import 'dotenv/config';
 import { AccessKey, createFromBase64EncodedAccessKey } from './lib/OAuth/AccessKey.js';
 export const testServicePrincipalKey: string = process.env.SERVICE_PRINCIPAL_KEY ?? '';
