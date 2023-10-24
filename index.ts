@@ -1,4 +1,4 @@
-// Copyright (c) Laserfiche
+// Copyright (c) Laserfiche.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 import { GetAccessTokenResponse } from './lib/OAuth/GetAccessTokenResponse.js';
 import { CreateConnectionRequest } from './lib/APIServer/CreateConnectionRequest.js';
