@@ -1,3 +1,5 @@
+// Copyright (c) Laserfiche.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
 import { StringUtils } from '@laserfiche/lf-js-utils';
 import { JWK } from './JWK.js';
 import { KEYUTIL, KJUR } from 'jsrsasign';
