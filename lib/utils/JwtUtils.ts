@@ -28,6 +28,24 @@ export function getAccountIdFromLfJWT(lfJwt: JWT): string {
 }
 
 /**
+ * Returns Laserfiche username from Laserfiche jwt claims
+ * @param lfJwt
+ * @returns
+ * @example
+ * ```typescript
+ * const jwt : AccessTokenUtils.JWT = {
+ *  header: { 'typ': 'JWT'},
+ *  payload: {'name' : 'test_user'},
+ *  signature: '_signature'
+ * }
+ * getUsernameFromLfJWT(jwt); // 'test_user';
+ * ```
+ */
+export function getUsernameFromLfJWT(lfJwt: JWT): string {
+  return (<any>lfJwt).payload['name'];
+}
+
+/**
  * Returns Laserfiche trustee id (user id) from Laserfiche jwt claims
  * @param lfJwt
  * @returns

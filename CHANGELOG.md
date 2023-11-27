@@ -1,3 +1,8 @@
+## 1.1.9
+
+### Features
+- Added `JWTUtils.getUsernameFromLfJWT` to parse username from JWT token
+
 ## 1.1.8
 
 ### Fixes
