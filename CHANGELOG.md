@@ -1,4 +1,9 @@
-## 1.1.8
+## 1.1.9
+
+### Features
+- Added `JWTUtils.getUsernameFromLfJWT` to parse username from JWT token
+
+## 1.1.9
 
 ### Fixes
 - Fixed security vulnerability issue by updating json5 dependency to version 2.2.3

@@ -26,6 +26,22 @@ describe('JwtUtils', () => {
     expect(accountId).toEqual(expectedAccountId);
   });
 
+  it('getUsernameFromLfJWT returns the username', () => {
+    // Arrange
+    const jwt: JwtUtils.JWT = {
+      header: { "typ": "JWT" },
+      payload: { "name": "test_user" },
+      signature: "_signature"
+    };
+    const expectedUsername = 'test_user';
+
+    // Act
+    const username = JwtUtils.getUsernameFromLfJWT(jwt);
+
+    // Assert
+    expect(username).toEqual(expectedUsername);
+  });
+
   it('getTrusteeIdFromLfJWT returns the trustee id', () => {
     // Arrange
     const jwt: JwtUtils.JWT = {
