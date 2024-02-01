@@ -33,21 +33,21 @@
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/jest": "^27.0.3",
     "@types/jsonwebtoken": "^8.5.6",
-    "@types/jsrsasign": "^10.5.1",
+    "@types/jsrsasign": "^10.5.12",
     "@types/jwk-to-pem": "^2.0.1",
     "@types/node": "^16.11.21",
     "babel-jest": "^27.4.6",
     "isomorphic-fetch": "^3.0.0",
     "jest": "^27.4.3",
     "jest-junit": "^13.0.0",
-    "ts-jest": "^27.1.0",
     "jest-runner-groups": "2.2.0",
+    "ts-jest": "^27.1.0",
     "typescript": "^4.5.4"
   },
   "dependencies": {
     "@laserfiche/lf-js-utils": "^4.0.2",
     "dotenv": "^16.0.1",
-    "jsrsasign": "^10.5.25",
+    "jsrsasign": "^11.0.0",
     "jsrsasign-util": "^1.0.5"
   }
 }
