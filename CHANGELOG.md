@@ -1,3 +1,8 @@
+## 1.1.10
+
+### Maintenance
+- Updated dependency `jsrsasign` to `11.0.0` due to vulnerability
+
 ## 1.1.9
 
 ### Features
