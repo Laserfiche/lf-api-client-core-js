@@ -1,3 +1,8 @@
+## 1.1.11
+
+### Maintenance
+- Updated transistive dependencies to fix vulnerabilities
+
 ## 1.1.10
 
 ### Maintenance
