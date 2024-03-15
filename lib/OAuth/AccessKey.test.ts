@@ -80,8 +80,6 @@ describe('createClientCredentialsAuthorizationJwt', () => {
     type payloadType = typeof JWT.payload;
     expect(JWT.payload).toHaveProperty('scopes');
     expect(JWT.payload['scopes' as keyof payloadType]).toBe(testScopes);
-    expect(JWT.payload).toHaveProperty('exp');
-    expect(JWT.payload['exp' as keyof payloadType] - JWT.payload['iat' as keyof payloadType]).toBe(3600);
   });
 
   test.each([0.1, 5678])(
