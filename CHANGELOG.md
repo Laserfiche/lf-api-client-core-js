@@ -2,7 +2,7 @@
 
 ### Features
 
-- Added optional `scopes` parameter to `AccessKey.createClientCredentialsAuthorizationJwt` to allow scopes to be added to JWT
+- Added optional `scopes` parameter to `AccessKey.createClientCredentialsAuthorizationJwt` to allow scopes to be added to JWT if needed
 
 ## 1.1.11
 
