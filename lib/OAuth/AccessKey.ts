@@ -37,6 +37,7 @@ interface jwtPayload {
   aud: string;
   iat: number;
   nbf: number;
+  scopes?: string;
 }
 
 /**
@@ -62,7 +63,8 @@ export function createFromBase64EncodedAccessKey(base64EncodedAccessKey: string)
 export function createClientCredentialsAuthorizationJwt(
   servicePrincipalKey: string,
   accessKey: AccessKey | string,
-  expireInSeconds = 3600
+  expireInSeconds = 3600,
+  scopes?: string
 ): string {
   const currentTime: any = new Date(); // the current time in milliseconds
   const nowSecondsFrom1970: number = Math.ceil(currentTime / 1000 - 1);
@@ -77,8 +79,13 @@ export function createClientCredentialsAuthorizationJwt(
     client_secret: servicePrincipalKey,
     aud: audience,
     iat: nowSecondsFrom1970,
-    nbf: nowSecondsFrom1970,
+    nbf: nowSecondsFrom1970
   };
+
+  if (scopes) {
+    // TODO should we do some sort of validation on the scopes?
+    payload.scopes = scopes;
+  }
 
   if (expireInSeconds) {
     const expireSecondsFrom1970: number = Math.ceil(nowSecondsFrom1970 + expireInSeconds);
