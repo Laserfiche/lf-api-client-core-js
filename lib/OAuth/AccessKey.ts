@@ -58,6 +58,7 @@ export function createFromBase64EncodedAccessKey(base64EncodedAccessKey: string)
  * @param servicePrincipalKey The service principal key created for the service principal from the Laserfiche Account Administration.
  * @param accessKey AccessKey JSON object or base-64 encoded AccessKey exported from the Laserfiche Developer Console.
  * @param expireInSeconds The expiration time in seconds for the authorization JWT with a default value of 3600 seconds. Set it to 0 if the JWT never expires.
+ * @param scopes (optional) The requested scopes. Scopes are case-sensitive and space-delimited. (Ex/ 'repository.Read repository.Write')
  * @returns Authorization JWT.
  */
 export function createClientCredentialsAuthorizationJwt(
