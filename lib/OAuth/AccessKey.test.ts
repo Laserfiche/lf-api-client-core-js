@@ -65,6 +65,23 @@ describe('createClientCredentialsAuthorizationJwt', () => {
     expect(JWT.payload['exp' as keyof payloadType] - JWT.payload['iat' as keyof payloadType]).toBe(3600);
   });
 
+  test('createClientCredentialsAuthorizationJwt successfully creates Client Credentials Authorization Jwt with scopes', async () => {
+    // Arrange
+    const accessKey: AccessKey = getAccessKeyFromEnv();
+    const servicePrincipalKey: string = getServicePrincipalKeyFromEnv();
+    const testScopes: string = 'repository.Read';
+
+    //Act
+    const authorizationToken: string = createClientCredentialsAuthorizationJwt(servicePrincipalKey, accessKey, 0, testScopes);
+
+    //Assert
+    expect(isValidJWT(authorizationToken)).toBeTruthy();
+    const JWT = parseAccessToken(authorizationToken);
+    type payloadType = typeof JWT.payload;
+    expect(JWT.payload).toHaveProperty('scopes');
+    expect(JWT.payload['scopes' as keyof payloadType]).toBe(testScopes);
+  });
+
   test.each([0.1, 5678])(
     'createClientCredentialsAuthorizationJwt successfully creates Client Credentials Authorization Jwt with specified expiration time -> %s',
     async (expirationTime) => {

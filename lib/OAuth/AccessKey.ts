@@ -37,6 +37,7 @@ interface jwtPayload {
   aud: string;
   iat: number;
   nbf: number;
+  scopes?: string;
 }
 
 /**
@@ -57,16 +58,19 @@ export function createFromBase64EncodedAccessKey(base64EncodedAccessKey: string)
  * @param servicePrincipalKey The service principal key created for the service principal from the Laserfiche Account Administration.
  * @param accessKey AccessKey JSON object or base-64 encoded AccessKey exported from the Laserfiche Developer Console.
  * @param expireInSeconds The expiration time in seconds for the authorization JWT with a default value of 3600 seconds. Set it to 0 if the JWT never expires.
+ * @param scopes (optional) The requested scopes. Applies only when the generated key is used as a HTTP Basic Authorization password. Scopes are case-sensitive and space-delimited. (Ex/ 'repository.Read repository.Write')
  * @returns Authorization JWT.
  */
 export function createClientCredentialsAuthorizationJwt(
   servicePrincipalKey: string,
   accessKey: AccessKey | string,
-  expireInSeconds = 3600
+  expireInSeconds = 3600,
+  scopes?: string
 ): string {
   const currentTime: any = new Date(); // the current time in milliseconds
   const nowSecondsFrom1970: number = Math.ceil(currentTime / 1000 - 1);
   const audience: string = 'laserfiche.com';
+  const maxScopesLength: number = 32768; // 2^15
 
   if (typeof accessKey === 'string') {
     accessKey = createFromBase64EncodedAccessKey(accessKey);
@@ -79,6 +83,14 @@ export function createClientCredentialsAuthorizationJwt(
     iat: nowSecondsFrom1970,
     nbf: nowSecondsFrom1970,
   };
+
+  scopes = scopes?.trim();
+  if (scopes) {
+    if (scopes.length > maxScopesLength) {
+      throw new Error(`Scopes value exceeded max length of ${maxScopesLength}`);
+    }
+    payload.scopes = scopes;
+  }
 
   if (expireInSeconds) {
     const expireSecondsFrom1970: number = Math.ceil(nowSecondsFrom1970 + expireInSeconds);
