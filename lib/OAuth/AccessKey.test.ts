@@ -78,8 +78,8 @@ describe('createClientCredentialsAuthorizationJwt', () => {
     expect(isValidJWT(authorizationToken)).toBeTruthy();
     const JWT = parseAccessToken(authorizationToken);
     type payloadType = typeof JWT.payload;
-    expect(JWT.payload).toHaveProperty('scopes');
-    expect(JWT.payload['scopes' as keyof payloadType]).toBe(testScopes);
+    expect(JWT.payload).toHaveProperty('scope');
+    expect(JWT.payload['scope' as keyof payloadType]).toBe(testScopes);
   });
 
   test.each([0.1, 5678])(
